@@ -3,9 +3,9 @@ package fr.gemeroi.persistence.session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import fr.gemeroi.persistence.bean.generated.English;
-import fr.gemeroi.persistence.bean.generated.Entityvideo;
-import fr.gemeroi.persistence.bean.generated.French;
+import fr.gemeroi.persistence.bean.English;
+import fr.gemeroi.persistence.bean.Entityvideo;
+import fr.gemeroi.persistence.bean.French;
 
 
 public class SessionMgr {

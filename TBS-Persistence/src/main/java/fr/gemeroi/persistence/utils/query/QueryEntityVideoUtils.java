@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.utils;
+package fr.gemeroi.persistence.utils.query;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import fr.gemeroi.persistence.bean.generated.Entityvideo;
+import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class QueryEntityVideoUtils {

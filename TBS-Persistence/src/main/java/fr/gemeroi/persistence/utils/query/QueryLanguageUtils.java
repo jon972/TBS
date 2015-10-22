@@ -1,26 +1,21 @@
-package fr.gemeroi.persistence.utils;
+package fr.gemeroi.persistence.utils.query;
 
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import fr.gemeroi.persistence.bean.generated.Entityvideo;
-import fr.gemeroi.persistence.bean.generated.Language;
-import fr.gemeroi.persistence.session.SessionMgr;
+import fr.gemeroi.persistence.bean.Entityvideo;
+import fr.gemeroi.persistence.bean.Language;
 
 public class QueryLanguageUtils {
 
 	public static void sortLanguageByTimeEndSubtitle(List<Language> listLanguage) {
 		Collections.sort(listLanguage, new Comparator<Language>() {
-			@Override
 			public int compare(Language fr1, Language fr2) {
 				if (fr1.getTimeend() > fr2.getTimeend())
 					return -1;

@@ -6,22 +6,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 
 import fr.gemeroi.common.utils.LanguageEnum;
-import fr.gemeroi.persistence.bean.generated.Entityvideo;
-import fr.gemeroi.persistence.bean.generated.Language;
-import fr.gemeroi.persistence.bean.generated.LanguageFactory;
+import fr.gemeroi.persistence.bean.Entityvideo;
+import fr.gemeroi.persistence.bean.Language;
+import fr.gemeroi.persistence.bean.LanguageFactory;
 import fr.gemeroi.persistence.session.SessionMgr;
-import fr.gemeroi.persistence.utils.QueryEntityVideoUtils;
-import fr.gemeroi.persistence.utils.QueryLanguageUtils;
+import fr.gemeroi.persistence.utils.query.QueryEntityVideoUtils;
+import fr.gemeroi.persistence.utils.query.QueryLanguageUtils;
 import fr.gemeroi.population.entry.EntryST;
 import fr.gemeroi.population.read.ReadSubtitle;
 import fr.gemeroi.population.read.ReadSubtitleSRT;
-import fr.gemeroi.translation.Translation;
 
 public class DataFeeder {
 	public static void persistSubtitles(File file, String serieName, String videoType, LanguageEnum languageEnum) {

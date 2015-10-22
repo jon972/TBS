@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.bean.generated;
+package fr.gemeroi.persistence.bean;
 
 // Generated 3 oct. 2015 17:33:38 by Hibernate Tools 3.4.0.CR1
 

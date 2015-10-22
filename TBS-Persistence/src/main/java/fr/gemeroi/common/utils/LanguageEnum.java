@@ -1,8 +1,8 @@
 package fr.gemeroi.common.utils;
 
-import fr.gemeroi.persistence.bean.generated.English;
-import fr.gemeroi.persistence.bean.generated.French;
-import fr.gemeroi.persistence.bean.generated.Language;
+import fr.gemeroi.persistence.bean.English;
+import fr.gemeroi.persistence.bean.French;
+import fr.gemeroi.persistence.bean.Language;
 
 
 public enum LanguageEnum {

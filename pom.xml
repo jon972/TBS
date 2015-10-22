@@ -29,5 +29,8 @@
 		<module>TBSWebservices</module>
 		<module>TBS-Webservices</module>
 		<module>TBS-WS</module>
+		<module>TBS-Persistence</module>
+		<module>TBS-Common</module>
+		<module>TBS-Translation</module>
 	</modules>
 </project>

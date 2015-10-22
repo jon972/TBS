@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.bean.generated;
+package fr.gemeroi.persistence.bean;
 
 import fr.gemeroi.common.utils.LanguageEnum;
 

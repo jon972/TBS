@@ -13,8 +13,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.gemeroi.common.utils.LanguageEnum;
-import fr.gemeroi.persistence.bean.generated.English;
-import fr.gemeroi.persistence.bean.generated.French;
 import fr.gemeroi.translation.Translate;
 import fr.gemeroi.translation.Translation;
 
