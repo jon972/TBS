@@ -33,7 +33,7 @@ public class Translate {
 		Query query = session.createQuery(queryHql);
 		
 		List<Object[]> list = query.list();
-		List<Translation> listTranslation = new ArrayList<>();
+		List<Translation> listTranslation = new ArrayList<Translation>();
 
 		for(Object[] resultEntity : list) {
 			Language language1 = (Language) resultEntity[0];
