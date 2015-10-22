@@ -13,15 +13,14 @@
 	var ObjFromJSON;
 	function hello() {
 		var word = $("#wordToTranslate").val();
-		response = $.getJSON(
+		$.getJSON(
 				"http://localhost:8080/TBS-WS/rest/translationService/" + word
 						+ "/English/French", function(result) {
 					$.each(result,
 							function(i, field) {
-								$("div").append(
+								console.log(
 										field.exprToTranslate + " : "
-												+ field.exprTranslated).append(
-										"<br/>");
+												+ field.exprTranslated);
 							});
 				});
 
@@ -31,14 +30,15 @@
 		//  	    	console.log(ObjFromJSON[i]);
 		//  	    }
 	}
-	var app = angular.module("myNoteApp", []);
+// 	var app = angular.module("myNoteApp", []);
+
 </script>
 </head>
 
 <body>
-<!-- 	Enter a word -->
-<!-- 	<input id="wordToTranslate" type="text"> -->
-<!-- 	<button id="but" onclick="hello()">Translate</button> -->
+	Enter a word
+	<input id="wordToTranslate" type="text">
+	<button id="but" onclick="hello()">Translate</button>
 <!-- 	<div id="contentResult"></div> -->
 <!-- 	<div ng-app="myNoteApp"> -->
 <!-- 		<p>My first expression: {{ 5 + 5 }}</p> -->
