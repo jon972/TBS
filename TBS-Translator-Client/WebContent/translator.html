@@ -1,0 +1,47 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TBS</title>
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script>
+	var response;
+	var ObjFromJSON;
+	function hello() {
+		var word = $("#wordToTranslate").val();
+		response = $.getJSON(
+				"http://localhost:8080/TBS-WS/rest/translationService/" + word
+						+ "/English/French", function(result) {
+					$.each(result,
+							function(i, field) {
+								$("div").append(
+										field.exprToTranslate + " : "
+												+ field.exprTranslated).append(
+										"<br/>");
+							});
+				});
+
+		//  		ObjFromJSON = jQuery.parseJSON(response.responseText);
+
+		//  	    for(var i = 0; i < ObjFromJSON.length; i++) {
+		//  	    	console.log(ObjFromJSON[i]);
+		//  	    }
+	}
+	var app = angular.module("myNoteApp", []);
+</script>
+</head>
+
+<body>
+<!-- 	Enter a word -->
+<!-- 	<input id="wordToTranslate" type="text"> -->
+<!-- 	<button id="but" onclick="hello()">Translate</button> -->
+<!-- 	<div id="contentResult"></div> -->
+<!-- 	<div ng-app="myNoteApp"> -->
+<!-- 		<p>My first expression: {{ 5 + 5 }}</p> -->
+<!-- 	</div> -->
+</body>
+</html>
