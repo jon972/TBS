@@ -1,0 +1,26 @@
+<html> 
+  <head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+    <title>Exemple de grille</title> 
+ 
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+ 	<script>
+ 	var machin;
+ 	function hello() {
+ 		
+ 	    machin = $.getJSON( "http://localhost:8080/TBS-WS/rest/translationService/Hi/English/French", function() {
+ 		  console.log( "success : " );
+ 		})
+ 	}
+ 	</script>
+  </head> 
+ 
+  <body> 
+ 	Enter a word
+    <input type="text">
+    <button id="but" onclick="hello()">Translate</button>
+ 
+  </body> 
+</html>
