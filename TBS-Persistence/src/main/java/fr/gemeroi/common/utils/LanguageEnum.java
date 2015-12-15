@@ -18,10 +18,10 @@ public enum LanguageEnum {
 	}
 
 	public static LanguageEnum getInstance(String languageStr) {
-		if(languageStr.equals(English.name())) {
+		if(languageStr.toLowerCase().equals(English.name().toLowerCase())) {
 			return English;
 		}
-		if(languageStr.equals(French.name())) {
+		if(languageStr.toLowerCase().equals(French.name().toLowerCase())) {
 			return French;
 		}
 		throw new IllegalArgumentException("'" + languageStr + "' is not a supported language");

@@ -6,6 +6,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.json.JSONException;
 
@@ -18,15 +20,17 @@ import fr.gemeroi.translation.Translation;
 
 @Path("/translationService")
 public class TranslationService {
-	  // http://localhost:8080/TBS-WS/rest/translationService/Hi/English/French
+	  // http://localhost:8081/TBS-WS/rest/translationService/Hi/English/French
 	  @Path("/{word}/{language1}/{language2}")
 	  @GET
 	  @Produces("application/json")
-	  public String translate(@PathParam("word") String wordToTranslate, @PathParam("language1") String language1, @PathParam("language2") String language2) throws JSONException {
+	  public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") String language1, @PathParam("language2") String language2) throws JSONException {
 		List<Translation> wordTranslatedList = Translate.translate(wordToTranslate, LanguageEnum.getInstance(language1), LanguageEnum.getInstance(language2));
 		
 		final GsonBuilder builder = new GsonBuilder();
 		final Gson gson = builder.create();
-		return gson.toJson(wordTranslatedList);
+		return Response.ok(gson.toJson(wordTranslatedList) ,MediaType.APPLICATION_JSON)
+				.header("Access-Control-Allow-Origin", "*")
+				.build();
 	  }
 }

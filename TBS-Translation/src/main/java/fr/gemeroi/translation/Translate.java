@@ -16,7 +16,9 @@ public class Translate {
 										 + "l2.entityvideo.id = l1.entityvideo.id AND "
 										 + "l2.timebegin = l1.timebegin AND "
 										 + "l1.timebegin > 20 AND "
-										 + "l1.expression like '%%%s%%'";
+										 + "(lower(l1.expression) like lower('%% %s %%') "
+										 + " OR lower(l1.expression) like lower('%s %%')  "
+										 + " OR lower(l1.expression) like lower('%% %s'))";
 
 	public static void main(String[] args) {
 		List<Translation> translationList = translate("Hi", LanguageEnum.English, LanguageEnum.French);
@@ -29,9 +31,9 @@ public class Translate {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		String queryHql = String.format(queryHqlFormat, fromLanguage.getClassLanguage().getCanonicalName(), toLanguage.getClassLanguage().getCanonicalName(), word);
+		String queryHql = String.format(queryHqlFormat, fromLanguage.getClassLanguage().getCanonicalName(), toLanguage.getClassLanguage().getCanonicalName(), word, word, word);
 		Query query = session.createQuery(queryHql);
-		
+		query.setMaxResults(30);
 		List<Object[]> list = query.list();
 		List<Translation> listTranslation = new ArrayList<Translation>();
 

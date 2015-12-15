@@ -67,6 +67,7 @@ public class DataFeeder {
 		}
 		
 		QueryLanguageUtils.persistLanguage(listLanguage, session);
+		System.out.println("Integration done");
 
 		session.close();
 		

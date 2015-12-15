@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body onscroll="moveDivOnScrolling();">
+
+<div class="container">
+  <div class="header">
+    <h2>Translate By Subtitles</h2>
+    <p>Type your word or expression and enjoy !!</p> 
+  </div>
+  <div class="row" id="firstRow">
+    <div class="col-md-4" id="menu">
+      <input type = "text" id="wordToTranslateInput">
+      <button id="buttonDisplayAction" onclick="translateRequest();">Translate</button>
+    </div>
+    <div class="col-md-4">
+      <div id="containerTranslations">
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	function moveDivOnScrolling() {
+		var positionBar = $(window).scrollTop();
+		$('#menu').css({  top : positionBar + 'px'});
+	}
+
+  function translateRequest() {
+    var wordToTranslate = $("#wordToTranslateInput").val();
+
+    $("#containerTranslations").html("");
+
+    $.ajax( {
+      type:'Get',
+      url:'rest/translationService/'+ wordToTranslate +'/English/French',
+      success:function(data) {
+        var i = 0;
+        for(i = 0; i < data.length; i++) {
+          $("#containerTranslations").append("<div style='background:#B8B8B8'><p>" + data[i].exprToTranslate + "</p> <p>" + data[i].exprTranslated +"</p></div>");
+        }
+      }
+
+    })
+  }
+
+  var colorBackGroundTranslations = "#B8B8B8";
+  function alternColor() {
+    if(colorBackGroundTranslations == "#B8B8B8 ") {
+      colorBackGroundTranslations = "#F0F0F0";
+    } else {
+      colorBackGroundTranslations = "#B8B8B8";
+    }
+
+    return colorBackGroundTranslations;
+  }
+</script>
+</body>
+</html>
