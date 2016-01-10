@@ -7,7 +7,7 @@
 		<table>
 		<tr>
 			<td> Video name: </td> 
-			<td><input type="text" name="videoName" size="45" /></td>
+			<td><input id ="videoName" type="text" name="videoName" size="45" /></td>
 		</tr>
 
 		<tr>
@@ -23,11 +23,16 @@
 		</tr>
 		<tr>
 			<td> Select a directory : </td> 
-			<td> <input type="file" multiple name="file" size="45" /> </td> 
+			<td> <input id ="filesToIntegrate" type="file" multiple name="file" size="45" /> </td> 
 		</tr>
 	</table>
-		<input type="submit" value="Upload It" />
+		<input type="submit" value="Upload It" onChange="fillVideoName()"/>
 	</form>
-
+<script>
+function fillVideoName() {
+	$("#filesToIntegrate").onchange (
+			function () {$("#videoName").value = "hello"} );
+}
+</script>
 </body>
 </html>

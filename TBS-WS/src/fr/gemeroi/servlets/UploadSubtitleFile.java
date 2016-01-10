@@ -38,9 +38,9 @@ public class UploadSubtitleFile {
 
 		for(FormDataBodyPart formDataBodyPart : contentDispositionHeader) {
 			InputStream is = contentDispositionHeader.get(0).getEntityAs(InputStream.class);
-			String filePath = formDataBodyPart.getContentDisposition().getFileName();
+			String filePath = SERVER_UPLOAD_LOCATION_FOLDER + formDataBodyPart.getContentDisposition().getParameters().get("filename");
 			saveFile(is, filePath);
-			DataFeeder.persistSubtitles(new File(filePath), formDataBodyPart.getName(), videoType, LanguageEnum.getInstance(language));
+			DataFeeder.persistSubtitles(new File(filePath), videoName, videoType, LanguageEnum.getInstance(language));
 		}
 
 		return Response.status(200).build();
@@ -52,16 +52,16 @@ public class UploadSubtitleFile {
 			String serverLocation) {
 
 		try {
-			OutputStream outpuStream = new FileOutputStream(new File(serverLocation));
+			OutputStream outputStream = new FileOutputStream(new File(serverLocation));
 			int read = 0;
 			byte[] bytes = new byte[1024];
 
-			outpuStream = new FileOutputStream(new File(serverLocation));
+			outputStream = new FileOutputStream(new File(serverLocation));
 			while ((read = uploadedInputStream.read(bytes)) != -1) {
-				outpuStream.write(bytes, 0, read);
+				outputStream.write(bytes, 0, read);
 			}
-			outpuStream.flush();
-			outpuStream.close();
+			outputStream.flush();
+			outputStream.close();
 		} catch (IOException e) {
 
 			e.printStackTrace();
