@@ -21,21 +21,27 @@ import fr.gemeroi.population.read.ReadSubtitle;
 import fr.gemeroi.population.read.ReadSubtitleSRT;
 
 public class DataFeeder {
-	public static void persistSubtitles(File file, String serieName, String videoType, LanguageEnum languageEnum) {
-		ReadSubtitle reader = new ReadSubtitleSRT();
-		String patternString = "(.*)(\\d+)x(\\d+)(.*)";
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(file.getName());
+	private static final String patternSeasonEpisode = "(.*)(\\d+)x(\\d+)(.*)";
+	private static SessionFactory sessionFactory = SessionMgr.getSessionFactory();
+	private static Session session;
+
+	private static int getEpisodeFromFileName(String fileName) {
+		Pattern pattern = Pattern.compile(patternSeasonEpisode);
+        Matcher matcher = pattern.matcher(fileName);
         matcher.find();
 
-        int episode = Integer.parseInt(matcher.group(3));
-        int saison = Integer.parseInt(matcher.group(2));
-		System.out.println("Lecture de " + file.getName());
-		reader.read(file, "Dexter", saison, episode);
-		Entityvideo entityvideo = new Entityvideo(serieName, videoType, saison, episode);
-		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
-		Session session = sessionFactory.openSession();
-		entityvideo = QueryEntityVideoUtils.persistEntityVideo(entityvideo, session);
+        return Integer.parseInt(matcher.group(3));
+	}
+
+	private static int getSeasonFromFileName(String fileName) {
+		Pattern pattern = Pattern.compile(patternSeasonEpisode);
+        Matcher matcher = pattern.matcher(fileName);
+        matcher.find();
+
+        return Integer.parseInt(matcher.group(2));
+	}
+
+	private static List<Language> convertSubtitlesToLanguageSubtilesForIntegration(ReadSubtitle reader, LanguageEnum languageEnum, Entityvideo entityvideoPersisted) {
 		List<Language> listLanguage = new ArrayList<>();
 		for(EntryST entryST : reader.getListEntries()) {
 			Language language = LanguageFactory.getNewLanguage(languageEnum);
@@ -43,15 +49,20 @@ public class DataFeeder {
 			language.setRank(entryST.getRank());
 			language.setTimebegin(entryST.getDateStart());
 			language.setTimeend(entryST.getDateEnd());
-			language.setEntityvideo(entityvideo);
+			language.setEntityvideo(entityvideoPersisted);
 			listLanguage.add(language);
 		}
-		QueryLanguageUtils.sortLanguageByTimeEndSubtitle(listLanguage);
-		int lastTimeEndCurrentVideo = listLanguage.get(0).getTimeend();
-		System.out.println(lastTimeEndCurrentVideo);
 
+		return listLanguage;
+	}
+
+	private static void validateSubtitles() {
+		
+	}
+
+	public static void persistLanguageSubtitlesIfCorrect(Entityvideo entityvideoFromDB, List<Language> listLanguage, int lastTimeEndCurrentVideo) {
 		for(LanguageEnum lEnum : LanguageEnum.values()) {
-			List<Language> languageListEntry = QueryLanguageUtils.getListLanguageFromDB(entityvideo, lEnum.getClassLanguage(), session);
+			List<Language> languageListEntry = QueryLanguageUtils.getListLanguageFromDB(entityvideoFromDB, lEnum.getClassLanguage(), session);
 			if(languageListEntry != null && languageListEntry.size() > 0) {
 				System.out.println(languageListEntry.get(0).getTimeend());
 				int endTimeVideoFromAnotherLanguage = languageListEntry.get(0).getTimeend();
@@ -70,23 +81,27 @@ public class DataFeeder {
 		System.out.println("Integration done");
 
 		session.close();
-		
-	}
-	public static void main(String[] args) throws Exception {
-
-		File f = new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 8.en");
-		File f2 = new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 8.fr");
-
-		for(File file : f.listFiles()) {
-			persistSubtitles(file, "Dexter", "Serie", LanguageEnum.English);
-		}
-		
-		for(File file : f2.listFiles()) {
-			persistSubtitles(file, "Dexter", "Serie", LanguageEnum.French);
-		}
-//		persistSubtitles(f, "Dexter", "Serie", LanguageEnum.English);
-//		persistSubtitles(f2, "Dexter", "Serie",LanguageEnum.French);
 	}
 
+	public static void persistSubtitles(File file, String serieName, String videoType, LanguageEnum languageEnum) {
+		ReadSubtitle reader = new ReadSubtitleSRT();
 
+        int episode = getEpisodeFromFileName(file.getName());
+        int season = getSeasonFromFileName(file.getName());
+        
+		System.out.println("Lecture de " + file.getName());
+		reader.read(file, serieName, season, episode);
+
+		Entityvideo entityvideo = new Entityvideo(serieName, videoType, season, episode);
+		session = sessionFactory.openSession();
+		Entityvideo entityvideoFromDB = QueryEntityVideoUtils.persistEntityVideo(entityvideo, session);
+
+		List<Language> listLanguage = convertSubtitlesToLanguageSubtilesForIntegration(reader, languageEnum, entityvideoFromDB);
+		QueryLanguageUtils.sortLanguageByTimeEndSubtitle(listLanguage);
+		int lastTimeEndCurrentVideo = listLanguage.get(0).getTimeend();
+		System.out.println(lastTimeEndCurrentVideo);
+
+		persistLanguageSubtitlesIfCorrect(entityvideoFromDB, listLanguage, lastTimeEndCurrentVideo);
+		
+	}
 }
