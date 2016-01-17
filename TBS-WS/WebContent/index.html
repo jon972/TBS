@@ -1,48 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Bootstrap Example</title>
+<title>Translate By Subtitles</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</head>
-<body onscroll="moveDivOnScrolling();">
+<script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+<script type="text/javascript" src="app.js"></script>
+<style>
+.center *{
+	position: relative; 
+	margin-left: auto; 
+	margin-right: auto;
+	padding: 0.5em;
+}
 
-	<div class="container">
-		<div class="header">
-			<h2>Translate By Subtitles</h2>
-			<p>Type your word or expression and enjoy !!</p>
+.inputWordToTranslate {
+	width : 300px;
+}
+</style>
+</head>
+<body ng-app="TBSApp">
+
+	<div style="width: 1300px" "class="container" ng-controller="mainController">
+		<div style="position: relative; left : 50px; padding-bottom: 3em;">
+			<img src="images/TBSViolet.png" height="100" width="180"/>
+			<p style="font-family:Andale Mono, monospace">Translate By Subtitles</p>
 		</div>
-		<div class="row" id="firstRow">
-			<div class="col-md-4" id="menu">
+		<div id="trans" ng-controller="translationController">
+			<div class="center">
 				<table>
 					<tr>
-						<td><select id="languageSelectFrom">
-								<option value="French">French</option>
-								<option value="English">English</option>
-						</select> --> <select id="languageSelectTo">
-								<option value="French">French</option>
-								<option value="English">English</option>
-						</select></td>
-					</tr>
-					<tr>
-						<td><input type="text" id="wordToTranslateInput"></td>
 						<td>
-							<button id="buttonDisplayAction" onclick="translateRequest();">Translate</button>
+							<select id="languageSelectFrom" ng-model="languageFrom">
+									<option value="French">French</option>
+									<option value="English">English</option>
+							</select> 
+							--> 
+							<select id="languageSelectTo" ng-model="languageTo">
+									<option value="French">French</option>
+									<option value="English">English</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td><input class="inputWordToTranslate" type="text" id="wordToTranslateInput" ng-model="wordToTranslate"></td>
+						<td>
+							<button id="buttonDisplayAction" ng-click="translateRequest()">Translate</button>
 						</td>
 					</tr>
 				</table>
 			</div>
-			<div class="col-md-4">
+			<div class="center">
 				<table>
 					<tr>
 						<td>
-							<div id="containerTranslations"></div>
+							<img ng-hide="hideImgOrNot()" src="images/loading_spinner.gif" width="70px" ng-model="loadingImage"/>
+						</td>
+						<td>
+							<div ng-hide="!hideImgOrNot()" id="containerTranslations" ng-repeat="translation in translations">
+								<div style="background-color:#CFC6F2; border-radius: 25px;">
+									<p>{{translation.exprToTranslate}}</p>
+									<p>{{translation.exprTranslated}}</p>
+								</div>
+							</div>
 						</td>
 						<td>
 							<div id="containerTranslationsDetails"></div>
@@ -52,45 +77,5 @@
 			</div>
 		</div>
 	</div>
-	<script>
-		function moveDivOnScrolling() {
-			var positionBar = $(window).scrollTop();
-			$('#menu').css({
-				top : positionBar + 'px'
-			});
-		}
-	
-		function onDivClick() {
-			$('#containerTranslationsDetails').append("<div>Hello</div>")
-											   .css({
-				top : $('#menu').height() + 'px'
-			});
-		}
-
-		function translateRequest() {
-			var wordToTranslate = $("#wordToTranslateInput").val();
-
-			$("#containerTranslations").html("");
-			var languageFrom = $("#languageSelectFrom").val();
-			var languageTo = $("#languageSelectTo").val()
-			$.ajax({
-				type : 'Get',
-				url : 'rest/translationService/' + wordToTranslate+ '/' + languageFrom + '/' + languageTo,
-				success : function(data) {
-					var i = 0;
-					for (i = 0; i < data.length; i++) {
-						$("#containerTranslations")
-								.append(
-										"<div id = ''" + wordToTranslate + i +"' style='background:#B8B8B8'><p>"
-												+ data[i].exprToTranslate
-												+ "</p> <p>"
-												+ data[i].exprTranslated
-												+ "</p></div>");
-					}
-				}
-
-			})
-		}
-	</script>
 </body>
 </html>
