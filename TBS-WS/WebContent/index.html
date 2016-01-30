@@ -4,12 +4,20 @@
 <title>Translate By Subtitles</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="zenscroll.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src = "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 <script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="ui-bootstrap-tpls-1.0.3.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script src="https://code.angularjs.org/1.3.0/angular-animate.js"></script>
+<link rel="stylesheet" href="css/animate.css">
 <style>
 .center *{
 	position: relative; 
@@ -21,62 +29,69 @@
 .inputWordToTranslate {
 	width : 300px;
 }
+
+.ng-move {
+	-webkit-animation-duration:1s;
+	-webkit-animation-name:fadeInLeft;
+	position: absolute; 
+	margin-left: 2em; 
+}
 </style>
 </head>
 <body ng-app="TBSApp">
-
-	<div style="width: 1300px" "class="container" ng-controller="mainController">
-		<div style="position: relative; left : 50px; padding-bottom: 3em;">
-			<img src="images/TBSViolet.png" height="100" width="180"/>
-			<p style="font-family:Andale Mono, monospace">Translate By Subtitles</p>
+	
+	<div class="container" ng-controller="mainController">
+		<div class="row">
+			<div class="col-sm-5">
+				<div style="position: relative; left : 50px; padding-bottom: 3em;">
+					<img src="images/TBSViolet.png" height="100" width="180"/>
+					<p style="font-family:Andale Mono, monospace">Translate By Subtitles</p>
+				</div>
+			</div>
 		</div>
 		<div id="trans" ng-controller="translationController">
-			<div class="center">
-				<table>
-					<tr>
-						<td>
-							<select id="languageSelectFrom" ng-model="languageFrom">
+			<div class="row">
+				<div class="col-sm-4 col-md-offset-4">
+					<table>
+						<tr>
+							<td><select id="languageSelectFrom" ng-model="languageFrom">
 									<option value="French">French</option>
 									<option value="English">English</option>
-							</select> 
-							--> 
-							<select id="languageSelectTo" ng-model="languageTo">
+							</select> --> <select id="languageSelectTo" ng-model="languageTo">
 									<option value="French">French</option>
 									<option value="English">English</option>
-							</select>
-						</td>
-					</tr>
+							</select></td>
+						</tr>
 
-					<tr>
-						<td><input class="inputWordToTranslate" type="text" id="wordToTranslateInput" ng-model="wordToTranslate"></td>
-						<td>
-							<button id="buttonDisplayAction" ng-click="translateRequest()">Translate</button>
-						</td>
-					</tr>
-				</table>
+						<tr>
+							<td><input class="inputWordToTranslate" type="text"
+								id="wordToTranslateInput" ng-model="wordToTranslate"></td>
+							<td>
+								<button id="buttonDisplayAction" ng-click="translateRequest()">Translate</button>
+							</td>
+						</tr>
+					</table>
+				</div>
 			</div>
-			<div class="center">
-				<table>
-					<tr>
-						<td>
-							<img ng-hide="hideImgOrNot()" src="images/loading_spinner.gif" width="70px" ng-model="loadingImage"/>
-						</td>
-						<td>
-							<div ng-hide="!hideImgOrNot()" id="containerTranslations" ng-repeat="translation in translations">
-								<div style="background-color:#CFC6F2; border-radius: 25px;">
-									<p>{{translation.exprToTranslate}}</p>
-									<p>{{translation.exprTranslated}}</p>
-								</div>
-							</div>
-							<div ng-hide="hideTranslationFoundOrNot()">
-								No translation found for the entry
-							</div>
-						</td>
-						<td>
-							<div id="containerTranslationsDetails"></div>
-						</td>
-					</tr>
-				</table>
+
+			<div>
+				<div ng-if="translations.length > 0 && !isLoadingFromServer()"
+					ng-repeat="translation in translations" ng-animate="'translation'">
+					<div>
+						<hr>
+						<ng-hello index="{{$index}}"></ng-hello>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-5 col-md-offset-5" ng-if="isLoadingFromServer()">
+						<img src="images/loading_spinner.gif" width="70px" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-5 col-md-offset-5"
+						ng-if="translations.length == 0 && !isLoadingFromServer()">
+						No translation found for the entry</div>
+				</div>
 			</div>
 		</div>
 	</div>

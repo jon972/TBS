@@ -1,33 +1,44 @@
-var TBSApp = angular.module("TBSApp", []);
+var TBSApp = angular.module("TBSApp", ['ngAnimate']);
 
 TBSApp.controller("mainController", function ($scope) {
 
 });
 
 TBSApp.controller("translationController", function ($scope, $http) {
-	var hideImg = true;
-	var hideTranslationFound = true;
+	var isLoading = false;
+	var currentSelect = -1;
 	$scope.translateRequest = function () {
-		hideImg = false;
-		hideTranslationFound = true;
+		isLoading = true;
+		$scope.clicked = false;
 		$http.get('rest/translationService/' + $scope.wordToTranslate + 
 				  '/' + $scope.languageFrom + '/' + $scope.languageTo)
 	                                .then(function (response) {
 	                                	$scope.translations = response.data;
-	                                	hideImg = true;
-	                                	if($scope.translations.length == 0) {
-	                                		hideTranslationFound = false;
-	                                	} else {
-	                                		hideTranslationFound = true;
-	                                	}
+	                                	isLoading = false;
 	                                });
 	}
-	
-	$scope.hideImgOrNot = function () {
-		return hideImg;
+
+	$scope.isLoadingFromServer = function () {
+		return isLoading;
 	}
 	
-	$scope.hideTranslationFoundOrNot = function () {
-		return hideTranslationFound;
-	}
+	$scope.clicked = false;
 });
+
+TBSApp.directive('ngHello', function () {
+	return {
+		templateUrl : 'tanslationEntity.html',
+		restrict : 'E',
+		link : function (scope, element, attributes) {
+			var index = attributes["index"];
+			
+			scope.onTranslationClick = function (){
+				console.log(element);
+				scope.clicked = !scope.clicked;
+				if(scope.clicked) {
+					zenscroll.to(element.children()[0]);
+				}
+			};
+		}
+	}
+})
