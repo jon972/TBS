@@ -1,4 +1,4 @@
-package fr.gemeroi.servlets;
+package fr.gemeroi.services;
 
 import java.util.List;
 

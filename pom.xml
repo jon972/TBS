@@ -26,11 +26,9 @@
 
 	</dependencies>
 	<modules>
-		<module>TBSWebservices</module>
-		<module>TBS-Webservices</module>
 		<module>TBS-WS</module>
 		<module>TBS-Persistence</module>
-		<module>TBS-Common</module>
 		<module>TBS-Translation</module>
+		<module>TBS-Population</module>
 	</modules>
 </project>
