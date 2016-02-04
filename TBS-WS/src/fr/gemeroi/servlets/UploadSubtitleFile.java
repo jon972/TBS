@@ -27,46 +27,46 @@ public class UploadSubtitleFile {
 	 * Upload a File
 	 */
 
-	@POST
-	@Path("/upload")
-	@Consumes(MediaType.MULTIPART_FORM_DATA) 
-	public Response uploadFile(
-			@FormDataParam("file") List<FormDataBodyPart> contentDispositionHeader,
-			@FormDataParam("videoName") String videoName, @FormDataParam("videoType") String videoType, 
-			@FormDataParam("season") String numSeason, @FormDataParam("episode") String numEpisode,
-			@FormDataParam("language") String language) {
-
-		for(FormDataBodyPart formDataBodyPart : contentDispositionHeader) {
-			InputStream is = contentDispositionHeader.get(0).getEntityAs(InputStream.class);
-			String filePath = SERVER_UPLOAD_LOCATION_FOLDER + formDataBodyPart.getContentDisposition().getParameters().get("filename");
-			saveFile(is, filePath);
-			DataFeeder.persistSubtitles(new File(filePath), videoName, videoType, LanguageEnum.getInstance(language));
-		}
-
-		return Response.status(200).build();
-
-	}
-
-	// save uploaded file to a defined location on the server
-	private void saveFile(InputStream uploadedInputStream,
-			String serverLocation) {
-
-		try {
-			OutputStream outputStream = new FileOutputStream(new File(serverLocation));
-			int read = 0;
-			byte[] bytes = new byte[1024];
-
-			outputStream = new FileOutputStream(new File(serverLocation));
-			while ((read = uploadedInputStream.read(bytes)) != -1) {
-				outputStream.write(bytes, 0, read);
-			}
-			outputStream.flush();
-			outputStream.close();
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-	}
+//	@POST
+//	@Path("/upload")
+//	@Consumes(MediaType.MULTIPART_FORM_DATA) 
+//	public Response uploadFile(
+//			@FormDataParam("file") List<FormDataBodyPart> contentDispositionHeader,
+//			@FormDataParam("videoName") String videoName, @FormDataParam("videoType") String videoType, 
+//			@FormDataParam("season") String numSeason, @FormDataParam("episode") String numEpisode,
+//			@FormDataParam("language") String language) {
+//
+//		for(FormDataBodyPart formDataBodyPart : contentDispositionHeader) {
+//			InputStream is = contentDispositionHeader.get(0).getEntityAs(InputStream.class);
+//			String filePath = SERVER_UPLOAD_LOCATION_FOLDER + formDataBodyPart.getContentDisposition().getParameters().get("filename");
+//			saveFile(is, filePath);
+//			DataFeeder.persistSubtitles(new File(filePath), videoName, videoType, LanguageEnum.getInstance(language));
+//		}
+//
+//		return Response.status(200).build();
+//
+//	}
+//
+//	// save uploaded file to a defined location on the server
+//	private void saveFile(InputStream uploadedInputStream,
+//			String serverLocation) {
+//
+//		try {
+//			OutputStream outputStream = new FileOutputStream(new File(serverLocation));
+//			int read = 0;
+//			byte[] bytes = new byte[1024];
+//
+//			outputStream = new FileOutputStream(new File(serverLocation));
+//			while ((read = uploadedInputStream.read(bytes)) != -1) {
+//				outputStream.write(bytes, 0, read);
+//			}
+//			outputStream.flush();
+//			outputStream.close();
+//		} catch (IOException e) {
+//
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 }
