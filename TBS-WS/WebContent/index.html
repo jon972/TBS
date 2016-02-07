@@ -72,15 +72,13 @@
 				<div class="col-sm-5 col-md-offset-4">
 					<table>
 						<tr>
-							<td><select id="languageSelectFrom" ng-model="languageFrom">
-									<option value="French">French</option>
-									<option value="English">English</option>
-							</select>
-							<span class="glyphicon glyphicon-arrow-right"></span>
-							 <select id="languageSelectTo" ng-model="languageTo">
-									<option value="French">French</option>
-									<option value="English">English</option>
-							</select></td>
+							<td>
+								<select ng-init="getAllLanguages()" id="languageSelectFrom" ng-model="languageFrom" ng-options="language for language in availableLanguages">
+								</select>
+								<span class="glyphicon glyphicon-arrow-right"></span>
+								 <select id="languageSelectFrom" ng-model="languageTo" ng-options="language for language in availableLanguages">
+								</select>
+							</td>
 						</tr>
 
 						<tr>

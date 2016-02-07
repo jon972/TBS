@@ -21,6 +21,16 @@ TBSApp.controller("translationController", function ($scope, $http) {
 	$scope.isLoadingFromServer = function () {
 		return isLoading;
 	}
+
+	$scope.getAllLanguages = function () {
+		$http.get('http://localhost:8081/TBS-WS/rest/availableLanguages/allLanguages')
+	                                .then(function (response) {
+	                                	$scope.availableLanguages = response.data;
+	                                	$scope.languageTo = $scope.availableLanguages [0];
+	                                	$scope.languageFrom = $scope.availableLanguages[1]
+	                                	console.log($scope.availableLanguages);
+	                                });
+	}
 });
 
 TBSApp.directive('ngHello', function () {
