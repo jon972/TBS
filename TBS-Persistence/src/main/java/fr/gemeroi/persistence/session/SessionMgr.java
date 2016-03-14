@@ -6,6 +6,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import fr.gemeroi.persistence.bean.English;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.French;
+import fr.gemeroi.persistence.bean.User;
 
 
 public class SessionMgr {
@@ -22,6 +23,7 @@ public class SessionMgr {
 	                   addAnnotatedClass(Entityvideo.class).
 	                   addAnnotatedClass(French.class).
 	                   addAnnotatedClass(English.class).
+	                   addAnnotatedClass(User.class).
 	                   buildSessionFactory();
 		}
 		return factory;

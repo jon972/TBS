@@ -1,0 +1,47 @@
+<div id="trans" ng-controller="translationController">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-5 col-md-offset-4">
+				<table>
+					<tr>
+						<td><select ng-init="getAllLanguages()"
+							id="languageSelectFrom" ng-model="languageFrom"
+							ng-options="language for language in availableLanguages">
+						</select> <span class="glyphicon glyphicon-arrow-right"></span> <select
+							id="languageSelectFrom" ng-model="languageTo"
+							ng-options="language for language in availableLanguages">
+						</select></td>
+					</tr>
+
+					<tr>
+						<td><input class="inputWordToTranslate" type="text"
+							id="wordToTranslateInput" ng-model="wordToTranslate"></td>
+						<td>
+							<button id="buttonDisplayAction" ng-click="translateRequest()">Translate</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div>
+			<div ng-if="translations.length > 0 && !isLoadingFromServer()"
+				ng-repeat="translation in translations" ng-animate="'translation'">
+				<div>
+					<hr>
+					<ng-hello index="{{$index}}" translation="{{translation}}"></ng-hello>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-5 col-md-offset-5" ng-if="isLoadingFromServer()">
+					<img src="images/loading_spinner.gif" width="70px" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-5 col-md-offset-5"
+					ng-if="translations.length == 0 && !isLoadingFromServer()">No
+					translation found for the entry</div>
+			</div>
+		</div>
+	</div>
+</div>

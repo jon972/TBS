@@ -35,8 +35,7 @@ public class QueryEntityVideoUtils {
 	}
 	
 	public static Entityvideo getEntityvideo(Entityvideo entityvideo, Session session) {
-		Transaction tx = session.beginTransaction();
-		List entityvideoList = 
+		List<Entityvideo> entityvideoList = 
 		 session.createCriteria(Entityvideo.class)
 				      .add(Restrictions.eq("nom", entityvideo.getNom()))
 				      .add(Restrictions.eq("numsaison", entityvideo.getNumsaison()))
@@ -44,6 +43,6 @@ public class QueryEntityVideoUtils {
 				      .list();
 		if(entityvideoList == null) return null;
 		if(entityvideoList.size() < 1) return null;
-		return (Entityvideo) entityvideoList.get(0);
+		return entityvideoList.get(0);
 	}
 }

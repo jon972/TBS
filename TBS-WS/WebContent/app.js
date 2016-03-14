@@ -1,16 +1,33 @@
-var TBSApp = angular.module("TBSApp", ['ngAnimate']);
+var TBSApp = angular.module("TBSApp", ['ngAnimate', 'ngRoute']);
 
-TBSApp.controller("mainController", function ($scope) {
+TBSApp.controller("mainController", function ($scope, tokenService) {
 
+	$scope.initGlobVars = function() {
+		$scope.token = tokenService.getToken();
+		$scope.login = tokenService.getLogin();
+	}
 });
 
-TBSApp.controller("translationController", function ($scope, $http) {
+TBSApp.config(function($routeProvider) {
+	$routeProvider
+//	.when('/', {templateUrl: 'home.html'})
+	    .when('/signup', {templateUrl: 'SignUp.html'})
+	    .when('/', {templateUrl: 'translationsBySubtitles.html'})
+	    .when('/login', {templateUrl: 'login.html'})
+	    .otherwise({
+	        redirectTo: '/signup'
+	      })
+});
+
+TBSApp.controller("translationController", function ($scope, $http, tokenService) {
 	var isLoading = false;
 	var currentSelect = -1;
 	$scope.translateRequest = function () {
 		isLoading = true;
 		$scope.clicked = false;
-		$http.get('http://localhost:8081/TBS-WS/rest/translationService/' + $scope.wordToTranslate + 
+		console.log("hello");
+		console.log(tokenService.getToken());
+		$http.get('rest/translationService/' + $scope.wordToTranslate + 
 				  '/' + $scope.languageFrom + '/' + $scope.languageTo)
 	                                .then(function (response) {
 	                                	$scope.translations = response.data;
@@ -23,7 +40,7 @@ TBSApp.controller("translationController", function ($scope, $http) {
 	}
 
 	$scope.getAllLanguages = function () {
-		$http.get('http://localhost:8081/TBS-WS/rest/availableLanguages/allLanguages')
+		$http.get('rest/availableLanguages/allLanguages')
 	                                .then(function (response) {
 	                                	$scope.availableLanguages = response.data;
 	                                	$scope.languageTo = $scope.availableLanguages [0];
@@ -51,3 +68,22 @@ TBSApp.directive('ngHello', function () {
 		}
 	}
 })
+
+TBSApp.service('tokenService', function () {
+    var token;
+    var login;
+    return {
+        getToken: function () {
+            return token;
+        },
+        setToken: function(value) {
+        	token = value;
+        },
+        getLogin: function () {
+            return login;
+        },
+        setLogin: function(value) {
+        	login = value;
+        }
+    };
+});
