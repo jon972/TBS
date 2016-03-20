@@ -2,15 +2,31 @@ var TBSApp = angular.module("TBSApp", ['ngAnimate', 'ngRoute']);
 
 TBSApp.controller("mainController", function ($scope, tokenService) {
 
+	$scope.token = '';
+	$scope.login = '';
+
 	$scope.initGlobVars = function() {
 		$scope.token = tokenService.getToken();
 		$scope.login = tokenService.getLogin();
+	}
+
+	$scope.logout = function() {
+		resetGlobVars();
+	}
+	var resetGlobVars = function() {
+		$scope.token = '';
+		$scope.login = '';
+	}
+
+	$scope.isLogged = function() {
+		return $scope.login != '';
 	}
 });
 
 TBSApp.config(function($routeProvider) {
 	$routeProvider
 //	.when('/', {templateUrl: 'home.html'})
+	    .when('/myTranslations', {templateUrl: 'myTranslations.html'})
 	    .when('/signup', {templateUrl: 'SignUp.html'})
 	    .when('/', {templateUrl: 'translationsBySubtitles.html'})
 	    .when('/login', {templateUrl: 'login.html'})
@@ -50,13 +66,14 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 	}
 });
 
-TBSApp.directive('ngHello', function () {
+TBSApp.directive('ngHello', function ($http) {
 	return {
 		templateUrl : 'tanslationEntity.html',
 		restrict : 'E',
 		link : function (scope, element, attributes) {
 			var index = attributes["index"];
 			var translation = attributes["translation"];
+			scope.isSavable = attributes["issavable"];
 			scope.clicked = false;
 			scope.mouseIsOver = false;
 			scope.onTranslationClick = function (){
@@ -65,6 +82,21 @@ TBSApp.directive('ngHello', function () {
 					zenscroll.to(element.children()[0]);
 				}
 			};
+
+			scope.saveTranslation = function() {
+				var req = {
+				 method: 'POST',
+				 url: 'rest/translationService/saveTranslation',
+				 headers: {
+				   'Content-Type': 'application/json',
+				   'token': scope.token, 
+				   'expr1': JSON.parse(translation).exprToTranslate,
+				   'expr2': JSON.parse(translation).exprTranslated
+				 },
+				};
+				$http(req).then(function (response) {
+                });
+			}
 		}
 	}
 })

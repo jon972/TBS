@@ -7,6 +7,7 @@ import fr.gemeroi.persistence.bean.English;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.French;
 import fr.gemeroi.persistence.bean.User;
+import fr.gemeroi.persistence.bean.UsersTranslations;
 
 
 public class SessionMgr {
@@ -24,6 +25,7 @@ public class SessionMgr {
 	                   addAnnotatedClass(French.class).
 	                   addAnnotatedClass(English.class).
 	                   addAnnotatedClass(User.class).
+	                   addAnnotatedClass(UsersTranslations.class).
 	                   buildSessionFactory();
 		}
 		return factory;

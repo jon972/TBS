@@ -2,65 +2,65 @@ package fr.gemeroi.persistence.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERSTRANSLATIONS")
 public class UsersTranslations {
 
-	private String userLogin;
-	private Integer entityvideoid;
-	private String language1;
-	private String language2;
-	private Integer timebegin;
+	private Integer id;
+	private String email;
+	private String expr1;
+	private String expr2;
 
-	public UsersTranslations(String userLogin, Integer entityvideoid,
-			String language1, String language2, Integer timebegin) {
+	public UsersTranslations() {
+		
+	}
+
+	public UsersTranslations(String email, String expr1, String expr2) {
 		super();
-		this.userLogin = userLogin;
-		this.entityvideoid = entityvideoid;
-		this.language1 = language1;
-		this.language2 = language2;
-		this.timebegin = timebegin;
+		this.email = email;
+		this.expr1 = expr1;
+		this.expr2 = expr2;
 	}
 
-	@Column(name = "userlogin")
-	public String getUserLogin() {
-		return userLogin;
+	@Id
+	@SequenceGenerator(name="pk_sequence",sequenceName="usersTranslations_id_seq", allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
+	@Column(name = "id", unique = true, nullable = false)
+	public Integer getId() {
+		return this.id;
 	}
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	
-	@Column(name = "entityvideoid")
-	public Integer getEntityvideoid() {
-		return entityvideoid;
+
+	@Column(name = "email")
+	public String getEmail() {
+		return email;
 	}
-	public void setEntityvideoid(Integer entityvideoid) {
-		this.entityvideoid = entityvideoid;
-	}
-	
-	@Column(name = "language1")
-	public String getLanguage1() {
-		return language1;
-	}
-	public void setLanguage1(String language1) {
-		this.language1 = language1;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
-	@Column(name = "language2")
-	public String getLanguage2() {
-		return language2;
+	@Column(name = "expr1")
+	public String getExpr1() {
+		return expr1;
 	}
-	public void setLanguage2(String language2) {
-		this.language2 = language2;
+	public void setExpr1(String expr1) {
+		this.expr1 = expr1;
 	}
 	
-	@Column(name = "timebegin")
-	public Integer getTimebegin() {
-		return timebegin;
+	@Column(name = "expr2")
+	public String getExpr2() {
+		return expr2;
 	}
-	public void setTimebegin(Integer timebegin) {
-		this.timebegin = timebegin;
+	public void setExpr2(String expr2) {
+		this.expr2 = expr2;
 	}
 }

@@ -18,9 +18,9 @@ public class SaveTranslationService {
 			@HeaderParam("token") String token, @HeaderParam("language1") String language1, 
 			@HeaderParam("language2") String language2, @HeaderParam("entityVideoId") Integer entityVideoId, 
 			@HeaderParam("timeBegin") Integer timeBegin) {
-		UsersTranslations usersTranslationsEntry = 
-				new UsersTranslations(token, entityVideoId, language1, language2, timeBegin);
-		PersistenceUtils.persistObject(usersTranslationsEntry);
+//		UsersTranslations usersTranslationsEntry = 
+//				new UsersTranslations(token, entityVideoId, language1, language2, timeBegin);
+//		PersistenceUtils.persistObject(usersTranslationsEntry);
 		return null;
 	}
 }
