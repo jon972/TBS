@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 
 import fr.gemeroi.common.utils.LanguageEnum;
 import fr.gemeroi.persistence.bean.Language;
+import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class Translate {
@@ -20,14 +21,7 @@ public class Translate {
 										 + " OR lower(l1.expression) like lower('%s %%')  "
 										 + " OR lower(l1.expression) like lower('%% %s'))";
 
-	public static void main(String[] args) {
-		List<Translation> translationList = translate("Hi", LanguageEnum.English, LanguageEnum.French);
-		for(Translation translation : translationList) {
-			System.out.println(translation);	
-		}
-
-	}
-	public static List<Translation> translate(String word, LanguageEnum fromLanguage, LanguageEnum toLanguage) {
+	public static List<Translation> translate(String word, LanguageEnum fromLanguage, LanguageEnum toLanguage, User user) {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
@@ -40,8 +34,9 @@ public class Translate {
 		for(Object[] resultEntity : list) {
 			Language language1 = (Language) resultEntity[0];
 			Language language2 = (Language) resultEntity[1];
-
-			listTranslation.add(new Translation(language1.getExpression(), language2.getExpression()));
+			
+			listTranslation.add(new Translation(language1.getExpression(), language2.getExpression(), false));
+				
 		}
 
 		return listTranslation;

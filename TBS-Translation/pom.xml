@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.gemeroi.TranslationBySubtitles</groupId>
-			<artifactId>TBS-Persistence</artifactId>
+			<artifactId>TBS-Common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
