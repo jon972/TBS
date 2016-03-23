@@ -9,7 +9,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.gemeroi.population</groupId>
-	<artifactId>population</artifactId>
+	<artifactId>TBS-Population</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Population</name>
 
@@ -67,7 +67,7 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.gemeroi.TranslationBySubtitles</groupId>
-			<artifactId>TBS-Persistence</artifactId>
+			<artifactId>TBS-Common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

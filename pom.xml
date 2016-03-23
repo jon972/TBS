@@ -8,9 +8,6 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>translationBySubtitles</name>
-	<url>http://maven.apache.org</url>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -26,8 +23,8 @@
 
 	</dependencies>
 	<modules>
-		<module>TBS-WS</module>
-		<module>TBS-Persistence</module>
+		<module>TBS-WebClient</module>
+		<module>TBS-Common</module>
 		<module>TBS-Translation</module>
 		<module>TBS-Population</module>
 	</modules>
