@@ -1,18 +1,18 @@
 <div>
-	<div class="row" ng-mouseenter="mouseIsOver = true"
-		ng-mouseleave="mouseIsOver = false">
-		<div class="col-sm-5 col-md-offset-4">
-			<div class="row">
-				<div ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved}" class="col-sm-8">
-					<p>{{translation.exprToTranslate}}</p>
-					<p>{{translation.exprTranslated}}</p>
-				</div>
-				<div ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
-					ng-mouseenter="hover = true" ng-mouseleave="hover = false"
-					ng-if="mouseIsOver && isSavable == 'true' && isLogged()" alt="Add in preferences">
-					<span class="glyphicon 	glyphicon-plus-sign"></span>
-				</div>
-			</div>
-		</div>
+  <div class="row" ng-mouseenter="mouseIsOver = true"
+       ng-mouseleave="mouseIsOver = false">
+    <div class="col-sm-5 col-md-offset-4">
+      <div class="row">
+	<div ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved}" class="col-sm-8">
+	  <p>{{translation.exprToTranslate}}</p>
+	  <p>{{translation.exprTranslated}}</p>
 	</div>
+	<div ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+	     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+	     ng-if="mouseIsOver && isSavable == 'true' && isLogged()" alt="Add in preferences">
+	  <span class="glyphicon 	glyphicon-plus-sign"></span>
+	</div>
+      </div>
+    </div>
+  </div>
 </div>

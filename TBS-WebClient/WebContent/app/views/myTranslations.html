@@ -1,12 +1,12 @@
 <div class="container">
-	<div class="row" ng-controller="myTranslationsController"
-		ng-init="retrieveMyTranslations()">
-		<div ng-repeat="translation in userTranslations">
-			<div>
-				<hr>
-				<ng-trans-entity index="{{$index}}" translation="{{translation}}"
-					isSavable="false"></ng-trans-entity>
-			</div>
-		</div>
-	</div>
+  <div class="row" ng-controller="myTranslationsController"
+       ng-init="retrieveMyTranslations()">
+    <div ng-repeat="translation in userTranslations">
+      <div>
+	<hr>
+	<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+			 isSavable="false"></ng-trans-entity>
+      </div>
+    </div>
+  </div>
 </div>

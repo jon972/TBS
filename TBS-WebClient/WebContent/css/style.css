@@ -1,0 +1,37 @@
+.bgNavbar {
+	backgound-color : red;
+}
+.glyphicon-plus-sign {
+    background: #424242;
+}
+
+.glyphicon-plus-sign:hover {
+	
+}
+
+.colorRed {
+	color: red;
+}
+
+.colorBlue {
+	color: blue;
+}
+.colorYellow {
+	color: yellow;
+}
+.bgColor {
+	background-color : #424242;
+}
+.translationEntityColor {
+	color : #CFC6F2;
+}
+
+.bgColorBlue {
+	background-color: #CFC6F2; 
+	border-radius: 25px;
+}
+
+.bgColorYellow {
+	background-color: yellow; 
+	border-radius: 25px;
+}

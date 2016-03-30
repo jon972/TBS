@@ -8,7 +8,6 @@
 	</parent>
 
 	<artifactId>TBS-WebClient</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 
 	<packaging>war</packaging>
 	<build>
