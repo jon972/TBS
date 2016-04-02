@@ -45,7 +45,7 @@ public class Entityvideo implements java.io.Serializable {
 	}
 
 	@Id
-	@SequenceGenerator(name="pk_sequence",sequenceName="entityvideo_id_seq", allocationSize=1)
+	@SequenceGenerator(name="pk_sequence",sequenceName="entity_video_id_seq", allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="pk_sequence")
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {

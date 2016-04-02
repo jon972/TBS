@@ -1,29 +1,14 @@
 package fr.gemeroi.common.utils;
 
-import fr.gemeroi.persistence.bean.English;
-import fr.gemeroi.persistence.bean.French;
-import fr.gemeroi.persistence.bean.Language;
-
-
 public enum LanguageEnum {
-	English(English.class), French(French.class);
-	
-	Class<? extends Language> clazz;
-	private LanguageEnum(Class<? extends Language> clazz) {
-		this.clazz = clazz;
-	}
+	English, French;
 
-	public Class<? extends Language> getClassLanguage() {
-		return this.clazz;
-	}
-
-	public static LanguageEnum getInstance(String languageStr) {
-		if(languageStr.toLowerCase().equals(English.name().toLowerCase())) {
-			return English;
+	public static LanguageEnum getInstance(final String language) {
+		final String languageToLowerCase = language.toLowerCase();
+		switch (languageToLowerCase) {
+		case "french" : return LanguageEnum.French;
+		case "english" : return LanguageEnum.English;
+		default : throw new IllegalArgumentException();
 		}
-		if(languageStr.toLowerCase().equals(French.name().toLowerCase())) {
-			return French;
-		}
-		throw new IllegalArgumentException("'" + languageStr + "' is not a supported language");
 	}
 }

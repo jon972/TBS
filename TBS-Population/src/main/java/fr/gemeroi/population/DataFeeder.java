@@ -12,8 +12,7 @@ import org.hibernate.SessionFactory;
 
 import fr.gemeroi.common.utils.LanguageEnum;
 import fr.gemeroi.persistence.bean.Entityvideo;
-import fr.gemeroi.persistence.bean.Language;
-import fr.gemeroi.persistence.bean.LanguageFactory;
+import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.persistence.utils.query.QueryEntityVideoUtils;
 import fr.gemeroi.persistence.utils.query.QueryLanguageUtils;
@@ -44,38 +43,37 @@ public class DataFeeder {
         return Integer.parseInt(matcher.group(2));
 	}
 
-	private static List<Language> convertSubtitlesToLanguageSubtilesForIntegration(ReadSubtitle reader, LanguageEnum languageEnum, Entityvideo entityvideoPersisted) {
-		List<Language> listLanguage = new ArrayList<>();
+	private static List<Subtitle> buildSubtitles(ReadSubtitle reader, LanguageEnum languageEnum, Entityvideo entityvideoPersisted) {
+		List<Subtitle> subtitles = new ArrayList<>();
 		for(EntryST entryST : reader.getListEntries()) {
-			Language language = LanguageFactory.getNewLanguage(languageEnum);
-			language.setExpression(entryST.getSubtitle());
-			language.setRank(entryST.getRank());
-			language.setTimebegin(entryST.getDateStart());
-			language.setTimeend(entryST.getDateEnd());
-			language.setEntityvideo(entityvideoPersisted);
-			listLanguage.add(language);
+			Subtitle subtitle = new Subtitle();
+			subtitle.setExpression(entryST.getSubtitle());
+			subtitle.setRank(entryST.getRank());
+			subtitle.setTimebegin(entryST.getDateStart());
+			subtitle.setTimeend(entryST.getDateEnd());
+			subtitle.setEntityvideo(entityvideoPersisted);
+			subtitle.setLanguage(languageEnum.name());
+			subtitles.add(subtitle);
 		}
 
-		return listLanguage;
+		return subtitles;
 	}
 
-	private static void persistLanguageSubtitlesIfCorrect(Entityvideo entityvideoFromDB, List<Language> listLanguage, int lastTimeEndCurrentVideo) {
-		for(LanguageEnum lEnum : LanguageEnum.values()) {
-			List<Language> languageListEntry = QueryLanguageUtils.getListLanguageFromDB(entityvideoFromDB, lEnum.getClassLanguage(), session);
-			if(languageListEntry != null && languageListEntry.size() > 0) {
-				int endTimeVideoFromAnotherLanguage = languageListEntry.get(0).getTimeend();
-				if(endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo) {
-					QueryLanguageUtils.persistLanguage(listLanguage, session);
-					logger.info("Integration done");
-					session.close();
-				} else {
-					logger.error("Integration aborted");
-				}
-				return;
+	private static void persistLanguageSubtitlesIfCorrect(Entityvideo entityvideoFromDB, List<Subtitle> listLanguage, int lastTimeEndCurrentVideo, LanguageEnum languageEnum) {
+		List<Subtitle> languageListEntry = QueryLanguageUtils.getSubtitlesFromDB(entityvideoFromDB, session, languageEnum);
+		if(languageListEntry != null && languageListEntry.size() > 0) {
+			int endTimeVideoFromAnotherLanguage = languageListEntry.get(0).getTimeend();
+			if(endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo) {
+				QueryLanguageUtils.persistLanguage(listLanguage, session, entityvideoFromDB, languageEnum);
+				logger.info("Integration done");
+				session.close();
+			} else {
+				logger.error("Integration aborted");
 			}
+			return;
 		}
 		
-		QueryLanguageUtils.persistLanguage(listLanguage, session);
+		QueryLanguageUtils.persistLanguage(listLanguage, session, entityvideoFromDB, languageEnum);
 		logger.info("Integration done");
 
 		session.close();
@@ -94,11 +92,16 @@ public class DataFeeder {
 		session = sessionFactory.openSession();
 		Entityvideo entityvideoFromDB = QueryEntityVideoUtils.persistEntityVideo(entityvideo, session);
 
-		List<Language> listLanguage = convertSubtitlesToLanguageSubtilesForIntegration(reader, languageEnum, entityvideoFromDB);
-		QueryLanguageUtils.sortLanguageByTimeEndSubtitle(listLanguage);
-		int lastTimeEndCurrentVideo = listLanguage.get(0).getTimeend();
+		List<Subtitle> subtitles = buildSubtitles(reader, languageEnum, entityvideoFromDB);
+		QueryLanguageUtils.sortLanguageByTimeEndSubtitle(subtitles);
+		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
 
-		persistLanguageSubtitlesIfCorrect(entityvideoFromDB, listLanguage, lastTimeEndCurrentVideo);
+		persistLanguageSubtitlesIfCorrect(entityvideoFromDB, subtitles, lastTimeEndCurrentVideo, languageEnum);
 		
+	}
+
+	public static void main(String[] args) {
+		persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.fr\\Dexter - 7x07 - Chemistry.fr.srt"), "Dexter", "Serie", LanguageEnum.French);
+		persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.en\\Dexter - 7x07 - Chemistry.HDTV.ASAP.en.srt"), "Dexter", "Serie", LanguageEnum.English);
 	}
 }

@@ -29,9 +29,8 @@ public class QueryEntityVideoUtils {
 			session.save(entityvideo);
 			tx.commit();
 		} catch (Exception e) {
-			return entityvideo;
 		}
-		return entityvideo;
+		return getEntityvideo(entityvideo, session);
 	}
 	
 	public static Entityvideo getEntityvideo(Entityvideo entityvideo, Session session) {

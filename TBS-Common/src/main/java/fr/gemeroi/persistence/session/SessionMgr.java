@@ -3,9 +3,8 @@ package fr.gemeroi.persistence.session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import fr.gemeroi.persistence.bean.English;
+import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.Entityvideo;
-import fr.gemeroi.persistence.bean.French;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 
@@ -20,10 +19,9 @@ public class SessionMgr {
 		if(factory == null) {
 			factory = new AnnotationConfiguration().
 	                   configure().
-	                   addPackage("fr.gemeroi.population.persistence.bean.generated"). //add package if used.
+	                   addPackage("fr.gemeroi.population.persistence.bean.generated").
 	                   addAnnotatedClass(Entityvideo.class).
-	                   addAnnotatedClass(French.class).
-	                   addAnnotatedClass(English.class).
+	                   addAnnotatedClass(Subtitle.class).
 	                   addAnnotatedClass(User.class).
 	                   addAnnotatedClass(UsersTranslations.class).
 	                   buildSessionFactory();
