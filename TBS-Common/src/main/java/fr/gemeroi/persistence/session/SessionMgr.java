@@ -16,16 +16,15 @@ public class SessionMgr {
 	}
 	
 	public static SessionFactory getSessionFactory() {
-		if(factory == null) {
+//		if(factory == null) {
 			factory = new AnnotationConfiguration().
 	                   configure().
-	                   addPackage("fr.gemeroi.population.persistence.bean.generated").
 	                   addAnnotatedClass(Entityvideo.class).
 	                   addAnnotatedClass(Subtitle.class).
 	                   addAnnotatedClass(User.class).
 	                   addAnnotatedClass(UsersTranslations.class).
 	                   buildSessionFactory();
-		}
+//		}
 		return factory;
 	}
 }

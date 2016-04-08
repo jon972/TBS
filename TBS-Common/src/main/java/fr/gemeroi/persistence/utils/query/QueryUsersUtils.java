@@ -15,7 +15,8 @@ public class QueryUsersUtils {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(User.class);
 		List<User> listUser = cr.add(Restrictions.eq("email", user.getEmail()))
-				                .add(Restrictions.eq("password", user.getPassword())).list();
+				                .add(Restrictions.eq("password", user.getPassword()))
+				                .list();
 		session.close();
 		return listUser.size() > 0 ? listUser.get(0) : null;
 	}

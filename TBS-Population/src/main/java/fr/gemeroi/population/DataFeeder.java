@@ -59,12 +59,12 @@ public class DataFeeder {
 		return subtitles;
 	}
 
-	private static void persistLanguageSubtitlesIfCorrect(Entityvideo entityvideoFromDB, List<Subtitle> listLanguage, int lastTimeEndCurrentVideo, LanguageEnum languageEnum) {
+	private static void persistSubtitlesIfCorrect(Entityvideo entityvideoFromDB, List<Subtitle> subtitles, int lastTimeEndCurrentVideo, LanguageEnum languageEnum) {
 		List<Subtitle> languageListEntry = QueryLanguageUtils.getSubtitlesFromDB(entityvideoFromDB, session, languageEnum);
 		if(languageListEntry != null && languageListEntry.size() > 0) {
 			int endTimeVideoFromAnotherLanguage = languageListEntry.get(0).getTimeend();
 			if(endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo) {
-				QueryLanguageUtils.persistLanguage(listLanguage, session, entityvideoFromDB, languageEnum);
+				QueryLanguageUtils.persistSubtitles(subtitles, session, entityvideoFromDB, languageEnum);
 				logger.info("Integration done");
 				session.close();
 			} else {
@@ -73,7 +73,7 @@ public class DataFeeder {
 			return;
 		}
 		
-		QueryLanguageUtils.persistLanguage(listLanguage, session, entityvideoFromDB, languageEnum);
+		QueryLanguageUtils.persistSubtitles(subtitles, session, entityvideoFromDB, languageEnum);
 		logger.info("Integration done");
 
 		session.close();
@@ -93,10 +93,10 @@ public class DataFeeder {
 		Entityvideo entityvideoFromDB = QueryEntityVideoUtils.persistEntityVideo(entityvideo, session);
 
 		List<Subtitle> subtitles = buildSubtitles(reader, languageEnum, entityvideoFromDB);
-		QueryLanguageUtils.sortLanguageByTimeEndSubtitle(subtitles);
+		QueryLanguageUtils.sortSubtitlesByTimeEnd(subtitles);
 		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
 
-		persistLanguageSubtitlesIfCorrect(entityvideoFromDB, subtitles, lastTimeEndCurrentVideo, languageEnum);
+		persistSubtitlesIfCorrect(entityvideoFromDB, subtitles, lastTimeEndCurrentVideo, languageEnum);
 		
 	}
 

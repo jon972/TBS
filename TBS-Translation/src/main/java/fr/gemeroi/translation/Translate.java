@@ -13,9 +13,9 @@ import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class Translate {
-	private static String queryHqlFormat = "from SUBTITLE as sub1, SUBTITLE as sub2 where "
-										 + "sub1.language = %s AND "
-										 + "sub2.language = %s AND "
+	private static String queryHqlFormat = "from Subtitle as sub1, Subtitle as sub2 where "
+										 + "sub1.language = '%s' AND "
+										 + "sub2.language = '%s' AND "
 										 + "sub2.entityvideo.id = sub1.entityvideo.id AND "
 										 + "sub2.timebegin = sub1.timebegin AND "
 										 + "sub1.timebegin > 20 AND "
@@ -40,7 +40,7 @@ public class Translate {
 			listTranslation.add(new Translation(language1.getExpression(), language2.getExpression(), false));
 				
 		}
-
+		session.close();
 		return listTranslation;
 	}
 }

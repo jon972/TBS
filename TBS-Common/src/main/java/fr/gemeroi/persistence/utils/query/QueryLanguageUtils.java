@@ -15,7 +15,7 @@ import fr.gemeroi.persistence.bean.Subtitle;
 
 public class QueryLanguageUtils {
 
-	public static void sortLanguageByTimeEndSubtitle(List<Subtitle> subtitles) {
+	public static void sortSubtitlesByTimeEnd(List<Subtitle> subtitles) {
 		Collections.sort(subtitles, new Comparator<Subtitle>() {
 			public int compare(Subtitle sub1, Subtitle sub2) {
 				if (sub1.getTimeend() > sub2.getTimeend())
@@ -41,12 +41,12 @@ public class QueryLanguageUtils {
 			  cr.add(Restrictions.eq("entityvideo", entityvideo))
 			    .add(Restrictions.ne("language", languageEnum.name()))
 				.list();
-		sortLanguageByTimeEndSubtitle(results);
+		sortSubtitlesByTimeEnd(results);
 		// System.out.println(results.get(0));
 		return results;
 	}
 
-	public static void persistLanguage(List<Subtitle> subtitles, Session session, Entityvideo entityvideo, LanguageEnum languageEnum) {
+	public static void persistSubtitles(List<Subtitle> subtitles, Session session, Entityvideo entityvideo, LanguageEnum languageEnum) {
 		try {
 			Transaction tx = session.beginTransaction();
 			if (subtitles == null || subtitles.size() == 0 ||
