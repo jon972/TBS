@@ -1,24 +1,33 @@
-TBSApp.controller("translationController", function ($scope, $http, tokenService) {
+TBSApp.controller("translationController", function ($scope, $http, tokenService, $routeParams) {
 	var isLoading = false;
 	var currentSelect = -1;
+
+	$scope.setTranslationUrl = function () {
+		window.location.replace('#/translation/' + $scope.languageFrom + '/' + $scope.languageTo + '/' + $scope.exprToTranslate);
+	}
 	$scope.translateRequest = function () {
+
+		if($routeParams.exprToTranslate === undefined) {	
+			return;
+		}
 		isLoading = true;
 		$scope.clicked = false;
-		console.log("hello");
-		console.log(tokenService.getToken());
 		var req = {
-				 method: 'GET',
-				 url: 'rest/translation/' + $scope.wordToTranslate + 
-				  '/' + $scope.languageFrom + '/' + $scope.languageTo,
-				 headers: {
-				   'Content-Type': 'application/json',
-				   'token': tokenService.getToken(), 
-				 }
-				};
+			 method: 'GET',
+			 url: 'rest/translation/' + $routeParams.exprToTranslate + 
+			  '/' + $routeParams.languageFrom + '/' + $routeParams.languageTo,
+			 headers: {
+			   'Content-Type': 'application/json',
+			   'token': tokenService.getToken(), 
+			 }
+		};
 		$http(req).then(function (response) {
-	                                	$scope.translations = response.data;
-	                                	isLoading = false;
-	                                });
+        	$scope.translations = response.data;
+        	$scope.languageTo = $routeParams.languageTo;
+        	$scope.languageFrom = $routeParams.languageFrom;
+        	$scope.exprToTranslate = $routeParams.exprToTranslate;
+        	isLoading = false;
+        });
 	}
 
 	$scope.isLoadingFromServer = function () {
@@ -26,12 +35,15 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 	}
 
 	$scope.getAllLanguages = function () {
-		$http.get('rest/availableLanguages/allLanguages')
-                    .then(function (response) {
-                    	$scope.availableLanguages = response.data;
-                    	$scope.languageTo = $scope.availableLanguages [0];
-                    	$scope.languageFrom = $scope.availableLanguages[1]
-                    	console.log($scope.availableLanguages);
-                    });
+		$http.get('rest/availableLanguages/allLanguages').then(function (response) {
+        	$scope.languageTo = $routeParams.languageTo;
+        	$scope.languageFrom = $routeParams.languageFrom;
+        	$scope.availableLanguages = response.data;
+        	console.log($scope.availableLanguages);
+        	if($routeParams.exprToTranslate === undefined) {	
+    			$scope.languageFrom = $scope.availableLanguages[1];
+    			$scope.languageTo = $scope.availableLanguages[0];
+    		}
+         });
 	}
 });

@@ -8,6 +8,8 @@ public enum LanguageEnum {
 		switch (languageToLowerCase) {
 		case "french" : return LanguageEnum.French;
 		case "english" : return LanguageEnum.English;
+		case "fr" : return LanguageEnum.French;
+		case "en" : return LanguageEnum.English;
 		default : throw new IllegalArgumentException();
 		}
 	}

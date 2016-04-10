@@ -16,12 +16,12 @@ public class UserTranslationsMgr {
 	public static List<Translation> convertUsersTranslationsToTranslation(List<UsersTranslations> usersTranslations) {
 	  List<Translation> translationsList = new ArrayList<>();
 	  for(UsersTranslations ut : usersTranslations) {
-		  translationsList.add(new Translation(ut.getExpr1(), ut.getExpr2(), true));
+		  translationsList.add(new Translation(ut.getId(), ut.getExpr1(), ut.getExpr2(), true));
 	  }
 	  return translationsList;
 	}
 
 	public static void updateUserTranslations(User user, UsersTranslations userTranslation) {
-		userTranslations.get(user).add(new Translation(userTranslation.getExpr1(), userTranslation.getExpr2(), true));
+		userTranslations.get(user).add(new Translation(userTranslation.getId(), userTranslation.getExpr1(), userTranslation.getExpr2(), true));
 	}
 }

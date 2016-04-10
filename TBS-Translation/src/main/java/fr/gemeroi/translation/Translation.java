@@ -2,16 +2,23 @@ package fr.gemeroi.translation;
 
 public class Translation {
 
+	private Integer id;
 	private String exprToTranslate;
 	private String exprTranslated;
 	private boolean isSaved;
+
+	public Translation(Integer id, String exprToTranslate, String exprTranslated, boolean isSaved) {
+		this.exprToTranslate = exprToTranslate;
+		this.exprTranslated = exprTranslated;
+		this.setSaved(isSaved);
+		this.setId(id);
+	}
 
 	public Translation(String exprToTranslate, String exprTranslated, boolean isSaved) {
 		this.exprToTranslate = exprToTranslate;
 		this.exprTranslated = exprTranslated;
 		this.setSaved(isSaved);
 	}
-
 
 	public String getExprToTranslate() {
 		return exprToTranslate;
@@ -33,9 +40,16 @@ public class Translation {
 		return isSaved;
 	}
 
-
 	public void setSaved(boolean isSaved) {
 		this.isSaved = isSaved;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override
@@ -77,4 +91,5 @@ public class Translation {
 			return false;
 		return true;
 	}
+
 }

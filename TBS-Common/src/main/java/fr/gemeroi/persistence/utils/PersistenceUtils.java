@@ -17,6 +17,7 @@ public class PersistenceUtils {
 			session.save(object);
 			tx.commit();
 		} catch (Exception e) {
+			throw e;
 		} finally {
 			session.close();
 		}

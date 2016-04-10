@@ -1,9 +1,6 @@
 package fr.gemeroi.services;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.GET;
@@ -33,7 +30,7 @@ import fr.gemeroi.translation.Translation;
 @Path("/translation")
 public class TranslationService {
 
-	  // http://localhost:8081/TBS-WS/rest/translation/Hi/English/French
+	  // http://localhost:portNum/TBS-WS/rest/translation/Hi/English/French
 	  @Path("/{word}/{language1}/{language2}")
 	  @GET
 	  @Produces("application/json")
@@ -86,5 +83,22 @@ public class TranslationService {
 		return Response.ok(gson.toJson(translations) ,MediaType.APPLICATION_JSON)
 				.header("Access-Control-Allow-Origin", "*")
 				.build();
+	  }
+
+	  @Path("removeMyTranslation")
+	  @POST
+	  @Produces("application/json")
+	  public Response removeMyTranslation(@HeaderParam("token") String token, @HeaderParam("id") String id, @HeaderParam("expr1") String expr1, @HeaderParam("expr2") String expr2) throws JSONException {
+
+		Integer idInt = Integer.valueOf(id);
+		User user = TokenMgr.tokensMap.get(token);
+		Set<Translation> translations = UserTranslationsMgr.userTranslations.get(user);
+		Translation translation = new Translation(idInt, expr1, expr2, true);
+		translations.remove(translation);
+
+		QueryUsersTranslationsUtils.removeUsersTranslations(user.getEmail(), idInt);
+		return Response.ok()
+					   .header("Access-Control-Allow-Origin", "*")
+					   .build();
 	  }
 }

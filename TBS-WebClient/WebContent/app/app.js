@@ -29,7 +29,10 @@ TBSApp.config(function($routeProvider) {
 	    .when('/signup', {templateUrl: 'app/views/signUpp.html'})
 	    .when('/', {templateUrl: 'app/views/translationsBySubtitles.html'})
 	    .when('/login', {templateUrl: 'app/views/login.html'})
+	    .when('/translation/:languageFrom/:languageTo/:exprToTranslate', {
+		    templateUrl: 'app/views/translationsBySubtitles.html',    
+		})
 	    .otherwise({
-	        redirectTo: '/signup'
+	        redirectTo: '/'
 	      })
 });

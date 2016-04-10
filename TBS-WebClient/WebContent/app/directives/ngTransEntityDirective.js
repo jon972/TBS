@@ -17,12 +17,34 @@ TBSApp.directive('ngTransEntity', function ($http) {
 					headers : {
 						'Content-Type' : 'application/json',
 						'token' : scope.token,
+						'id' : JSON.parse(translation).id,
 						'expr1' : JSON.parse(translation).exprToTranslate,
 						'expr2' : JSON.parse(translation).exprTranslated
 					},
 				};
 				$http(req).then(function(response) {
 					scope.isSaved = true;
+				});
+			}
+
+			scope.unsaveTranslation = function() {
+				var req = {
+					method : 'POST',
+					url : 'rest/translation/removeMyTranslation',
+					headers : {
+						'Content-Type' : 'application/json',
+						'token' : scope.token,
+						'expr1' : JSON.parse(translation).exprToTranslate,
+						'expr2' : JSON.parse(translation).exprTranslated,
+						'id' : JSON.parse(translation).id
+					},
+				};
+				$http(req).then(function(response) {
+					for(i = 0; i < scope.userTranslations.length; i++) {
+						if(scope.userTranslations[i].id == scope.translation.id) {
+							scope.userTranslations.splice(i, 1);
+						}
+					}
 				});
 			}
 		}
