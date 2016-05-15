@@ -24,7 +24,7 @@ import fr.gemeroi.session.UserTranslationsMgr;
 import fr.gemeroi.translation.Translation;
 
 @Path("/account")
-public class CreateAccountService {
+public class AccountServices {
 	@Path("/createAccount")
 	@POST
 	@Produces("application/json")

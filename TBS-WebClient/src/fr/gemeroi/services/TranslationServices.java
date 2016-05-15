@@ -32,17 +32,17 @@ import fr.gemeroi.translation.Translation;
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
 @Path("/translation")
-public class TranslationService {
+public class TranslationServices {
 
 	  // http://localhost:portNum/TBS-WS/rest/translation/Hi/English/French
 	  @Path("/{word}/{language1}/{language2}")
 	  @GET
 	  @Produces("application/json")
-	  public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") String language1, 
-			  @PathParam("language2") String language2, @HeaderParam("token") String token) throws JSONException {
+	  public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") LanguageEnum language1, 
+			  @PathParam("language2") LanguageEnum language2, @HeaderParam("token") String token) throws JSONException {
 		User user = TokenMgr.tokensMap.get(token);
 		Set<Translation> translations = UserTranslationsMgr.userTranslations.get(user);
-		List<Translation> wordTranslatedList = Translate.translate(wordToTranslate, LanguageEnum.getInstance(language1), LanguageEnum.getInstance(language2), user);
+		List<Translation> wordTranslatedList = Translate.translate(wordToTranslate, language1, language2, user);
 
 		if(translations != null) {
 			for(Translation tr : wordTranslatedList) {
