@@ -3,6 +3,7 @@ package fr.gemeroi.services;
 import java.util.List;
 import java.util.Set;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -18,14 +19,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.gemeroi.common.utils.LanguageEnum;
+import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
+import fr.gemeroi.persistence.utils.query.QuerySubtitleUtils;
 import fr.gemeroi.persistence.utils.query.QueryUsersTranslationsUtils;
 import fr.gemeroi.session.TokenMgr;
 import fr.gemeroi.session.UserTranslationsMgr;
 import fr.gemeroi.translation.Translate;
 import fr.gemeroi.translation.Translation;
+import fr.gemeroi.translation.dto.SubtitleDTO;
 
 @Path("/translation")
 public class TranslationService {
@@ -47,6 +51,7 @@ public class TranslationService {
 				}
 			}
 		}
+
 		final GsonBuilder builder = new GsonBuilder();
 		final Gson gson = builder.create();
 		return Response.ok(gson.toJson(wordTranslatedList) ,MediaType.APPLICATION_JSON)
@@ -57,10 +62,11 @@ public class TranslationService {
 	  @Path("saveTranslation")
 	  @POST
 	  @Produces("application/json")
-	  public Response saveTranslation(@HeaderParam("token") String token, @HeaderParam("expr1") String expr1, @HeaderParam("expr2") String expr2) throws JSONException {
+	  @Consumes("application/json")
+	  public Response saveTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation trans) throws JSONException {
 
 		User user = TokenMgr.tokensMap.get(token);
-		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(), expr1, expr2);
+		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(), QuerySubtitleUtils.getSubtitleById(trans.getSubtitleDTOToTranslate().getId()), QuerySubtitleUtils.getSubtitleById(trans.getSubtitleDTOTranslated().getId()));
 		PersistenceUtils.persistObject(usersTranslations);
 		UserTranslationsMgr.updateUserTranslations(user, usersTranslations);
 
@@ -88,15 +94,13 @@ public class TranslationService {
 	  @Path("removeMyTranslation")
 	  @POST
 	  @Produces("application/json")
-	  public Response removeMyTranslation(@HeaderParam("token") String token, @HeaderParam("id") String id, @HeaderParam("expr1") String expr1, @HeaderParam("expr2") String expr2) throws JSONException {
+	  public Response removeMyTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation translation) throws JSONException {
 
-		Integer idInt = Integer.valueOf(id);
 		User user = TokenMgr.tokensMap.get(token);
 		Set<Translation> translations = UserTranslationsMgr.userTranslations.get(user);
-		Translation translation = new Translation(idInt, expr1, expr2, true);
 		translations.remove(translation);
 
-		QueryUsersTranslationsUtils.removeUsersTranslations(user.getEmail(), idInt);
+		QueryUsersTranslationsUtils.removeUsersTranslations(user.getEmail(), translation.getId());
 		return Response.ok()
 					   .header("Access-Control-Allow-Origin", "*")
 					   .build();

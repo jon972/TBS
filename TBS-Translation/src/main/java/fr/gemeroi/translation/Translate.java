@@ -11,6 +11,7 @@ import fr.gemeroi.common.utils.LanguageEnum;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.session.SessionMgr;
+import fr.gemeroi.translation.dto.SubtitleDTO;
 
 public class Translate {
 	private static String queryHqlFormat = "from Subtitle as sub1, Subtitle as sub2 where "
@@ -34,10 +35,10 @@ public class Translate {
 		List<Translation> listTranslation = new ArrayList<Translation>();
 
 		for(Object[] resultEntity : list) {
-			Subtitle language1 = (Subtitle) resultEntity[0];
-			Subtitle language2 = (Subtitle) resultEntity[1];
+			Subtitle subtitle1 = (Subtitle) resultEntity[0];
+			Subtitle subtitle2 = (Subtitle) resultEntity[1];
 			
-			listTranslation.add(new Translation(language1.getExpression(), language2.getExpression(), false));
+			listTranslation.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false));
 				
 		}
 		session.close();

@@ -1,3 +1,4 @@
+-- TODO Update this file
 CREATE TABLE ENTITY_VIDEO
 (
   ID SERIAL NOT NULL,

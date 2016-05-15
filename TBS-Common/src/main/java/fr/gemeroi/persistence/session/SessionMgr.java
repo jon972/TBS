@@ -19,6 +19,7 @@ public class SessionMgr {
 //		if(factory == null) {
 			factory = new AnnotationConfiguration().
 	                   configure().
+	                   addPackage("fr.gemeroi.persistence.bean").
 	                   addAnnotatedClass(Entityvideo.class).
 	                   addAnnotatedClass(Subtitle.class).
 	                   addAnnotatedClass(User.class).

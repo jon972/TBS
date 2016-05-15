@@ -72,7 +72,7 @@ public class DataFeeder {
 			}
 			return;
 		}
-		
+
 		QueryLanguageUtils.persistSubtitles(subtitles, session, entityvideoFromDB, languageEnum);
 		logger.info("Integration done");
 

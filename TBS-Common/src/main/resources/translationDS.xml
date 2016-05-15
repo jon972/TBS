@@ -11,7 +11,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url"
-			value="jdbc:postgresql://localhost:5432/Translation?useUnicode=yes;characterEncoding=UTF-8;" />
+			value="jdbc:postgresql://localhost:5432/Translation2?useUnicode=yes;characterEncoding=UTF-8;" />
 		<property name="username" value="postgres" />
 		<property name="password" value="root" />
 	</bean>
@@ -26,7 +26,7 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-		<property name="packagesToScan" value="fr.gemeroi.persistence.bean.generated.French"/>
+		<property name="packagesToScan" value="fr.gemeroi.persistence.bean"/>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>

@@ -17,9 +17,7 @@ TBSApp.directive('ngTransEntity', function ($http) {
 					headers : {
 						'Content-Type' : 'application/json',
 						'token' : scope.token,
-						'id' : JSON.parse(translation).id,
-						'expr1' : JSON.parse(translation).exprToTranslate,
-						'expr2' : JSON.parse(translation).exprTranslated
+						'translation' : translation
 					},
 				};
 				$http(req).then(function(response) {
@@ -34,9 +32,7 @@ TBSApp.directive('ngTransEntity', function ($http) {
 					headers : {
 						'Content-Type' : 'application/json',
 						'token' : scope.token,
-						'expr1' : JSON.parse(translation).exprToTranslate,
-						'expr2' : JSON.parse(translation).exprTranslated,
-						'id' : JSON.parse(translation).id
+						'translation' : translation
 					},
 				};
 				$http(req).then(function(response) {
