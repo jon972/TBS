@@ -68,7 +68,6 @@ public class TranslationServices {
 		User user = TokenMgr.tokensMap.get(token);
 		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(), QuerySubtitleUtils.getSubtitleById(trans.getSubtitleDTOToTranslate().getId()), QuerySubtitleUtils.getSubtitleById(trans.getSubtitleDTOTranslated().getId()));
 		PersistenceUtils.persistObject(usersTranslations);
-		UserTranslationsMgr.updateUserTranslations(user, usersTranslations);
 
 		return Response.ok()
 				.header("Access-Control-Allow-Origin", "*")
@@ -78,10 +77,12 @@ public class TranslationServices {
 	  @Path("retrieveMyTranslations")
 	  @POST
 	  @Produces("application/json")
-	  public Response retrieveMyTranslations(@HeaderParam("token") String token) throws JSONException {
+	  public Response retrieveMyTranslations(@HeaderParam("token") String token, @HeaderParam("languageFrom") LanguageEnum languageFrom, @HeaderParam("languageTo") LanguageEnum languageTo) throws JSONException {
 
 		User user = TokenMgr.tokensMap.get(token);
-		Set<Translation> translations = UserTranslationsMgr.userTranslations.get(user);
+
+		List<UsersTranslations> usersTranslations = QueryUsersTranslationsUtils.retrieveUsersTranslations(user.getEmail(), languageFrom, languageTo);
+		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
 
 		final GsonBuilder builder = new GsonBuilder();
 		final Gson gson = builder.create();
@@ -97,8 +98,6 @@ public class TranslationServices {
 	  public Response removeMyTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation translation) throws JSONException {
 
 		User user = TokenMgr.tokensMap.get(token);
-		Set<Translation> translations = UserTranslationsMgr.userTranslations.get(user);
-		translations.remove(translation);
 
 		QueryUsersTranslationsUtils.removeUsersTranslations(user.getEmail(), translation.getId());
 		return Response.ok()

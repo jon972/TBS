@@ -59,10 +59,6 @@ public class AccountServices {
 			final GsonBuilder builder = new GsonBuilder();
 			final Gson gson = builder.create();
 
-			List<UsersTranslations> usersTranslations = QueryUsersTranslationsUtils.retrieveUsersTranslations(user.getEmail());
-			List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
-			UserTranslationsMgr.userTranslations.put(user, new HashSet(translations));
-
 			return Response.ok(gson.toJson(user) ,MediaType.APPLICATION_JSON)
 					.header("Access-Control-Allow-Origin", "*")
 					.build();

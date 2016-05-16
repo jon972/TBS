@@ -1,31 +1,31 @@
 <div id="trans" ng-controller="translationController" ng-init="translateRequest()">
   <div class="container">
     <div class="row">
-      <div class="col-sm-5 col-md-offset-4">
-	<table>
-	  <tr>
-	    <td>
-	      <select ng-init="getAllLanguages()"
-		      id="languageSelectFrom" ng-model="languageFrom"
-		      ng-options="language for language in availableLanguages">
-	      </select>
-	      <span class="glyphicon glyphicon-arrow-right">
-	      </span>
-	      <select
-		 id="languageSelectFrom" ng-model="languageTo"
-		 ng-options="language for language in availableLanguages">
-	      </select>
-	    </td>
-	  </tr>
-
-	  <tr>
-	    <td><input class="inputWordToTranslate" type="text"
-		       id="wordToTranslateInput" ng-model="exprToTranslate"></td>
-	    <td>
-	      <button id="buttonDisplayAction" ng-click="setTranslationUrl()">Translate</button>
-	    </td>
-	  </tr>
-	</table>
+      <div class="col-sm-5 col-md-offset-4" ng-controller="languagesController">
+		<table>
+		  <tr>
+		    <td>
+		      <select ng-init="getAllLanguages()"
+			      id="languageSelectFrom" ng-model="languageFrom"
+			      ng-options="language for language in availableLanguages">
+		      </select>
+		      <span class="glyphicon glyphicon-arrow-right">
+		      </span>
+		      <select
+			 id="languageSelectFrom" ng-model="languageTo"
+			 ng-options="language for language in availableLanguages">
+		      </select>
+		    </td>
+		  </tr>
+	
+		  <tr>
+		    <td><input class="inputWordToTranslate" type="text"
+			       id="wordToTranslateInput" ng-model="exprToTranslate"></td>
+		    <td>
+		      <button id="buttonDisplayAction" ng-click="setTranslationUrl(languageFrom, languageTo, exprToTranslate)">Translate</button>
+		    </td>
+		  </tr>
+		</table>
       </div>
     </div>
 

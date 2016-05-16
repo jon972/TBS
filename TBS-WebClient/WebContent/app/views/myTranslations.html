@@ -1,12 +1,33 @@
 <div class="container">
-  <div class="row" ng-controller="myTranslationsController"
-       ng-init="retrieveMyTranslations()">
-    <div ng-repeat="translation in userTranslations">
-      <div>
-	<hr>
-	<ng-trans-entity index="{{$index}}" translation="{{translation}}"
-			 isSavable="false"></ng-trans-entity>
+  <div class="row" ng-controller="myTranslationsController">
+        <div class="col-sm-5 col-md-offset-4" ng-controller="languagesController">
+		 <table>
+		  <tr>
+		    <td>
+		      <select ng-init="getAllLanguages()"
+			      id="languageSelectFrom" ng-model="languageFrom"
+			      ng-options="language for language in availableLanguages">
+		      </select>
+		      <span class="glyphicon glyphicon-arrow-right">
+		      </span>
+		      <select
+			 id="languageSelectFrom" ng-model="languageTo"
+			 ng-options="language for language in availableLanguages">
+		      </select>
+		    </td>
+		    <td>
+		      <button id="buttonDisplayAction" ng-click="retrieveMyTranslations(languageFrom, languageTo)">Show</button>
+		    </td>
+		  </tr>
+		</table>
       </div>
-    </div>
+      <br>
+	  <div ng-repeat="translation in userTranslations">
+	      <div>
+			<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+					 isSavable="false"></ng-trans-entity>
+			<hr>
+         </div>
+     </div>
   </div>
 </div>

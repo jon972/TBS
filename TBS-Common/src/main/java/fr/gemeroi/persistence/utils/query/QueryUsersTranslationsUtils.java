@@ -8,15 +8,22 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import fr.gemeroi.common.utils.LanguageEnum;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class QueryUsersTranslationsUtils {
 
-	public static List<UsersTranslations> retrieveUsersTranslations(String userMail) {
+	public static final String userTranslationUsingTranslationType = 
+			"from UsersTranslations ut where ut.email = '%s' and "
+			+ "ut.subtitle1.language = '%s' and "
+			+ "ut.subtitle2.language = '%s'";
+
+	public static List<UsersTranslations> retrieveUsersTranslations(String userMail, LanguageEnum l1, LanguageEnum l2) {
 		Session session = SessionMgr.getSessionFactory().openSession();
-		Criteria cr = session.createCriteria(UsersTranslations.class);
-		List<UsersTranslations> listUsersTranslations = cr.add(Restrictions.eq("email", userMail)).list();
+		String queryHql = String.format(userTranslationUsingTranslationType, userMail, l1.name(), l2.name());
+		Query query = session.createQuery(queryHql);
+		List<UsersTranslations> listUsersTranslations = query.list();
 		session.close();
 		return listUsersTranslations;
 	}

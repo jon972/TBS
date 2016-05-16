@@ -1,13 +1,11 @@
 package fr.gemeroi.translation;
 
-import java.io.Serializable;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
-public class Translation implements Serializable {
+public class Translation {
 
 	private Integer id;
 	private SubtitleDTO subtitleDTOToTranslate;
@@ -28,12 +26,12 @@ public class Translation implements Serializable {
 	}
 
 	public static Translation valueOf(String json) {
-		System.out.println(json);
 		final GsonBuilder builder = new GsonBuilder();
 		final Gson gson = builder.create();
 		Translation translation = gson.fromJson(json, Translation.class);
 		return translation;
 	}
+
 	@Override
 	public String toString() {
 		return subtitleDTOToTranslate.getExpression() + " : " + subtitleDTOTranslated.getExpression();

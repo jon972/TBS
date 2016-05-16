@@ -2,8 +2,8 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 	var isLoading = false;
 	var currentSelect = -1;
 
-	$scope.setTranslationUrl = function () {
-		window.location.replace('#/translation/' + $scope.languageFrom + '/' + $scope.languageTo + '/' + $scope.exprToTranslate);
+	$scope.setTranslationUrl = function (languageFrom, languageTo, exprToTranslate) {
+		window.location.replace('#/translation/' + languageFrom + '/' + languageTo + '/' + exprToTranslate);
 	}
 	$scope.translateRequest = function () {
 
@@ -32,18 +32,5 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 
 	$scope.isLoadingFromServer = function () {
 		return isLoading;
-	}
-
-	$scope.getAllLanguages = function () {
-		$http.get('rest/availableLanguages/allLanguages').then(function (response) {
-        	$scope.languageTo = $routeParams.languageTo;
-        	$scope.languageFrom = $routeParams.languageFrom;
-        	$scope.availableLanguages = response.data;
-        	console.log($scope.availableLanguages);
-        	if($routeParams.exprToTranslate === undefined) {	
-    			$scope.languageFrom = $scope.availableLanguages[1];
-    			$scope.languageTo = $scope.availableLanguages[0];
-    		}
-         });
 	}
 });

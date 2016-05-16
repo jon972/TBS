@@ -22,9 +22,4 @@ public class UserTranslationsMgr {
 	  }
 	  return translationsList;
 	}
-
-	public static void updateUserTranslations(User user, UsersTranslations userTranslation) {
-		userTranslations.get(user).add(new Translation(userTranslation.getId(), SubtitleDTO.createSubtitleDTO(userTranslation.getSubtitle1()), 
-										SubtitleDTO.createSubtitleDTO(userTranslation.getSubtitle2()), true));
-	}
 }
