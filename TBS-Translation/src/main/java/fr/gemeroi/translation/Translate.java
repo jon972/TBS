@@ -15,6 +15,7 @@ import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
 public class Translate {
+	// TODO Handle the case of the word is followed by a point (. or ! or ...) 
 	private static final String queryHqlFormat = "from Subtitle as sub1, Subtitle as sub2 where "
 										 + "sub1.language = '%s' AND "
 										 + "sub2.language = '%s' AND "
@@ -47,10 +48,12 @@ public class Translate {
 				
 		}
 
-		Set<Translation> usersTranslation = getUserTranslationInTranslationsResult(queryHql, session, user);
-		for(Translation tr : usersTranslation) {
-			translations.remove(tr);
-			translations.add(tr);
+		if(user != null) {
+			Set<Translation> usersTranslation = getUserTranslationInTranslationsResult(queryHql, session, user);
+			for(Translation tr : usersTranslation) {
+				translations.remove(tr);
+				translations.add(tr);
+			}
 		}
 
 		session.close();
@@ -69,7 +72,6 @@ public class Translate {
 			Subtitle subtitle2 = (Subtitle) resultEntity[1];
 
 			userTranslations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), true));
-				
 		}
 
 		return userTranslations;
