@@ -9,7 +9,7 @@
 	</div>
 	<div ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
 	     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
-	     ng-if="mouseIsOver && isSavable == 'true' && isLogged()" alt="Add in preferences">
+	     ng-if="mouseIsOver && isSavable == 'true' && isLogged() && !isSaved" alt="Add in preferences">
 	  <span class="glyphicon glyphicon-plus-sign"></span>
 	</div>
 	<div ng-click="unsaveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"

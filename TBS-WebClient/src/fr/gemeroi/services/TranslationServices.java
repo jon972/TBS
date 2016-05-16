@@ -41,16 +41,7 @@ public class TranslationServices {
 	  public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") LanguageEnum language1, 
 			  @PathParam("language2") LanguageEnum language2, @HeaderParam("token") String token) throws JSONException {
 		User user = TokenMgr.tokensMap.get(token);
-		Set<Translation> translations = UserTranslationsMgr.userTranslations.get(user);
-		List<Translation> wordTranslatedList = Translate.translate(wordToTranslate, language1, language2, user);
-
-		if(translations != null) {
-			for(Translation tr : wordTranslatedList) {
-				if (translations.contains(tr)) {
-					tr.setSaved(true);
-				}
-			}
-		}
+		Set<Translation> wordTranslatedList = Translate.translate(wordToTranslate, language1, language2, user);
 
 		final GsonBuilder builder = new GsonBuilder();
 		final Gson gson = builder.create();

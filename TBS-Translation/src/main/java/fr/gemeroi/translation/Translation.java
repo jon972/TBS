@@ -74,7 +74,6 @@ public class Translation {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + (isSaved ? 1231 : 1237);
 		result = prime
 				* result
 				+ ((subtitleDTOToTranslate == null) ? 0
@@ -99,8 +98,6 @@ public class Translation {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (isSaved != other.isSaved)
 			return false;
 		if (subtitleDTOToTranslate == null) {
 			if (other.subtitleDTOToTranslate != null)
