@@ -1,4 +1,4 @@
-package fr.gemeroi.session;
+package fr.gemeroi.user.translation;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,14 +1,9 @@
 package fr.gemeroi.persistence.utils.query;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import fr.gemeroi.persistence.bean.Entityvideo;
@@ -21,24 +16,12 @@ public class QueryEntityVideoUtils {
 		return session.createCriteria(Entityvideo.class).list();
 	}
 
-	public static Entityvideo persistEntityVideo(Entityvideo entityvideo, Session session) {
-		Entityvideo entityVideoFromDB = getEntityvideo(entityvideo, session);
-		if(entityVideoFromDB != null) return entityVideoFromDB;
-		try {
-			Transaction tx = session.beginTransaction();
-			session.save(entityvideo);
-			tx.commit();
-		} catch (Exception e) {
-		}
-		return getEntityvideo(entityvideo, session);
-	}
-	
-	public static Entityvideo getEntityvideo(Entityvideo entityvideo, Session session) {
+	public static Entityvideo getEntityvideo(String entityVideoName, int numSeason, int numEpisode, Session session) {
 		List<Entityvideo> entityvideoList = 
 		 session.createCriteria(Entityvideo.class)
-				      .add(Restrictions.eq("nom", entityvideo.getNom()))
-				      .add(Restrictions.eq("numsaison", entityvideo.getNumsaison()))
-				      .add(Restrictions.eq("numepisode", entityvideo.getNumepisode()))
+				      .add(Restrictions.eq("nom", entityVideoName))
+				      .add(Restrictions.eq("numsaison", numSeason))
+				      .add(Restrictions.eq("numepisode", numEpisode))
 				      .list();
 		if(entityvideoList == null) return null;
 		if(entityvideoList.size() < 1) return null;

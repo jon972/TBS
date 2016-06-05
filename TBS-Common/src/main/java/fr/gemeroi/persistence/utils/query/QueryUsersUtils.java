@@ -11,7 +11,8 @@ import fr.gemeroi.persistence.session.SessionMgr;
 
 public class QueryUsersUtils {
 
-	public static User retrieveUser(User user) {
+	public static User retrieveUser(String email, String password) {
+		User user = new User(email, password);
 		Session session = SessionMgr.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(User.class);
 		List<User> listUser = cr.add(Restrictions.eq("email", user.getEmail()))

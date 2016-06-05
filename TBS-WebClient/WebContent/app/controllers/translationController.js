@@ -1,9 +1,9 @@
-TBSApp.controller("translationController", function ($scope, $http, tokenService, $routeParams) {
+TBSApp.controller("translationController", function ($scope, $http, tokenService, $routeParams, $location) {
 	var isLoading = false;
 	var currentSelect = -1;
 
 	$scope.setTranslationUrl = function (languageFrom, languageTo, exprToTranslate) {
-		window.location.replace('#/translation/' + languageFrom + '/' + languageTo + '/' + exprToTranslate);
+		$location.path('/translation/' + languageFrom + '/' + languageTo + '/' + exprToTranslate).replace();
 	}
 	$scope.translateRequest = function () {
 

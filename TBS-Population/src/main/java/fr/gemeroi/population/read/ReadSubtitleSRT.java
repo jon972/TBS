@@ -1,26 +1,30 @@
 package fr.gemeroi.population.read;
 
-import java.util.*;
-import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.gemeroi.population.entry.EntryST;
+import fr.gemeroi.population.file.SubtitlesFile;
 import fr.gemeroi.population.utils.ConvertTypeUtils;
 
 public class ReadSubtitleSRT implements ReadSubtitle {
 
 	private List<EntryST> listEntries = new ArrayList<EntryST>();
+	private SubtitlesFile subtitlesFile;
+	private String nameSerie;
 
-	public void read(File subtitleFile, String nameSerie, int saison,
-			int episode) {
-		readEntries(subtitleFile, nameSerie, saison, episode);
+	public ReadSubtitleSRT(SubtitlesFile subtitleFile) {
+		super();
+		this.subtitlesFile = subtitleFile;
+		read();
 	}
 
-	private void readEntries(File subtitleFile, String nameSerie, int saison,
-			int episode) {
+	@Override
+	public void read() {
 		try {
-			FileReader fr = new FileReader(subtitleFile);
+			FileReader fr = new FileReader(subtitlesFile.getFile());
 			BufferedReader br = new BufferedReader(fr);
 			String line = br.readLine();
 			int rank = 0;
@@ -34,21 +38,24 @@ public class ReadSubtitleSRT implements ReadSubtitle {
 
 				if (!entry.isEmpty()) {
 					listEntries.add(ConvertTypeUtils.convertToEntrySRT(entry,
-							nameSerie, saison, episode, ++rank));
+							nameSerie, subtitlesFile.getSeasonNumber(), 
+							subtitlesFile.getEpisodeNumber(), ++rank));
 				}
 				line = br.readLine();
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			System.out.println(e); // TODO change to a logger
 		}
 	}
 
+	@Override
 	public EntryST getEntry(int entryPos) {
 		if (this.listEntries.size() <= entryPos)
 			return null;
 		return this.listEntries.get(entryPos);
 	}
 
+	@Override
 	public List<EntryST> getListEntries() {
 		return this.listEntries;
 	}

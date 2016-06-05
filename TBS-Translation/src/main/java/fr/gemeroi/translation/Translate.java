@@ -8,7 +8,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import fr.gemeroi.common.utils.LanguageEnum;
+import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.session.SessionMgr;
@@ -30,7 +30,7 @@ public class Translate {
 			"%s and (sub1.id, sub2.id) in" +
 			"(select ut.subtitle1, ut.subtitle2 from UsersTranslations ut where email = '%s' )";
 	
-	public static Set<Translation> translate(String word, LanguageEnum fromLanguage, LanguageEnum toLanguage, User user) {
+	public static Set<Translation> translate(String word, Language fromLanguage, Language toLanguage, User user) {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		

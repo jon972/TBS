@@ -1,27 +1,17 @@
 package fr.gemeroi.services;
 
-import java.util.HashSet;
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import fr.gemeroi.persistence.bean.User;
-import fr.gemeroi.persistence.bean.UsersTranslations;
-import fr.gemeroi.persistence.utils.PersistenceUtils;
-import fr.gemeroi.persistence.utils.query.QueryUsersTranslationsUtils;
 import fr.gemeroi.persistence.utils.query.QueryUsersUtils;
-import fr.gemeroi.session.TokenMgr;
-import fr.gemeroi.session.UserTranslationsMgr;
-import fr.gemeroi.translation.Translation;
+import fr.gemeroi.services.reponses.Responses;
+import fr.gemeroi.user.creation.UserFactory;
+import fr.gemeroi.user.creation.UsersCache;
 
 @Path("/account")
 public class AccountServices {
@@ -31,17 +21,9 @@ public class AccountServices {
 	public Response createAccount(@HeaderParam("login") String login,
 								  @HeaderParam("email") String email,
 								  @HeaderParam("password") String password) {
-		User user = new User(login, email, password);
-		PersistenceUtils.persistObject(user);
-		String token = PersistenceUtils.getToken();
-		TokenMgr.tokensMap.put(token, user);
+		User user = UserFactory.createUser(login, email, password);
 		
-		final GsonBuilder builder = new GsonBuilder();
-		final Gson gson = builder.create();
-
-		return Response.ok(gson.toJson(user) ,MediaType.APPLICATION_JSON)
-				.header("Access-Control-Allow-Origin", "*")
-				.build();
+		return Responses.responseOk(user);
 	}
 
 	@Path("/login")
@@ -49,23 +31,15 @@ public class AccountServices {
 	@Produces("application/json")
 	public Response login(@HeaderParam("email") String email,
 						  @HeaderParam("password") String password) {
-		User user = new User(email, password);
-		user = QueryUsersUtils.retrieveUser(user);
+		User user = QueryUsersUtils.retrieveUser(email, password);
 
 		if (user != null) {
 			String token = user.getToken();
-			TokenMgr.tokensMap.put(token, user);
-			
-			final GsonBuilder builder = new GsonBuilder();
-			final Gson gson = builder.create();
+			UsersCache.addUser(token, user);
 
-			return Response.ok(gson.toJson(user) ,MediaType.APPLICATION_JSON)
-					.header("Access-Control-Allow-Origin", "*")
-					.build();
+			return Responses.responseOk(user);
 		}
 
-		return Response.serverError()
-				.header("Access-Control-Allow-Origin", "*")
-				.build();
+		return Responses.responseError();
 	}
 }

@@ -14,24 +14,20 @@ import org.json.JSONException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import fr.gemeroi.common.utils.LanguageEnum;
+import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.session.SessionMgr;
+import fr.gemeroi.services.reponses.Responses;
 
 @Path("/availableLanguages")
 public class AvailableLanguagesService {
-	// http://localhost:8081/TBS-WS/rest/availableLanguages/allLanguages
+
 	@Path("/allLanguages")
 	@GET
 	@Produces("application/json")
-	public Response getAllLanguages() throws JSONException {		
-		final GsonBuilder builder = new GsonBuilder();
-		final Gson gson = builder.create();
-
-		return Response.ok(gson.toJson(LanguageEnum.values()) ,MediaType.APPLICATION_JSON)
-				.header("Access-Control-Allow-Origin", "*")
-				.build();
+	public Response getAllLanguages() throws JSONException {
+		return Responses.responseOk(Language.values());
 	}
 
 }

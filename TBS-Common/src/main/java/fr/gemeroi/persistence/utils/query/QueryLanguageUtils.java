@@ -9,25 +9,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-import fr.gemeroi.common.utils.LanguageEnum;
+import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 
 public class QueryLanguageUtils {
 
-	public static void sortSubtitlesByTimeEnd(List<Subtitle> subtitles) {
-		Collections.sort(subtitles, new Comparator<Subtitle>() {
-			public int compare(Subtitle sub1, Subtitle sub2) {
-				if (sub1.getTimeend() > sub2.getTimeend())
-					return -1;
-				if (sub1.getTimeend() < sub2.getTimeend())
-					return 1;
-				return 0;
-			}
-		});
-	}
-
-	public static boolean expressionAlreadyExistForTheCurrentVideo(Entityvideo entityvideo, Session session, LanguageEnum languageEnum) {
+	public static boolean expressionAlreadyExistForTheCurrentVideo(Entityvideo entityvideo, Session session, Language languageEnum) {
 		Criteria cr = session.createCriteria(Subtitle.class);
 		List<Subtitle> list = cr.add(Restrictions.eq("entityvideo", entityvideo))
 								.add(Restrictions.eq("language", languageEnum.name()))
@@ -35,18 +23,16 @@ public class QueryLanguageUtils {
 		return list.size() > 0;
 	}
 
-	public static List<Subtitle> getSubtitlesFromDB(Entityvideo entityvideo, Session session, LanguageEnum languageEnum) {
+	public static List<Subtitle> getSubtitlesFromDB(Entityvideo entityvideo, Session session, Language languageEnum) {
 		Criteria cr = session.createCriteria(Subtitle.class);
 		List<Subtitle> results = 
 			  cr.add(Restrictions.eq("entityvideo", entityvideo))
 			    .add(Restrictions.ne("language", languageEnum.name()))
 				.list();
-		sortSubtitlesByTimeEnd(results);
-		// System.out.println(results.get(0));
 		return results;
 	}
 
-	public static void persistSubtitles(List<Subtitle> subtitles, Session session, Entityvideo entityvideo, LanguageEnum languageEnum) {
+	public static void persistSubtitles(List<Subtitle> subtitles, Session session, Entityvideo entityvideo, Language languageEnum) {
 		try {
 			Transaction tx = session.beginTransaction();
 			if (subtitles == null || subtitles.size() == 0 ||

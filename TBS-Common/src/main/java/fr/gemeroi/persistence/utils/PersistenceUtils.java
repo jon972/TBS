@@ -1,6 +1,5 @@
 package fr.gemeroi.persistence.utils;
 
-import java.util.UUID;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,10 +21,4 @@ public class PersistenceUtils {
 			session.close();
 		}
 	}
-
-	// To move
-	public static String getToken() {
-		return UUID.randomUUID().toString().replace("-", "");
-	}
-
 }

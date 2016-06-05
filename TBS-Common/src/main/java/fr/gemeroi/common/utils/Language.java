@@ -1,5 +1,5 @@
 package fr.gemeroi.common.utils;
 
-public enum LanguageEnum {
+public enum Language {
 	English, French;
 }

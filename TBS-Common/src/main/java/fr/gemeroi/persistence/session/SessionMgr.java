@@ -16,7 +16,7 @@ public class SessionMgr {
 	}
 	
 	public static SessionFactory getSessionFactory() {
-//		if(factory == null) {
+		if(factory == null) {
 			factory = new AnnotationConfiguration().
 	                   configure().
 	                   addPackage("fr.gemeroi.persistence.bean").
@@ -25,7 +25,7 @@ public class SessionMgr {
 	                   addAnnotatedClass(User.class).
 	                   addAnnotatedClass(UsersTranslations.class).
 	                   buildSessionFactory();
-//		}
+		}
 		return factory;
 	}
 }
