@@ -20,7 +20,7 @@ public class SubtitlesFile {
 		this.patternSeasonEpisode = patternSeasonEpisode;
 		this.seasonNumber = this.parseSeasonNumer();
 		this.episodeNumber = this.parseEpisodeNumber();
-		this.nameEntityvideo = nameEntityvideo;
+		this.setNameEntityvideo(nameEntityvideo);
 	}
 
 	public int getEpisodeNumber() {
@@ -37,6 +37,14 @@ public class SubtitlesFile {
 
 	public Language getLanguage() {
 		return language;
+	}
+
+	public String getNameEntityvideo() {
+		return nameEntityvideo;
+	}
+
+	public void setNameEntityvideo(String nameEntityvideo) {
+		this.nameEntityvideo = nameEntityvideo;
 	}
 
 	private int parseSeasonNumer() {

@@ -18,8 +18,8 @@ import fr.gemeroi.persistence.utils.query.QueryLanguageUtils;
 import fr.gemeroi.population.entityVideo.EntityVideoBuilder;
 import fr.gemeroi.population.entry.EntryST;
 import fr.gemeroi.population.file.SubtitlesFile;
-import fr.gemeroi.population.read.ReadSubtitle;
-import fr.gemeroi.population.read.ReadSubtitleSRT;
+import fr.gemeroi.population.read.SubtitleReader;
+import fr.gemeroi.population.read.SRTSubtitleReader;
 
 public class SubtitlePersistor {
 
@@ -33,7 +33,7 @@ public class SubtitlePersistor {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		SubtitlesFile subtitlesFile = new SubtitlesFile(file, serieName, language, subtitleFileNamePattern);
 		Entityvideo entityvideo = createEntityVideo(subtitlesFile, serieName, session);
-		ReadSubtitle reader = new ReadSubtitleSRT(subtitlesFile);
+		SubtitleReader reader = new SRTSubtitleReader(subtitlesFile);
 		List<Subtitle> subtitles = buildSubtitles(reader, language, entityvideo);
 
 		if(isMatchingOtherPersistedSubtitles(entityvideo, subtitles, language, session)) {
@@ -82,7 +82,7 @@ public class SubtitlePersistor {
 		});
 	}
 
-	private List<Subtitle> buildSubtitles(ReadSubtitle reader, Language language, Entityvideo entityvideo) {
+	private List<Subtitle> buildSubtitles(SubtitleReader reader, Language language, Entityvideo entityvideo) {
 		List<Subtitle> subtitles = new ArrayList<>();
 		for(EntryST entryST : reader.getListEntries()) {
 			Subtitle subtitle = new Subtitle();

@@ -4,7 +4,7 @@ import fr.gemeroi.population.entry.EntrySRT;
 
 public class ConvertTypeUtils {
 	
-	 /* On parse les sous titres au format suivant
+	 /* We parse subtitles with this format
 	  00:02:48,414 --> 00:02:51,882
    	  Now she sees me as just a killer.
 	 */
