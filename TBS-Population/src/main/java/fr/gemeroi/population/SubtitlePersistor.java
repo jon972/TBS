@@ -116,7 +116,6 @@ public class SubtitlePersistor {
 
 	public static void main(String[] args) {
 		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
-		dsdsds
 		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.en\\Elementary - 1x07 - One Way to Get Off.HDTV.LOL.en.srt"), "Elementary", Language.English);
 		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.fr\\Elementary - 1x07 - One Way to Get Off.LOL.fr.srt"), "Elementary", Language.French);
 	}
