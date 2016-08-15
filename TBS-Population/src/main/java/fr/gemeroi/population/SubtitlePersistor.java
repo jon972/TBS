@@ -30,6 +30,20 @@ public class SubtitlePersistor {
 	}
 
 	public void persistSubtitles(File file, String serieName, Language language) {
+		if(file.isDirectory()) {
+			persistSubtitlesDirectory(file, serieName, language);
+		} else {
+			persistSubtitlesFile(file, serieName, language);
+		}
+	}
+	
+	private void persistSubtitlesDirectory(File directory, String serieName, Language language) {
+		for(File file : directory.listFiles()) {
+			persistSubtitlesFile(file, serieName, language);
+		}
+	}
+
+	private void persistSubtitlesFile(File file, String serieName, Language language) {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		SubtitlesFile subtitlesFile = new SubtitlesFile(file, serieName, language, subtitleFileNamePattern);
 		Entityvideo entityvideo = createEntityVideo(subtitlesFile, serieName, session);
@@ -44,7 +58,9 @@ public class SubtitlePersistor {
 
 	private boolean isMatchingOtherPersistedSubtitles(Entityvideo entityvideo, List<Subtitle> subtitles, Language language, Session session) {
 		sortSubtitlesByTimeEnd(subtitles);
+		if(subtitles.isEmpty()) return false;
 		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
+
 		List<Subtitle> languageEntries = QueryLanguageUtils.getSubtitlesFromDB(entityvideo, session, language);
 		if(languageEntries != null && languageEntries.size() > 0) {
 			int endTimeVideoFromAnotherLanguage = languageEntries.get(0).getTimeend();
@@ -100,7 +116,7 @@ public class SubtitlePersistor {
 
 	public static void main(String[] args) {
 		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.fr\\Dexter - 7x07 - Chemistry.fr.srt"), "Dexter345", Language.French);
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.en\\Dexter - 7x07 - Chemistry.HDTV.ASAP.en.srt"), "Dexter345", Language.English);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.en\\Elementary - 1x07 - One Way to Get Off.HDTV.LOL.en.srt"), "Elementary", Language.English);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.fr\\Elementary - 1x07 - One Way to Get Off.LOL.fr.srt"), "Elementary", Language.French);
 	}
 }
