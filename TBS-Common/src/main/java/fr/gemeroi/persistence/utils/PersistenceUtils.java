@@ -1,6 +1,7 @@
 package fr.gemeroi.persistence.utils;
 
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -8,6 +9,8 @@ import org.hibernate.Transaction;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class PersistenceUtils {
+	private static Logger logger = Logger.getLogger(PersistenceUtils.class);
+
 	public static void persistObject(Object object) {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -16,7 +19,7 @@ public class PersistenceUtils {
 			session.save(object);
 			tx.commit();
 		} catch (Exception e) {
-			throw e;
+			logger.error("The object " + object + " cannot be persisted");
 		} finally {
 			session.close();
 		}
