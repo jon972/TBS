@@ -20,7 +20,7 @@
 	
 		  <tr>
 		    <td><input class="inputWordToTranslate" type="text"
-			       id="wordToTranslateInput" ng-model="exprToTranslate"></td>
+			       id="wordToTranslateInput" ng-model="exprToTranslate" typeahead-show-hint="true" uib-typeahead="language for language in availableLanguages"></td>
 		    <td>
 		      <button id="buttonDisplayAction" ng-click="setTranslationUrl(languageFrom, languageTo, exprToTranslate)">Translate</button>
 		    </td>
@@ -32,21 +32,21 @@
     <div>
       <div ng-if="translations.length > 0 && !isLoadingFromServer()"
 	   ng-repeat="translation in translations" ng-animate="'translation'">
-	<div>
-	  <hr>
-	  <ng-trans-entity index="{{$index}}" translation="{{translation}}" isSavable="true"></ng-trans-entity>
-	</div>
+		<div>
+		  <hr>
+		  <ng-trans-entity index="{{$index}}" translation="{{translation}}" isSavable="true"></ng-trans-entity>
+		</div>
       </div>
       <div class="row">
-	<div class="col-sm-5 col-md-offset-5" ng-if="isLoadingFromServer()">
-	  <img src="images/loaderGrey.gif" width="40px" />
-	</div>
+		<div class="col-sm-5 col-md-offset-5" ng-if="isLoadingFromServer()">
+		  <img src="images/loaderGrey.gif" width="40px" />
+		</div>
       </div>
       <div class="row">
-	<div class="col-sm-5 col-md-offset-5" ng-if="translations.length == 0 && !isLoadingFromServer()">
-	  <font color="white">No translation found for the entry</font>
-	</div>
-      </div>
+		  <div class="col-sm-5 col-md-offset-5" ng-if="translations.length == 0 && !isLoadingFromServer()">
+			<font color="white">No translation found for the entry</font>
+		  </div>
+     </div>
     </div>
   </div>
 </div>

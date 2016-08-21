@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import fr.gemeroi.common.utils.Language;
 
 public class SubtitlesFile {
@@ -13,6 +15,8 @@ public class SubtitlesFile {
 	private int seasonNumber;
 	private int episodeNumber;
 	private String nameEntityvideo;
+
+	private static Logger logger = Logger.getLogger(SubtitlesFile.class);
 
 	public SubtitlesFile(File file, String nameEntityvideo, Language language, String patternSeasonEpisode) {
 		this.file = file;
@@ -48,18 +52,28 @@ public class SubtitlesFile {
 	}
 
 	private int parseSeasonNumer() {
-		Pattern pattern = Pattern.compile(patternSeasonEpisode);
-		Matcher matcher = pattern.matcher(this.file.getName());
-		matcher.find();
-
-		return Integer.parseInt(matcher.group(2));
+		try {
+			Pattern pattern = Pattern.compile(patternSeasonEpisode);
+			Matcher matcher = pattern.matcher(this.file.getName());
+			matcher.find();
+	
+			return Integer.parseInt(matcher.group(2));
+		} catch(Exception e) {
+			logger.error("No season number found for the file " + file.getName());
+			throw e;
+		}
 	}
 
 	private int parseEpisodeNumber() {
-		Pattern pattern = Pattern.compile(patternSeasonEpisode);
-		Matcher matcher = pattern.matcher(this.file.getName());
-		matcher.find();
-
-		return Integer.parseInt(matcher.group(3));
+		try {
+			Pattern pattern = Pattern.compile(patternSeasonEpisode);
+			Matcher matcher = pattern.matcher(this.file.getName());
+			matcher.find();
+	
+			return Integer.parseInt(matcher.group(3));
+		} catch(Exception e) {
+			logger.error("No episode number found for the file " + file.getName());
+			throw e;
+		}
 	}
 }

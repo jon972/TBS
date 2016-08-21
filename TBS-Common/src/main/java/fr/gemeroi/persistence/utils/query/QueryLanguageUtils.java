@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import fr.gemeroi.common.utils.Language;
@@ -28,6 +29,7 @@ public class QueryLanguageUtils {
 		List<Subtitle> results = 
 			  cr.add(Restrictions.eq("entityvideo", entityvideo))
 			    .add(Restrictions.ne("language", languageEnum.name()))
+			    .addOrder(Order.desc("timeend"))
 				.list();
 		return results;
 	}

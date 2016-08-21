@@ -80,4 +80,15 @@ public class TranslationServices {
 					   .header("Access-Control-Allow-Origin", "*")
 					   .build();
 	  }
+
+	  @Path("addTranslation")
+	  @POST
+	  @Produces("application/json")
+	  @Consumes("application/json")
+	  public Response addTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation translation) throws JSONException {
+		  System.out.println(translation);
+		  return Response.ok()
+				   .header("Access-Control-Allow-Origin", "*")
+				   .build();
+	  }
 }

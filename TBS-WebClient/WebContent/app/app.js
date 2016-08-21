@@ -26,6 +26,7 @@ TBSApp.controller("mainController", function ($scope, tokenService) {
 TBSApp.config(function($routeProvider) {
 	$routeProvider
 	    .when('/myTranslations', {templateUrl: 'app/views/myTranslations.html'})
+	    .when('/addTranslation', {templateUrl: 'app/views/addTranslation.html'})
 	    .when('/signup', {templateUrl: 'app/views/signUpp.html'})
 	    .when('/', {templateUrl: 'app/views/translationsBySubtitles.html'})
 	    .when('/login', {templateUrl: 'app/views/login.html'})

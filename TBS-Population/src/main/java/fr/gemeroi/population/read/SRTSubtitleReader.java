@@ -51,7 +51,7 @@ public class SRTSubtitleReader implements SubtitleReader {
 				line = br.readLine();
 			}
 		} catch (Exception e) {
-			logger.error("Problem in reading SRT file");
+			logger.error("Problem in reading SRT file : " + subtitlesFile.getFile().getName());
 		}
 	}
 
