@@ -39,12 +39,12 @@ public class QueryUsersTranslationsUtils {
 		session.close();
 	}
 
-	public static void addUsersTranslations(String userMail, Language l1, Language l2, String exprFrom, String exprTo) {
+	public static void addUsersTranslations(String userMail, Language l1, Language l2, String exprFrom, String exprTo, int id) {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
 		Query query = session.createQuery("delete UsersTranslations where id = :ID AND email = :EMAIL");
 		query.setParameter("ID", id);
-		query.setParameter("EMAIL", email);
+		query.setParameter("EMAIL", userMail);
 		query.executeUpdate();
 		transaction.commit();
 		session.close();
