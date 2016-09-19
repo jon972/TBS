@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.utils.query;
+package fr.gemeroi.persistence.dao;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.session.SessionMgr;
 
-public class QueryUsersUtils {
+public class UsersDAO {
 
 	public static User retrieveUser(String email, String password) {
 		User user = new User(email, password);

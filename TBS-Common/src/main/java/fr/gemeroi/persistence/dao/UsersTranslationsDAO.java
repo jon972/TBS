@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.utils.query;
+package fr.gemeroi.persistence.dao;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.session.SessionMgr;
 
-public class QueryUsersTranslationsUtils {
+public class UsersTranslationsDAO {
 
 	public static final String userTranslationUsingTranslationType = 
 			"from UsersTranslations ut where ut.email = '%s' and "

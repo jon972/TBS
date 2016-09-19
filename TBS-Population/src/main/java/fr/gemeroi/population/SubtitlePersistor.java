@@ -11,10 +11,10 @@ import org.hibernate.Session;
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
+import fr.gemeroi.persistence.dao.EntityVideoDAO;
+import fr.gemeroi.persistence.dao.LanguageDAO;
 import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
-import fr.gemeroi.persistence.utils.query.QueryEntityVideoUtils;
-import fr.gemeroi.persistence.utils.query.QueryLanguageUtils;
 import fr.gemeroi.population.entityVideo.EntityVideoBuilder;
 import fr.gemeroi.population.entry.EntryST;
 import fr.gemeroi.population.file.SubtitlesFile;
@@ -51,7 +51,7 @@ public class SubtitlePersistor {
 		List<Subtitle> subtitles = buildSubtitles(reader, language, entityvideo);
 
 		if(isMatchingOtherPersistedSubtitles(entityvideo, subtitles, language, session)) {
-			QueryLanguageUtils.persistSubtitles(subtitles, session, entityvideo, language);
+			LanguageDAO.persistSubtitles(subtitles, session, entityvideo, language);
 		}
 		session.close();
 	}
@@ -61,7 +61,7 @@ public class SubtitlePersistor {
 		if(subtitles.isEmpty()) return false;
 		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
 
-		List<Subtitle> languageEntries = QueryLanguageUtils.getSubtitlesFromDB(entityvideo, session, language);
+		List<Subtitle> languageEntries = LanguageDAO.getSubtitlesFromDB(entityvideo, session, language);
 		if(languageEntries != null && languageEntries.size() > 0) {
 			int endTimeVideoFromAnotherLanguage = languageEntries.get(0).getTimeend();
 			return endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo;
@@ -71,7 +71,7 @@ public class SubtitlePersistor {
 	}
 
 	private Entityvideo createEntityVideo(SubtitlesFile subtitlesFile, String serieName, Session session) {
-		Entityvideo entityvideo = QueryEntityVideoUtils.getEntityvideo(serieName, subtitlesFile.getSeasonNumber(), subtitlesFile.getEpisodeNumber(), session);
+		Entityvideo entityvideo = EntityVideoDAO.getEntityvideo(serieName, subtitlesFile.getSeasonNumber(), subtitlesFile.getEpisodeNumber(), session);
 		if(entityvideo == null) {
 			EntityVideoBuilder entityVideoBuilder = new EntityVideoBuilder();
 			entityvideo = entityVideoBuilder

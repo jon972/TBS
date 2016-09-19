@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.utils.query;
+package fr.gemeroi.persistence.dao;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.session.SessionMgr;
 
-public class QueryEntityVideoUtils {
+public class EntityVideoDAO {
 	public static List<Entityvideo> getListEntityVideo() {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();

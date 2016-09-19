@@ -83,4 +83,15 @@ public class Entityvideo implements java.io.Serializable {
 	public void setNumepisode(Integer numepisode) {
 		this.numepisode = numepisode;
 	}
+
+	public boolean equals(Object o) {
+		if(o.getClass() != this.getClass()) {
+			return false;
+		}
+
+		Entityvideo entityVideo = (Entityvideo) o;
+		return this.nom.equals(entityVideo.nom) &&
+			   this.numepisode.equals(entityVideo.numepisode) &&
+			   this.numsaison.equals(entityVideo.numsaison);
+	}
 }

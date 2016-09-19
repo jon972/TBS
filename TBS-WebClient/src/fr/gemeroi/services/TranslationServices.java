@@ -17,9 +17,9 @@ import org.json.JSONException;
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersTranslations;
+import fr.gemeroi.persistence.dao.SubtitleDAO;
+import fr.gemeroi.persistence.dao.UsersTranslationsDAO;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
-import fr.gemeroi.persistence.utils.query.QuerySubtitleUtils;
-import fr.gemeroi.persistence.utils.query.QueryUsersTranslationsUtils;
 import fr.gemeroi.services.reponses.Responses;
 import fr.gemeroi.translation.Translate;
 import fr.gemeroi.translation.Translation;
@@ -47,7 +47,7 @@ public class TranslationServices {
 	  public Response saveTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation trans) throws JSONException {
 
 		User user = UsersCache.getUser(token);
-		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(), QuerySubtitleUtils.getSubtitleById(trans.getSubtitleDTOToTranslate().getId()), QuerySubtitleUtils.getSubtitleById(trans.getSubtitleDTOTranslated().getId()));
+		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(), SubtitleDAO.getSubtitleById(trans.getSubtitleDTOToTranslate().getId()), SubtitleDAO.getSubtitleById(trans.getSubtitleDTOTranslated().getId()));
 		PersistenceUtils.persistObject(usersTranslations);
 
 		return Response.ok()
@@ -62,7 +62,7 @@ public class TranslationServices {
 
 		User user = UsersCache.getUser(token);
 
-		List<UsersTranslations> usersTranslations = QueryUsersTranslationsUtils.retrieveUsersTranslations(user.getEmail(), languageFrom, languageTo);
+		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslations(user.getEmail(), languageFrom, languageTo);
 		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
 
 		return Responses.responseOk(translations);
@@ -75,7 +75,7 @@ public class TranslationServices {
 
 		User user = UsersCache.getUser(token);
 
-		QueryUsersTranslationsUtils.removeUsersTranslations(user.getEmail(), translation.getId());
+		UsersTranslationsDAO.removeUsersTranslations(user.getEmail(), translation.getId());
 		return Response.ok()
 					   .header("Access-Control-Allow-Origin", "*")
 					   .build();

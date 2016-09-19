@@ -24,10 +24,10 @@ public class ConvertTypeUtils {
 
 	private static String getTheRestAsSubtitle(String[] subtitle) {
 		String subtitleConcat = subtitle[2];
-		int i = 3;
-		while (i < subtitle.length) {
-			subtitleConcat += " " + subtitle[i];
-			i++;
+		int subLineNb = 3;
+		while (subLineNb < subtitle.length) {
+			subtitleConcat += " " + subtitle[subLineNb];
+			subLineNb++;
 		}
 
 		return subtitleConcat;

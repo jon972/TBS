@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import fr.gemeroi.persistence.bean.User;
-import fr.gemeroi.persistence.utils.query.QueryUsersUtils;
+import fr.gemeroi.persistence.dao.UsersDAO;
 import fr.gemeroi.services.reponses.Responses;
 import fr.gemeroi.user.creation.UserFactory;
 import fr.gemeroi.user.creation.UsersCache;
@@ -31,7 +31,7 @@ public class AccountServices {
 	@Produces("application/json")
 	public Response login(@HeaderParam("email") String email,
 						  @HeaderParam("password") String password) {
-		User user = QueryUsersUtils.retrieveUser(email, password);
+		User user = UsersDAO.retrieveUser(email, password);
 
 		if (user != null) {
 			String token = user.getToken();

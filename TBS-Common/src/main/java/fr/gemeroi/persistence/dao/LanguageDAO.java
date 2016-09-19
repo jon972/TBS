@@ -1,4 +1,4 @@
-package fr.gemeroi.persistence.utils.query;
+package fr.gemeroi.persistence.dao;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,7 +14,7 @@ import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 
-public class QueryLanguageUtils {
+public class LanguageDAO {
 
 	public static boolean expressionAlreadyExistForTheCurrentVideo(Entityvideo entityvideo, Session session, Language languageEnum) {
 		Criteria cr = session.createCriteria(Subtitle.class);
