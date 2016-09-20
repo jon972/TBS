@@ -13,32 +13,38 @@ import org.hibernate.criterion.Restrictions;
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
+import fr.gemeroi.persistence.session.SessionMgr;
 
 public class LanguageDAO {
 
-	public static boolean expressionAlreadyExistForTheCurrentVideo(Entityvideo entityvideo, Session session, Language languageEnum) {
+	public static boolean expressionAlreadyExistForTheCurrentVideo(Entityvideo entityvideo, Language languageEnum) {
+		Session session = SessionMgr.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(Subtitle.class);
 		List<Subtitle> list = cr.add(Restrictions.eq("entityvideo", entityvideo))
 								.add(Restrictions.eq("language", languageEnum.name()))
 				                .list(); // TODO create a class to put table name as constant variable
+		session.close();
 		return list.size() > 0;
 	}
 
-	public static List<Subtitle> getSubtitlesFromDB(Entityvideo entityvideo, Session session, Language languageEnum) {
+	public static List<Subtitle> getSubtitlesFromDB(Entityvideo entityvideo, Language languageEnum) {
+		Session session = SessionMgr.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(Subtitle.class);
 		List<Subtitle> results = 
 			  cr.add(Restrictions.eq("entityvideo", entityvideo))
 			    .add(Restrictions.ne("language", languageEnum.name()))
 			    .addOrder(Order.desc("timeend"))
 				.list();
+		session.close();
 		return results;
 	}
 
-	public static void persistSubtitles(List<Subtitle> subtitles, Session session, Entityvideo entityvideo, Language languageEnum) {
+	public static void persistSubtitles(List<Subtitle> subtitles, Entityvideo entityvideo, Language languageEnum) {
 		try {
+			Session session = SessionMgr.getSessionFactory().openSession();
 			Transaction tx = session.beginTransaction();
 			if (subtitles == null || subtitles.size() == 0 ||
-					expressionAlreadyExistForTheCurrentVideo(entityvideo, session, languageEnum)) {
+					expressionAlreadyExistForTheCurrentVideo(entityvideo, languageEnum)) {
 				return;
 			}
 
@@ -46,6 +52,7 @@ public class LanguageDAO {
 				session.save(sub);
 			}
 			tx.commit();
+			session.close();
 		} catch (Exception e) {
 
 		}

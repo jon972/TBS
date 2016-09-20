@@ -6,14 +6,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.hibernate.Session;
 
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.dao.EntityVideoDAO;
 import fr.gemeroi.persistence.dao.LanguageDAO;
-import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
 import fr.gemeroi.population.entityVideo.EntityVideoBuilder;
 import fr.gemeroi.population.entry.EntryST;
@@ -44,24 +42,22 @@ public class SubtitlePersistor {
 	}
 
 	private void persistSubtitlesFile(File file, String serieName, Language language) {
-		Session session = SessionMgr.getSessionFactory().openSession();
 		SubtitlesFile subtitlesFile = new SubtitlesFile(file, serieName, language, subtitleFileNamePattern);
-		Entityvideo entityvideo = createEntityVideo(subtitlesFile, serieName, session);
+		Entityvideo entityvideo = createEntityVideo(subtitlesFile, serieName);
 		SubtitleReader reader = new SRTSubtitleReader(subtitlesFile);
 		List<Subtitle> subtitles = buildSubtitles(reader, language, entityvideo);
 
-		if(isMatchingOtherPersistedSubtitles(entityvideo, subtitles, language, session)) {
-			LanguageDAO.persistSubtitles(subtitles, session, entityvideo, language);
+		if(isMatchingOtherPersistedSubtitles(entityvideo, subtitles, language)) {
+			LanguageDAO.persistSubtitles(subtitles, entityvideo, language);
 		}
-		session.close();
 	}
 
-	private boolean isMatchingOtherPersistedSubtitles(Entityvideo entityvideo, List<Subtitle> subtitles, Language language, Session session) {
+	private boolean isMatchingOtherPersistedSubtitles(Entityvideo entityvideo, List<Subtitle> subtitles, Language language) {
 		sortSubtitlesByTimeEnd(subtitles);
 		if(subtitles.isEmpty()) return false;
 		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
 
-		List<Subtitle> languageEntries = LanguageDAO.getSubtitlesFromDB(entityvideo, session, language);
+		List<Subtitle> languageEntries = LanguageDAO.getSubtitlesFromDB(entityvideo, language);
 		if(languageEntries != null && languageEntries.size() > 0) {
 			int endTimeVideoFromAnotherLanguage = languageEntries.get(0).getTimeend();
 			return endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo;
@@ -70,8 +66,8 @@ public class SubtitlePersistor {
 		return true;
 	}
 
-	private Entityvideo createEntityVideo(SubtitlesFile subtitlesFile, String serieName, Session session) {
-		Entityvideo entityvideo = EntityVideoDAO.getEntityvideo(serieName, subtitlesFile.getSeasonNumber(), subtitlesFile.getEpisodeNumber(), session);
+	private Entityvideo createEntityVideo(SubtitlesFile subtitlesFile, String serieName) {
+		Entityvideo entityvideo = EntityVideoDAO.getEntityvideo(serieName, subtitlesFile.getSeasonNumber(), subtitlesFile.getEpisodeNumber());
 		if(entityvideo == null) {
 			EntityVideoBuilder entityVideoBuilder = new EntityVideoBuilder();
 			entityvideo = entityVideoBuilder

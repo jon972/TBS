@@ -16,7 +16,8 @@ public class EntityVideoDAO {
 		return session.createCriteria(Entityvideo.class).list();
 	}
 
-	public static Entityvideo getEntityvideo(String entityVideoName, int numSeason, int numEpisode, Session session) {
+	public static Entityvideo getEntityvideo(String entityVideoName, int numSeason, int numEpisode) {
+		Session session = SessionMgr.getSessionFactory().openSession();
 		List<Entityvideo> entityvideoList = 
 		 session.createCriteria(Entityvideo.class)
 				      .add(Restrictions.eq("nom", entityVideoName))
