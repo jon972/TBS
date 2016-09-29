@@ -5,7 +5,7 @@
  <session-factory name="">
   <property name="hibernate.connection.driver_class">org.h2.Driver</property>
   <property name="hibernate.connection.password">root</property>
-  <property name="hibernate.connection.url">jdbc:h2:mem:databases/test3.h2.db;INIT=RUNSCRIPT FROM 'classpath:databases/test.sql';</property>
+  <property name="hibernate.connection.url">jdbc:h2:mem:test;INIT=RUNSCRIPT FROM 'classpath:databases/test.sql';</property>
   <property name="hibernate.connection.username">h2</property>
   <property name="hibernate.default_schema">public</property>
   <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
