@@ -10,6 +10,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dbh2.version>1.4.187</dbh2.version>
 	</properties>
 	<build>
 		<plugins>
@@ -31,6 +32,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- H2 DB -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${dbh2.version}</version>
+		</dependency>
 	</dependencies>
 	<modules>
 		<module>TBS-WebClient</module>
