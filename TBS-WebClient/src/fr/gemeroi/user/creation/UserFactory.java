@@ -2,14 +2,18 @@ package fr.gemeroi.user.creation;
 
 import java.util.UUID;
 
+import javax.inject.Inject;
 import fr.gemeroi.persistence.bean.User;
-import fr.gemeroi.persistence.utils.PersistenceUtils;
+import fr.gemeroi.persistence.dao.model.UsersDAO;
 
 public class UserFactory {
 
-	public static User createUser(String login, String email, String password) {
+	@Inject
+	UsersDAO userDao;
+
+	public User createUser(String login, String email, String password) {
 		User user = new User(login, email, password);
-		PersistenceUtils.persistObject(user);
+		userDao.save(user);
 
 		String token = generateToken();
 		UsersCache.addUser(token, user);

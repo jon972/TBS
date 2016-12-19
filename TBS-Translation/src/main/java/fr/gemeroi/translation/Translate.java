@@ -29,9 +29,10 @@ public class Translate {
 	public static final String userTranslationUsingWordToTranslate = 
 			"%s and (sub1.id, sub2.id) in" +
 			"(select ut.subtitle1, ut.subtitle2 from UsersTranslations ut where email = '%s' )";
+
+	SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 	
-	public static Set<Translation> translate(String word, Language fromLanguage, Language toLanguage, User user) {
-		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
+	public Set<Translation> translate(String word, Language fromLanguage, Language toLanguage, User user) {
 		Session session = sessionFactory.openSession();
 		
 		String queryHql = String.format(queryHqlFormat, fromLanguage.name(), toLanguage.name(), word, word, word);
