@@ -3,25 +3,20 @@ package fr.gemeroi.persistence.dao.impl;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.inject.Named;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 import fr.gemeroi.common.utils.Language;
-import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.dao.model.UsersTranslationsDAO;
-import fr.gemeroi.persistence.session.SessionMgr;
 
-@ApplicationScoped
 public class UsersTranslationsDAOImpl implements UsersTranslationsDAO {
+
+	private static Logger logger = Logger.getLogger(UsersTranslationsDAOImpl.class);
 
 	public static final String userTranslationUsingTranslationType = 
 			"from UsersTranslations ut where ut.email = '%s' and "
@@ -30,11 +25,8 @@ public class UsersTranslationsDAOImpl implements UsersTranslationsDAO {
 
 	private SessionFactory sessionFactory;
 
-//	public UsersTranslationsDAOImpl(SessionFactory sessionFactory) {
-//		this.sessionFactory = sessionFactory;
-//	}
-
-	public UsersTranslationsDAOImpl() {
+	public UsersTranslationsDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 	public List<UsersTranslations> retrieveUsersTranslations(String userMail, Language l1, Language l2) {
@@ -75,7 +67,7 @@ public class UsersTranslationsDAOImpl implements UsersTranslationsDAO {
 			session.save(usersTranslations);
 			tx.commit();
 		} catch (Exception e) {
-//			logger.error("The usersTranslations " + usersTranslations + " cannot be persisted");
+			logger.error("The usersTranslations " + usersTranslations + " cannot be persisted");
 		} finally {
 			session.close();
 		}

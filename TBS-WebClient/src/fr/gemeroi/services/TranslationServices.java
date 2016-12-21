@@ -3,6 +3,7 @@ package fr.gemeroi.services;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -17,8 +18,12 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 
 import fr.gemeroi.common.utils.Language;
+import fr.gemeroi.configuration.Configuration;
+import fr.gemeroi.configuration.TBSConfiguration;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersTranslations;
+import fr.gemeroi.persistence.dao.impl.SubtitleDAOImpl;
+import fr.gemeroi.persistence.dao.impl.UsersTranslationsDAOImpl;
 import fr.gemeroi.persistence.dao.model.SubtitleDAO;
 import fr.gemeroi.persistence.dao.model.UsersTranslationsDAO;
 import fr.gemeroi.services.reponses.Responses;
@@ -31,13 +36,17 @@ import fr.gemeroi.user.translation.UserTranslationsMgr;
 @Path("/translation")
 public class TranslationServices {
 
-	@Inject
-	UsersTranslationsDAO usersTranslationsDAO;
+	private UsersTranslationsDAO usersTranslationsDAO;
+	private SubtitleDAO subtitleDAO;
+	private Translate translate;
 
-	@Inject
-	SubtitleDAO subtitleDAO;
-
-	Translate translate = new Translate();
+	@PostConstruct 
+	public void init() {
+		Configuration configuration = new TBSConfiguration();
+		usersTranslationsDAO = new UsersTranslationsDAOImpl(configuration.getSessionFactory());
+		subtitleDAO = new SubtitleDAOImpl(configuration.getSessionFactory());
+		translate = new Translate();
+	}
 
 	@Path("/{word}/{language1}/{language2}")
 	@GET

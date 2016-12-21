@@ -10,13 +10,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import fr.gemeroi.common.utils.Language;
+import fr.gemeroi.configuration.Configuration;
 import fr.gemeroi.configuration.TBSConfiguration;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.dao.model.EntityVideoDAO;
+import fr.gemeroi.persistence.dao.impl.EntityVideoDAOImpl;
 import fr.gemeroi.persistence.dao.impl.SubtitleDAOImpl;
 import fr.gemeroi.persistence.dao.model.SubtitleDAO;
-import fr.gemeroi.population.configuration.TBSPopulationConfiguration;
 import fr.gemeroi.population.entityVideo.EntityVideoBuilder;
 import fr.gemeroi.population.entry.EntryST;
 import fr.gemeroi.population.file.SubtitlesFile;
@@ -26,17 +27,13 @@ import fr.gemeroi.population.read.SRTSubtitleReader;
 public class SubtitlePersistor {
 
 	private final String subtitleFileNamePattern;
-	
-	@Inject
-	@Named("firstSubtitleDAO")
-	SubtitleDAO subtitleDAO;
+	private final SubtitleDAO subtitleDAO;
+	private final EntityVideoDAO entityVideoDAO;
 
-	@Inject
-	@Named("firstEntityVideoDAO")
-	EntityVideoDAO entityVideoDAO;
-
-	public SubtitlePersistor(String subtitleFileNamePattern) {
+	public SubtitlePersistor(String subtitleFileNamePattern, Configuration configuration) {
 		this.subtitleFileNamePattern = subtitleFileNamePattern;
+		this.subtitleDAO = new SubtitleDAOImpl(configuration.getSessionFactory());
+		this.entityVideoDAO = new EntityVideoDAOImpl(configuration.getSessionFactory());
 	}
 
 	public void persistSubtitles(File subtitleFile, String serieName, Language language) {
@@ -123,7 +120,8 @@ public class SubtitlePersistor {
 	}
 
 	public static void main(String[] args) {
-		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
+		Configuration configuration = new TBSConfiguration();
+		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)", configuration);
 		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.en\\Elementary - 1x07 - One Way to Get Off.HDTV.LOL.en.srt"), "Elementary", Language.English);
 		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.fr\\Elementary - 1x07 - One Way to Get Off.LOL.fr.srt"), "Elementary", Language.French);
 	}

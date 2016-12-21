@@ -1,20 +1,24 @@
 package fr.gemeroi.persistence.dao;
 
 
-import static org.junit.Assert.*;
-
-import javax.inject.Inject;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import fr.gemeroi.configuration.Configuration;
+import fr.gemeroi.configuration.TBSConfigurationForTests;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.dao.impl.EntityVideoDAOImpl;
-import fr.gemeroi.persistence.session.SessionMgr;
+import fr.gemeroi.persistence.dao.model.EntityVideoDAO;
 
 public class EntityVideoDaoTest {
 
-	@Inject
-	EntityVideoDAOImpl entityVideoDAO;
+	private EntityVideoDAO entityVideoDAO;
+
+	public EntityVideoDaoTest() {
+		Configuration configuration = new TBSConfigurationForTests();
+		entityVideoDAO = new EntityVideoDAOImpl(configuration.getSessionFactory());
+	}
 
 	@Test
 	public void getListEntityVideo_return_list_size_4() {

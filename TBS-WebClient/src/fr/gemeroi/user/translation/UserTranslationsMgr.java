@@ -11,6 +11,7 @@ import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.translation.Translation;
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
+
 public class UserTranslationsMgr {
 	public static final Map<User, Set<Translation>> userTranslations = new HashMap<>();
 

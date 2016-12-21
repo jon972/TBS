@@ -1,3 +1,5 @@
+DROP ALL OBJECTS;
+
 create sequence ENTITY_VIDEO_ID_SEQ;
 create sequence SUBTITLE_ID_SEQ;
 create sequence USERS_TRANSLATIONS_ID_SEQ;

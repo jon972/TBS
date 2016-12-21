@@ -2,10 +2,6 @@ package fr.gemeroi.persistence.dao.impl;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
-import javax.inject.Named;
-
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,18 +11,13 @@ import org.hibernate.criterion.Restrictions;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.dao.model.EntityVideoDAO;
 
-@ApplicationScoped
 public class EntityVideoDAOImpl implements EntityVideoDAO {
 
-//	private static Logger logger = Logger.getLogger(EntityVideoDAOImpl.class);
+	private static Logger logger = Logger.getLogger(EntityVideoDAOImpl.class);
 	private SessionFactory sessionFactory;
 
-//	public EntityVideoDAOImpl(SessionFactory sessionFactory) {
-//		this.sessionFactory = sessionFactory;
-//	}
-
-	public EntityVideoDAOImpl() {
-		
+	public EntityVideoDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 	public List<Entityvideo> getListEntityVideo() {
@@ -59,7 +50,7 @@ public class EntityVideoDAOImpl implements EntityVideoDAO {
 			session.save(entityvideo);
 			tx.commit();
 		} catch (Exception e) {
-//			logger.error("The entityvideo " + entityvideo + " cannot be persisted");
+			logger.error("The entityvideo " + entityvideo + " cannot be persisted");
 		} finally {
 			session.close();
 		}

@@ -1,3 +1,5 @@
+DROP ALL OBJECTS;
+
 create sequence ENTITY_VIDEO_ID_SEQ;
 create sequence SUBTITLE_ID_SEQ;
 create sequence USERS_TRANSLATIONS_ID_SEQ;
@@ -22,10 +24,9 @@ CREATE TABLE SUBTITLE
   timeend integer,
   rank integer,
   language character varying(100),
-  entityvideoid integer,
+  entityvideoid bigint,
   CONSTRAINT subtitle_pkey PRIMARY KEY (ID),
-  CONSTRAINT subtitle_entityvideoid_fkey FOREIGN KEY (entityvideoid)
-      REFERENCES ENTITY_VIDEO (ID)
+  CONSTRAINT subtitle_entityvideoid_fkey FOREIGN KEY (entityvideoid) REFERENCES ENTITY_VIDEO (ID)
 );
 
 CREATE TABLE USERS
@@ -47,7 +48,3 @@ CREATE TABLE USERS_TRANSLATIONS
 );
 
 INSERT INTO USERS VALUES('hage.jonathan@gmail.com', 'Jon', 'hello', 'a9910d3a050d456cabcda315b2e78015');
-INSERT INTO ENTITY_VIDEO(ID, NOM, TYPE, NUMSAISON, NUMEPISODE) VALUES (1, 'Dexter', 'SERIE', 1, 1);
-INSERT INTO ENTITY_VIDEO(ID, NOM, TYPE, NUMSAISON, NUMEPISODE) VALUES (2, 'Dexter', 'SERIE', 1, 2);
-INSERT INTO ENTITY_VIDEO(ID, NOM, TYPE, NUMSAISON, NUMEPISODE) VALUES (3, 'Dexter', 'SERIE', 1, 3);
-INSERT INTO ENTITY_VIDEO(ID, NOM, TYPE, NUMSAISON, NUMEPISODE) VALUES (4, 'Dexter', 'SERIE', 1, 4);
