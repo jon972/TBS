@@ -11,6 +11,7 @@ import org.hibernate.SessionFactory;
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.User;
+import fr.gemeroi.persistence.bean.UsersPersonalTranslations;
 import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
@@ -30,6 +31,9 @@ public class Translate {
 			"%s and (sub1.id, sub2.id) in" +
 			"(select ut.subtitle1, ut.subtitle2 from UsersTranslations ut where email = '%s' )";
 	
+	private static final String userPersonalTranslationsQuery = 
+			"from UsersPersonalTranslations where email = '%s' and language_from = '%s' and language_to= '%s'";
+	
 	public static Set<Translation> translate(String word, Language fromLanguage, Language toLanguage, User user) {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -44,12 +48,12 @@ public class Translate {
 			Subtitle subtitle1 = (Subtitle) resultEntity[0];
 			Subtitle subtitle2 = (Subtitle) resultEntity[1];
 
-			translations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false));
+			translations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false, false));
 				
 		}
 
 		if(user != null) {
-			Set<Translation> usersTranslation = getUserTranslationInTranslationsResult(queryHql, session, user);
+			Set<Translation> usersTranslation = getUserTranslationInTranslationsResult(queryHql, session, user, fromLanguage.name(), toLanguage.name());
 			for(Translation tr : usersTranslation) {
 				translations.remove(tr);
 				translations.add(tr);
@@ -60,10 +64,10 @@ public class Translate {
 		return translations;
 	}
 
-	private static Set<Translation> getUserTranslationInTranslationsResult(String queryHql, Session session, User user) {
+	private static Set<Translation> getUserTranslationInTranslationsResult(String queryHql, Session session, User user, String languageFrom, String languageTo) {
 		Set<Translation> userTranslations = new HashSet<Translation>();
 		String queryHqlUserTranslation = String.format(userTranslationUsingWordToTranslate, queryHql, user.getEmail());
-		
+
 		Query query = session.createQuery(queryHqlUserTranslation);
 		List<Object[]> list = query.list();
 		
@@ -71,9 +75,29 @@ public class Translate {
 			Subtitle subtitle1 = (Subtitle) resultEntity[0];
 			Subtitle subtitle2 = (Subtitle) resultEntity[1];
 
-			userTranslations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), true));
+			userTranslations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), true, false));
+		}
+		userTranslations.addAll(getUsersPersonalTranslation(user, languageFrom, languageTo));
+		return userTranslations;
+	}
+
+	public static Set<Translation> getUsersPersonalTranslation(User user, String languageFrom, String languageTo) {
+		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
+		Session session = sessionFactory.openSession();
+
+		Set<Translation> userPersonalTranslations = new HashSet<Translation>();
+		
+		Query query = session.createQuery(String.format(userPersonalTranslationsQuery, user.getEmail(), languageFrom, languageTo));
+		
+		List<UsersPersonalTranslations> list = query.list();
+		for(UsersPersonalTranslations resultEntity : list) {
+
+			userPersonalTranslations.add(new Translation(resultEntity.getId(), new SubtitleDTO(resultEntity.getExpr1(), resultEntity.getLanguageFrom()), 
+					new SubtitleDTO(resultEntity.getExpr2(), resultEntity.getLanguageTo()), true, true));
 		}
 
-		return userTranslations;
+		session.close();
+
+		return userPersonalTranslations;
 	}
 }

@@ -20,6 +20,8 @@ TBSApp.controller("loginController", function ($scope, $http, tokenService) {
 		}, function(data){
 			$scope.isLoading = false;
 			$scope.requestFailed = true;
+			$scope.password = "";
+			$scope.email = "";
 		});
 	}
 });

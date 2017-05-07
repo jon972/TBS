@@ -18,7 +18,7 @@ public class UserTranslationsMgr {
 	  List<Translation> translationsList = new ArrayList<>();
 	  for(UsersTranslations ut : usersTranslations) {
 		  translationsList.add(new Translation(ut.getId(), SubtitleDTO.createSubtitleDTO(ut.getSubtitle1()), 
-				               SubtitleDTO.createSubtitleDTO(ut.getSubtitle2()), true));
+				               SubtitleDTO.createSubtitleDTO(ut.getSubtitle2()), true, false));
 	  }
 	  return translationsList;
 	}

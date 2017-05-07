@@ -1,7 +1,7 @@
 TBSApp.controller("addTranslationController", function ($scope, $http) {
 	$scope.addTranslation = function () {
 		var translation = new Translation(null, new SubtitleDTO(null, $scope.exprFrom, $scope.languageFrom),
-				new SubtitleDTO(null, $scope.exprTo, $scope.languageTo), false);
+				new SubtitleDTO(null, $scope.exprTo, $scope.languageTo), false, true);
 		var req = {
 		 method: 'POST',
 		 url: 'rest/translation/addTranslation',
@@ -12,9 +12,11 @@ TBSApp.controller("addTranslationController", function ($scope, $http) {
 		 },
 		};
 		$http(req).then(function(response){
-			$scope.userTranslations = response.data;
 		}, function(data){
 			console.log(data);
 		});
+		
+		$scope.exprFrom = "";
+		$scope.exprTo = "";
 	}
 });
