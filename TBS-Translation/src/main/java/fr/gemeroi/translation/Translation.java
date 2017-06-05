@@ -11,18 +11,21 @@ public class Translation {
 	private SubtitleDTO subtitleDTOToTranslate;
 	private SubtitleDTO subtitleDTOTranslated;
 	private boolean isSaved;
+	private boolean isPersonalTranslation;
 
-	public Translation(Integer id, SubtitleDTO subtitleDTOToTranslate, SubtitleDTO subtitleDTOTranslated, boolean isSaved) {
+	public Translation(Integer id, SubtitleDTO subtitleDTOToTranslate, SubtitleDTO subtitleDTOTranslated, boolean isSaved, boolean isPersonalTranslation) {
 		this.subtitleDTOToTranslate = subtitleDTOToTranslate;
 		this.subtitleDTOTranslated = subtitleDTOTranslated;
 		this.setSaved(isSaved);
 		this.setId(id);
+		this.setPersonalTranslation(isPersonalTranslation);
 	}
 
-	public Translation(SubtitleDTO subtitleDTOToTranslate, SubtitleDTO subtitleDTOTranslated, boolean isSaved) {
+	public Translation(SubtitleDTO subtitleDTOToTranslate, SubtitleDTO subtitleDTOTranslated, boolean isSaved, boolean isPersonalTranslation) {
 		this.subtitleDTOToTranslate = subtitleDTOToTranslate;
 		this.subtitleDTOTranslated = subtitleDTOTranslated;
 		this.setSaved(isSaved);
+		this.setPersonalTranslation(isPersonalTranslation);
 	}
 
 	public static Translation valueOf(String json) {
@@ -67,6 +70,14 @@ public class Translation {
 
 	public void setSubtitleDTOTranslated(SubtitleDTO subtitleDTOTranslated) {
 		this.subtitleDTOTranslated = subtitleDTOTranslated;
+	}
+
+	public boolean isPersonalTranslation() {
+		return isPersonalTranslation;
+	}
+
+	public void setPersonalTranslation(boolean isPersonalTranslation) {
+		this.isPersonalTranslation = isPersonalTranslation;
 	}
 
 	@Override

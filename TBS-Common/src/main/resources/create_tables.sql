@@ -56,3 +56,17 @@ CREATE TABLE USERS_TRANSLATIONS
   EXPR2 character varying(1000),
   CONSTRAINT UC_EXPR1EXPR2EMAIL UNIQUE (EMAIL, EXPR1, EXPR2)
 );
+
+CREATE TABLE users_personal_translations
+(
+  id serial NOT NULL,
+  email character varying(100),
+  expr1 character varying(1000),
+  expr2 character varying(1000),
+  language_from character varying(100),
+  language_to character varying(100),
+  CONSTRAINT users_personal_translations_pkey PRIMARY KEY (id),
+  CONSTRAINT users_personal_translations_email_fkey FOREIGN KEY (email)
+      REFERENCES users (email) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);

@@ -2,7 +2,7 @@ TBSApp.controller("signupController", function ($scope, $http, tokenService) {
 	$scope.submitUserDatas = function () {
 		var req = {
 		 method: 'POST',
-		 url: 'rest/account/createAccount',
+		 url: '/TBS-WS/rest/account/createAccount',
 		 headers: {
 		   'Content-Type': 'application/json',
 		   'email': $scope.email, 

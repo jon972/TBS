@@ -6,8 +6,16 @@ public class SubtitleDTO {
 
 	private Integer id;
 	private String expression;
-
 	private String language;
+
+	public SubtitleDTO(String expression, String language) {
+		this.expression = expression;
+		this.language = language;
+	}
+	
+	public SubtitleDTO() {
+		
+	}
 
 	public static SubtitleDTO createSubtitleDTO(Subtitle subtitle) {
 		SubtitleDTO subtitleDTO = new SubtitleDTO();

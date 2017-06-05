@@ -14,7 +14,7 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 		$scope.clicked = false;
 		var req = {
 			 method: 'GET',
-			 url: 'rest/translation/' + $routeParams.exprToTranslate + 
+			 url: '/TBS-WS/rest/translation/' + $routeParams.exprToTranslate + 
 			  '/' + $routeParams.languageFrom + '/' + $routeParams.languageTo,
 			 headers: {
 			   'Content-Type': 'application/json',

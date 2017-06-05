@@ -2,7 +2,7 @@ TBSApp.controller("myTranslationsController", function ($scope, $http) {
 	$scope.retrieveMyTranslations = function (languageFrom, languageTo) {
 		var req = {
 		 method: 'POST',
-		 url: 'rest/translation/retrieveMyTranslations',
+		 url: '/TBS-WS/rest/translation/retrieveMyTranslations',
 		 headers: {
 		   'Content-Type': 'application/json',
 		   'token': $scope.token,

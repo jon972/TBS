@@ -1,6 +1,6 @@
 TBSApp.controller("languagesController", function ($scope, $http, tokenService, $routeParams) {
 	$scope.getAllLanguages = function () {
-		$http.get('rest/availableLanguages/allLanguages').then(function (response) {
+		$http.get('/TBS-WS/rest/availableLanguages/allLanguages').then(function (response) {
         	$scope.languageTo = $routeParams.languageTo;
         	$scope.languageFrom = $routeParams.languageFrom;
         	$scope.availableLanguages = response.data;

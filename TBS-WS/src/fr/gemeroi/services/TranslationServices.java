@@ -16,8 +16,10 @@ import org.json.JSONException;
 
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.User;
+import fr.gemeroi.persistence.bean.UsersPersonalTranslations;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.dao.SubtitleDAO;
+import fr.gemeroi.persistence.dao.UsersPersonalTranslationsDao;
 import fr.gemeroi.persistence.dao.UsersTranslationsDAO;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
 import fr.gemeroi.services.reponses.Responses;
@@ -64,7 +66,7 @@ public class TranslationServices {
 
 		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslations(user.getEmail(), languageFrom, languageTo);
 		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
-
+		translations.addAll(Translate.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
 		return Responses.responseOk(translations);
 	  }
 
@@ -75,7 +77,12 @@ public class TranslationServices {
 
 		User user = UsersCache.getUser(token);
 
-		UsersTranslationsDAO.removeUsersTranslations(user.getEmail(), translation.getId());
+		if(translation.isPersonalTranslation()) {
+			UsersPersonalTranslationsDao.removeUsersPersonalTranslations(user.getEmail(), translation.getId());
+		} else {
+			UsersTranslationsDAO.removeUsersTranslations(user.getEmail(), translation.getId());
+		}
+		
 		return Response.ok()
 					   .header("Access-Control-Allow-Origin", "*")
 					   .build();
@@ -86,7 +93,15 @@ public class TranslationServices {
 	  @Produces("application/json")
 	  @Consumes("application/json")
 	  public Response addTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation translation) throws JSONException {
-		  System.out.println(translation);
+		  User user = UsersCache.getUser(token);
+		  UsersPersonalTranslations usersPersonalTranslations = new UsersPersonalTranslations();
+		  usersPersonalTranslations.setEmail(user.getEmail());
+		  usersPersonalTranslations.setExpr1(translation.getSubtitleDTOToTranslate().getExpression());
+		  usersPersonalTranslations.setExpr2(translation.getSubtitleDTOTranslated().getExpression());
+		  usersPersonalTranslations.setLanguageFrom(translation.getSubtitleDTOToTranslate().getLanguage());
+		  usersPersonalTranslations.setLanguageTo(translation.getSubtitleDTOTranslated().getLanguage());
+
+		  PersistenceUtils.persistObject(usersPersonalTranslations);
 		  return Response.ok()
 				   .header("Access-Control-Allow-Origin", "*")
 				   .build();

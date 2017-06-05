@@ -6,6 +6,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.User;
+import fr.gemeroi.persistence.bean.UsersPersonalTranslations;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 
 
@@ -24,6 +25,7 @@ public class SessionMgr {
 	                   addAnnotatedClass(Subtitle.class).
 	                   addAnnotatedClass(User.class).
 	                   addAnnotatedClass(UsersTranslations.class).
+	                   addAnnotatedClass(UsersPersonalTranslations.class).
 	                   buildSessionFactory();
 		}
 		return factory;
