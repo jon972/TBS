@@ -4,7 +4,7 @@ TBSApp.controller("loginController", function ($scope, $http, tokenService) {
 		$scope.isLoading = true;
 		var req = {
 		 method: 'GET',
-		 url: 'rest/account/login',
+		 url: '/TBS-WS/rest/account/login',
 		 headers: {
 		   'Content-Type': 'application/json',
 		   'email': $scope.email, 

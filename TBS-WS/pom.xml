@@ -7,7 +7,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>TBS-WebClient</artifactId>
+	<artifactId>TBS-WS</artifactId>
 
 	<packaging>war</packaging>
 	<build>

@@ -4,7 +4,7 @@ TBSApp.controller("addTranslationController", function ($scope, $http) {
 				new SubtitleDTO(null, $scope.exprTo, $scope.languageTo), false, true);
 		var req = {
 		 method: 'POST',
-		 url: 'rest/translation/addTranslation',
+		 url: '/TBS-WS/rest/translation/addTranslation',
 		 headers: {
 		   'Content-Type': 'application/json',
 		   'token': $scope.token,
