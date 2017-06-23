@@ -1,4 +1,4 @@
-TBSApp.controller("addTranslationController", function ($scope, $http) {
+TBSApp.controller("addTranslationController", function ($scope, $http, $cookieStore) {
 	$scope.addTranslation = function () {
 		var translation = new Translation(null, new SubtitleDTO(null, $scope.exprFrom, $scope.languageFrom),
 				new SubtitleDTO(null, $scope.exprTo, $scope.languageTo), false, true);
@@ -7,7 +7,7 @@ TBSApp.controller("addTranslationController", function ($scope, $http) {
 		 url: '/TBS-WS/rest/translation/addTranslation',
 		 headers: {
 		   'Content-Type': 'application/json',
-		   'token': $scope.token,
+		   'token': $cookieStore.get('token'),
 		   'translation' : JSON.stringify(translation),
 		 },
 		};

@@ -1,4 +1,4 @@
-TBSApp.controller("loginController", function ($scope, $http, tokenService) {
+TBSApp.controller("loginController", function ($scope, $http, tokenService, $cookieStore) {
 	$scope.login = function () {
 		$scope.requestFailed = false;
 		$scope.isLoading = true;
@@ -14,6 +14,7 @@ TBSApp.controller("loginController", function ($scope, $http, tokenService) {
 		$http(req).then(function(response){
 			tokenService.setLogin(response.data.login);
 			tokenService.setToken(response.data.token);
+			$cookieStore.put('token', response.data.token);
 			$scope.initGlobVars();
 			$scope.isLoading = false;
 			window.location.replace("#/");

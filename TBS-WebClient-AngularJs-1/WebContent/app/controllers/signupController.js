@@ -12,6 +12,7 @@ TBSApp.controller("signupController", function ($scope, $http, tokenService) {
 		};
 		$http(req).then(function(response){
 			tokenService.setToken(response.data.token);
+			$cookies.put('token', response.data.token);
 		}, function(data){
 			console.log(data);
 		});

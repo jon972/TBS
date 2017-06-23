@@ -1,4 +1,4 @@
-TBSApp.directive('ngTransEntity', function ($http) {
+TBSApp.directive('ngTransEntity', function ($http, $cookieStore) {
 	return {
 		templateUrl : 'app/views/tanslationEntity.html',
 		restrict : 'E',
@@ -13,10 +13,10 @@ TBSApp.directive('ngTransEntity', function ($http) {
 			scope.saveTranslation = function() {
 				var req = {
 					method : 'POST',
-					url : 'rest/translation/saveTranslation',
+					url : '/TBS-WS/rest/translation/saveTranslation',
 					headers : {
 						'Content-Type' : 'application/json',
-						'token' : scope.token,
+						'token' : $cookieStore.get('token'),
 						'translation' : translation
 					},
 				};
@@ -28,10 +28,10 @@ TBSApp.directive('ngTransEntity', function ($http) {
 			scope.unsaveTranslation = function() {
 				var req = {
 					method : 'POST',
-					url : 'rest/translation/removeMyTranslation',
+					url : '/TBS-WS/rest/translation/removeMyTranslation',
 					headers : {
 						'Content-Type' : 'application/json',
-						'token' : scope.token,
+						'token' : $cookieStore.get('token'),
 						'translation' : translation
 					},
 				};

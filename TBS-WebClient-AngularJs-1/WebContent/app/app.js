@@ -1,6 +1,6 @@
-var TBSApp = angular.module("TBSApp", ['ngAnimate', 'ngRoute']);
+var TBSApp = angular.module("TBSApp", ['ngAnimate', 'ngRoute', 'ngCookies']);
 
-TBSApp.controller("mainController", function ($scope, tokenService) {
+TBSApp.controller("mainController", function ($scope, tokenService, $cookieStore) {
 
 	$scope.token = '';
 	$scope.login = '';
@@ -16,10 +16,11 @@ TBSApp.controller("mainController", function ($scope, tokenService) {
 	var resetGlobVars = function() {
 		$scope.token = '';
 		$scope.login = '';
+		$cookieStore.remove('token');
 	}
 
 	$scope.isLogged = function() {
-		return $scope.login != '';
+		return $scope.login != '' || $cookieStore.get('token') != null;
 	}
 });
 

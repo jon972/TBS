@@ -1,4 +1,4 @@
-TBSApp.controller("translationController", function ($scope, $http, tokenService, $routeParams, $location) {
+TBSApp.controller("translationController", function ($scope, $http, tokenService, $routeParams, $location, $cookieStore) {
 	var isLoading = false;
 	var currentSelect = -1;
 
@@ -18,7 +18,7 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 			  '/' + $routeParams.languageFrom + '/' + $routeParams.languageTo,
 			 headers: {
 			   'Content-Type': 'application/json',
-			   'token': tokenService.getToken(), 
+			   'token': $cookieStore.get('token'), 
 			 }
 		};
 		$http(req).then(function (response) {

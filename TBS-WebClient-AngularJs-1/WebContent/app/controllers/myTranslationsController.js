@@ -1,11 +1,11 @@
-TBSApp.controller("myTranslationsController", function ($scope, $http) {
+TBSApp.controller("myTranslationsController", function ($scope, $http, $cookieStore) {
 	$scope.retrieveMyTranslations = function (languageFrom, languageTo) {
 		var req = {
 		 method: 'POST',
 		 url: '/TBS-WS/rest/translation/retrieveMyTranslations',
 		 headers: {
 		   'Content-Type': 'application/json',
-		   'token': $scope.token,
+		   'token': $cookieStore.get('token'),
 		   'languageFrom' : languageFrom,
 		   'languageTo' : languageTo
 		 },
