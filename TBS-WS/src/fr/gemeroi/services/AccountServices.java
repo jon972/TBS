@@ -22,8 +22,15 @@ public class AccountServices {
 								  @HeaderParam("email") String email,
 								  @HeaderParam("password") String password) {
 		User user = UserFactory.createUser(login, email, password);
-		
-		return Responses.responseOk(user);
+
+		if (user != null) {
+			String token = user.getToken();
+			UsersCache.addUser(token, user);
+
+			return Responses.responseOk(user);
+		}
+
+		return Responses.responseError();
 	}
 
 	@Path("/login")

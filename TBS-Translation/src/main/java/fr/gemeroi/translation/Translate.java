@@ -56,7 +56,9 @@ public class Translate {
 			Set<Translation> usersTranslation = getUserTranslationInTranslationsResult(queryHql, session, user, fromLanguage.name(), toLanguage.name());
 			for(Translation tr : usersTranslation) {
 				translations.remove(tr);
-				translations.add(tr);
+				// TODO : Create an SQL request filtered on the word instead of retrieving all UsersTranslations
+				if(tr.getSubtitleDTOToTranslate().getExpression().contains(word))
+					translations.add(tr);
 			}
 		}
 
