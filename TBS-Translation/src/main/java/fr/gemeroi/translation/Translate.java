@@ -16,8 +16,11 @@ import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
 public class Translate {
+
+	private Translate() {}
+
 	// TODO Handle the case of the word is followed by a point (. or ! or ...) 
-	private static final String queryHqlFormat = "from Subtitle as sub1, Subtitle as sub2 where "
+	private static final String QUERY_HQL_FORMAT = "from Subtitle as sub1, Subtitle as sub2 where "
 										 + "sub1.language = '%s' AND "
 										 + "sub2.language = '%s' AND "
 										 + "sub2.entityvideo.id = sub1.entityvideo.id AND "
@@ -27,22 +30,22 @@ public class Translate {
 										 + " OR lower(sub1.expression) like lower('%s %%')  "
 										 + " OR lower(sub1.expression) like lower('%% %s'))";
 
-	public static final String userTranslationUsingWordToTranslate = 
+	public static final String USER_TRANSLATION_USING_WORD_TO_TRANSLATE = 
 			"%s and (sub1.id, sub2.id) in" +
 			"(select ut.subtitle1, ut.subtitle2 from UsersTranslations ut where email = '%s' )";
 	
-	private static final String userPersonalTranslationsQuery = 
+	private static final String USER_PERSONAL_TRANSLATIONS_QUERY = 
 			"from UsersPersonalTranslations where email = '%s' and language_from = '%s' and language_to= '%s'";
 	
 	public static Set<Translation> translate(String word, Language fromLanguage, Language toLanguage, User user) {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
 		
-		String queryHql = String.format(queryHqlFormat, fromLanguage.name(), toLanguage.name(), word, word, word);
+		String queryHql = String.format(QUERY_HQL_FORMAT, fromLanguage.name(), toLanguage.name(), word, word, word);
 		Query query = session.createQuery(queryHql);
 		query.setMaxResults(30);
 		List<Object[]> list = query.list();
-		Set<Translation> translations = new HashSet<Translation>();
+		Set<Translation> translations = new HashSet<>();
 
 		for(Object[] resultEntity : list) {
 			Subtitle subtitle1 = (Subtitle) resultEntity[0];
@@ -67,8 +70,8 @@ public class Translate {
 	}
 
 	private static Set<Translation> getUserTranslationInTranslationsResult(String queryHql, Session session, User user, String languageFrom, String languageTo) {
-		Set<Translation> userTranslations = new HashSet<Translation>();
-		String queryHqlUserTranslation = String.format(userTranslationUsingWordToTranslate, queryHql, user.getEmail());
+		Set<Translation> userTranslations = new HashSet<>();
+		String queryHqlUserTranslation = String.format(USER_TRANSLATION_USING_WORD_TO_TRANSLATE, queryHql, user.getEmail());
 
 		Query query = session.createQuery(queryHqlUserTranslation);
 		List<Object[]> list = query.list();
@@ -87,9 +90,9 @@ public class Translate {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
 
-		Set<Translation> userPersonalTranslations = new HashSet<Translation>();
+		Set<Translation> userPersonalTranslations = new HashSet<>();
 		
-		Query query = session.createQuery(String.format(userPersonalTranslationsQuery, user.getEmail(), languageFrom, languageTo));
+		Query query = session.createQuery(String.format(USER_PERSONAL_TRANSLATIONS_QUERY, user.getEmail(), languageFrom, languageTo));
 		
 		List<UsersPersonalTranslations> list = query.list();
 		for(UsersPersonalTranslations resultEntity : list) {

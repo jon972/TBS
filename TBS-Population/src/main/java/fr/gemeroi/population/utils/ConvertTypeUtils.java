@@ -3,13 +3,14 @@ package fr.gemeroi.population.utils;
 import fr.gemeroi.population.entry.EntrySRT;
 
 public class ConvertTypeUtils {
-	
+
+	private ConvertTypeUtils() {}
+
 	 /* We parse subtitles with this format
 	  00:02:48,414 --> 00:02:51,882
    	  Now she sees me as just a killer.
 	 */
-	public static EntrySRT convertToEntrySRT(String entryStr, String nameSerie,
-			int season, int episode, int rank) {
+	public static EntrySRT convertToEntrySRT(String entryStr, int rank) {
 		String[] entryStrSplitted = entryStr.split("\n");
 
 		String[] splitStartEndDates = entryStrSplitted[1].split("-->");
@@ -23,14 +24,14 @@ public class ConvertTypeUtils {
 	}
 
 	private static String getTheRestAsSubtitle(String[] subtitle) {
-		String subtitleConcat = subtitle[2];
+		StringBuilder subtitleBuilder = new StringBuilder(subtitle[2]);
 		int subLineNb = 3;
 		while (subLineNb < subtitle.length) {
-			subtitleConcat += " " + subtitle[subLineNb];
+			subtitleBuilder.append(" " + subtitle[subLineNb]);
 			subLineNb++;
 		}
 
-		return subtitleConcat;
+		return new String(subtitleBuilder);
 	}
 
 }

@@ -25,7 +25,7 @@ public class AccountServices {
 
 		if (user != null) {
 			String token = user.getToken();
-			UsersCache.addUser(token, user);
+			UsersCache.getInstance().addUser(token, user);
 
 			return Responses.responseOk(user);
 		}
@@ -42,7 +42,7 @@ public class AccountServices {
 
 		if (user != null) {
 			String token = user.getToken();
-			UsersCache.addUser(token, user);
+			UsersCache.getInstance().addUser(token, user);
 
 			return Responses.responseOk(user);
 		}

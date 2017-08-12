@@ -11,6 +11,8 @@ import fr.gemeroi.persistence.session.SessionMgr;
 
 public class UsersDAO {
 
+	private UsersDAO(){}
+
 	public static User retrieveUser(String email, String password) {
 		User user = new User(email, password);
 		Session session = SessionMgr.getSessionFactory().openSession();
@@ -19,6 +21,6 @@ public class UsersDAO {
 				                .add(Restrictions.eq("password", user.getPassword()))
 				                .list();
 		session.close();
-		return listUser.size() > 0 ? listUser.get(0) : null;
+		return listUser.isEmpty() ? null : listUser.get(0);
 	}
 }

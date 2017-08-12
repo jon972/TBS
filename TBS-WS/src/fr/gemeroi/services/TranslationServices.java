@@ -1,5 +1,10 @@
 package fr.gemeroi.services;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Set;
 
@@ -10,9 +15,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.json.JSONException;
+import org.apache.log4j.Logger;
+
+import com.sun.jersey.multipart.FormDataParam;
 
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.User;
@@ -22,6 +30,7 @@ import fr.gemeroi.persistence.dao.SubtitleDAO;
 import fr.gemeroi.persistence.dao.UsersPersonalTranslationsDao;
 import fr.gemeroi.persistence.dao.UsersTranslationsDAO;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
+import static fr.gemeroi.services.reponses.HeadersResponses.ACCESS_CONTROL_ALLOW_ORIGIN;
 import fr.gemeroi.services.reponses.Responses;
 import fr.gemeroi.translation.Translate;
 import fr.gemeroi.translation.Translation;
@@ -31,79 +40,105 @@ import fr.gemeroi.user.translation.UserTranslationsMgr;
 @Path("/translation")
 public class TranslationServices {
 
-	  @Path("/{word}/{language1}/{language2}")
-	  @GET
-	  @Produces("application/json")
-	  public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") Language language1, 
-			  @PathParam("language2") Language language2, @HeaderParam("token") String token) throws JSONException {
-		User user = UsersCache.getUser(token);
+	private static final Logger LOGGER = Logger.getLogger(TranslationServices.class);
+
+	@Path("/{word}/{language1}/{language2}")
+	@GET
+	@Produces("application/json")
+	public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") Language language1,
+			@PathParam("language2") Language language2, @HeaderParam("token") String token) {
+		User user = UsersCache.getInstance().getUser(token);
 		Set<Translation> wordTranslatedList = Translate.translate(wordToTranslate, language1, language2, user);
 
 		return Responses.responseOk(wordTranslatedList);
-	  }
+	}
 
-	  @Path("saveTranslation")
-	  @POST
-	  @Produces("application/json")
-	  @Consumes("application/json")
-	  public Response saveTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation trans) throws JSONException {
+	@Path("saveTranslation")
+	@POST
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response saveTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation trans) {
 
-		User user = UsersCache.getUser(token);
-		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(), SubtitleDAO.getSubtitleById(trans.getSubtitleDTOToTranslate().getId()), SubtitleDAO.getSubtitleById(trans.getSubtitleDTOTranslated().getId()));
+		User user = UsersCache.getInstance().getUser(token);
+		UsersTranslations usersTranslations = new UsersTranslations(user.getEmail(),
+				SubtitleDAO.getSubtitleById(trans.getSubtitleDTOToTranslate().getId()),
+				SubtitleDAO.getSubtitleById(trans.getSubtitleDTOTranslated().getId()));
 		PersistenceUtils.persistObject(usersTranslations);
 
-		return Response.ok()
-				.header("Access-Control-Allow-Origin", "*")
-				.build();
-	  }
+		return Response.ok().header(ACCESS_CONTROL_ALLOW_ORIGIN, "*").build();
+	}
 
-	  @Path("retrieveMyTranslations")
-	  @POST
-	  @Produces("application/json")
-	  public Response retrieveMyTranslations(@HeaderParam("token") String token, @HeaderParam("languageFrom") Language languageFrom, @HeaderParam("languageTo") Language languageTo) throws JSONException {
+	@Path("retrieveMyTranslations")
+	@POST
+	@Produces("application/json")
+	public Response retrieveMyTranslations(@HeaderParam("token") String token,
+			@HeaderParam("languageFrom") Language languageFrom, @HeaderParam("languageTo") Language languageTo) {
 
-		User user = UsersCache.getUser(token);
+		User user = UsersCache.getInstance().getUser(token);
 
-		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslations(user.getEmail(), languageFrom, languageTo);
+		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslations(user.getEmail(),
+				languageFrom, languageTo);
 		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
 		translations.addAll(Translate.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
 		return Responses.responseOk(translations);
-	  }
+	}
 
-	  @Path("removeMyTranslation")
-	  @POST
-	  @Produces("application/json")
-	  public Response removeMyTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation translation) throws JSONException {
+	@Path("removeMyTranslation")
+	@POST
+	@Produces("application/json")
+	public Response removeMyTranslation(@HeaderParam("token") String token,
+			@HeaderParam("translation") Translation translation) {
 
-		User user = UsersCache.getUser(token);
+		User user = UsersCache.getInstance().getUser(token);
 
-		if(translation.isPersonalTranslation()) {
+		if (translation.isPersonalTranslation()) {
 			UsersPersonalTranslationsDao.removeUsersPersonalTranslations(user.getEmail(), translation.getId());
 		} else {
 			UsersTranslationsDAO.removeUsersTranslations(user.getEmail(), translation.getId());
 		}
-		
-		return Response.ok()
-					   .header("Access-Control-Allow-Origin", "*")
-					   .build();
-	  }
 
-	  @Path("addTranslation")
-	  @POST
-	  @Produces("application/json")
-	  @Consumes("application/json")
-	  public Response addTranslation(@HeaderParam("token") String token, @HeaderParam("translation") Translation translation) throws JSONException {
-		  User user = UsersCache.getUser(token);
-		  UsersPersonalTranslations usersPersonalTranslations = new UsersPersonalTranslations();
-		  usersPersonalTranslations.setEmail(user.getEmail());
-		  usersPersonalTranslations.setExpr1(translation.getSubtitleDTOToTranslate().getExpression());
-		  usersPersonalTranslations.setExpr2(translation.getSubtitleDTOTranslated().getExpression());
-		  usersPersonalTranslations.setLanguageFrom(translation.getSubtitleDTOToTranslate().getLanguage());
-		  usersPersonalTranslations.setLanguageTo(translation.getSubtitleDTOTranslated().getLanguage());
+		return Response.ok().header(ACCESS_CONTROL_ALLOW_ORIGIN, "*").build();
+	}
 
-		  PersistenceUtils.persistObject(usersPersonalTranslations);
-		  return Response.ok()
-				   .header("Access-Control-Allow-Origin", "*")
-				   .build();
-	  }
+	@Path("addTranslation")
+	@POST
+	@Produces("application/json")
+	@Consumes("application/json")
+	public Response addTranslation(@HeaderParam("token") String token,
+			@HeaderParam("translation") Translation translation) {
+		User user = UsersCache.getInstance().getUser(token);
+		UsersPersonalTranslations usersPersonalTranslations = new UsersPersonalTranslations();
+		usersPersonalTranslations.setEmail(user.getEmail());
+		usersPersonalTranslations.setExpr1(translation.getSubtitleDTOToTranslate().getExpression());
+		usersPersonalTranslations.setExpr2(translation.getSubtitleDTOTranslated().getExpression());
+		usersPersonalTranslations.setLanguageFrom(translation.getSubtitleDTOToTranslate().getLanguage());
+		usersPersonalTranslations.setLanguageTo(translation.getSubtitleDTOTranslated().getLanguage());
+
+		PersistenceUtils.persistObject(usersPersonalTranslations);
+		return Response.ok().header(ACCESS_CONTROL_ALLOW_ORIGIN, "*").build();
+	}
+
+	@Path("integrateFile")
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response integrateFile(@FormDataParam("file") InputStream fileStream) {
+
+		writeToFile(fileStream, "C:\\Users\\TOSHIBA\\Desktop\\hello2.srt");
+		return Response.ok().header(ACCESS_CONTROL_ALLOW_ORIGIN, "*").build();
+	}
+
+	private static void writeToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
+
+		try(OutputStream out = new FileOutputStream(new File(uploadedFileLocation))) {
+			int read = 0;
+			byte[] bytes = new byte[1024];
+
+			while ((read = uploadedInputStream.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
+			}
+		} catch (IOException e) {
+			LOGGER.error("Problem in uploading writing stream in file");
+		}
+
+	}
 }

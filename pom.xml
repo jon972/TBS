@@ -40,7 +40,7 @@
 		</dependency>
 	</dependencies>
 	<modules>
-		<module>TBS-WebClient</module>
+		<module>TBS-WebClient-AngularJs-1</module>
 		<module>TBS-Common</module>
 		<module>TBS-Translation</module>
 		<module>TBS-Population</module>

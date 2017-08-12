@@ -10,6 +10,9 @@ import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class EntityVideoDAO {
+
+	private EntityVideoDAO() {}
+
 	public static List<Entityvideo> getListEntityVideo() {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -28,7 +31,7 @@ public class EntityVideoDAO {
 				      .add(Restrictions.eq("numepisode", numEpisode))
 				      .list();
 		if(entityvideoList == null) return null;
-		if(entityvideoList.size() < 1) return null;
+		if(entityvideoList.isEmpty()) return null;
 		Entityvideo entityvideo = entityvideoList.get(0);
 		session.close();
 		return entityvideo;

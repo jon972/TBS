@@ -2,6 +2,7 @@ package fr.gemeroi.persistence.dao;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -14,6 +15,9 @@ import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class SubtitleDAO {
+
+	private static final Logger LOGGER = Logger.getLogger(SubtitleDAO.class);
+	private SubtitleDAO(){}
 
 	public static Subtitle getSubtitleById(Integer id) {
 		Session session = SessionMgr.getSessionFactory().openSession();
@@ -29,7 +33,7 @@ public class SubtitleDAO {
 								.add(Restrictions.eq("language", languageEnum.name()))
 				                .list(); // TODO create a class to put table name as constant variable
 		session.close();
-		return list.size() > 0;
+		return !list.isEmpty();
 	}
 
 	public static List<Subtitle> getSubtitlesFromDB(Entityvideo entityvideo, Language languageEnum) {
@@ -48,7 +52,7 @@ public class SubtitleDAO {
 		try {
 			Session session = SessionMgr.getSessionFactory().openSession();
 			Transaction tx = session.beginTransaction();
-			if (subtitles == null || subtitles.size() == 0 ||
+			if (subtitles == null || subtitles.isEmpty() ||
 					expressionAlreadyExistForTheCurrentVideo(entityvideo, languageEnum)) {
 				return;
 			}
@@ -59,7 +63,7 @@ public class SubtitleDAO {
 			tx.commit();
 			session.close();
 		} catch (Exception e) {
-
+			LOGGER.warn("Subtitle persitence failed for " + subtitles);
 		}
 	}
 }

@@ -11,6 +11,8 @@ import fr.gemeroi.persistence.session.SessionMgr;
 public class PersistenceUtils {
 	private static Logger logger = Logger.getLogger(PersistenceUtils.class);
 
+	private PersistenceUtils(){}
+
 	public static void persistObject(Object object) {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();

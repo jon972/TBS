@@ -8,7 +8,7 @@
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>fr.gemeroi.population</groupId>
+	<groupId>fr.gemeroi.TranslationBySubtitles</groupId>
 	<artifactId>TBS-Population</artifactId>
 	<name>Population</name>
 

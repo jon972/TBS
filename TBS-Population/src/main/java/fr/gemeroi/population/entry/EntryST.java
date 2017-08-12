@@ -5,10 +5,10 @@ import java.util.regex.Pattern;
 
 public abstract class EntryST {
 
-	int startInSec;
-	int endInSec;
-	String subtitle;
-	int rank;
+	protected int startInSec;
+	protected int endInSec;
+	protected String subtitle;
+	protected int rank;
 	
 	public EntryST(String dateStart, String dateEnd, String subtitle, int rank) {
 		this.startInSec = strDateToSec(dateStart);

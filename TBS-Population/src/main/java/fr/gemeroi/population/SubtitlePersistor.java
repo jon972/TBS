@@ -14,7 +14,7 @@ import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.dao.EntityVideoDAO;
 import fr.gemeroi.persistence.dao.SubtitleDAO;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
-import fr.gemeroi.population.entityVideo.EntityVideoBuilder;
+import fr.gemeroi.population.entityvideo.EntityVideoBuilder;
 import fr.gemeroi.population.entry.EntryST;
 import fr.gemeroi.population.file.SubtitlesFile;
 import fr.gemeroi.population.read.SubtitleReader;
@@ -59,7 +59,7 @@ public class SubtitlePersistor {
 		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
 
 		List<Subtitle> languageEntries = SubtitleDAO.getSubtitlesFromDB(entityvideo, language);
-		if(languageEntries != null && languageEntries.size() > 0) {
+		if(languageEntries != null && !languageEntries.isEmpty()) {
 			int endTimeVideoFromAnotherLanguage = languageEntries.get(0).getTimeend();
 			return endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo;
 		}
@@ -113,7 +113,7 @@ public class SubtitlePersistor {
 
 	public static void main(String[] args) {
 		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.en\\Elementary - 1x07 - One Way to Get Off.HDTV.LOL.en.srt"), "Elementary", Language.English);
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.fr\\Elementary - 1x07 - One Way to Get Off.LOL.fr.srt"), "Elementary", Language.French);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.en\\Elementary - 1x07 - One Way to Get Off.HDTV.LOL.en.srt"), "Elementary", Language.ENGLISH);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.fr\\Elementary - 1x07 - One Way to Get Off.LOL.fr.srt"), "Elementary", Language.FRENCH);
 	}
 }

@@ -7,12 +7,14 @@ import fr.gemeroi.persistence.utils.PersistenceUtils;
 
 public class UserFactory {
 
+	private UserFactory() {}
+
 	public static User createUser(String login, String email, String password) {
 		User user = new User(login, email, password);
 		PersistenceUtils.persistObject(user);
 
 		String token = generateToken();
-		UsersCache.addUser(token, user);
+		UsersCache.getInstance().addUser(token, user);
 
 		return user;
 	}

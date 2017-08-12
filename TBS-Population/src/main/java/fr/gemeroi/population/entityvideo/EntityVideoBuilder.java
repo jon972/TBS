@@ -1,4 +1,4 @@
-package fr.gemeroi.population.entityVideo;
+package fr.gemeroi.population.entityvideo;
 
 import fr.gemeroi.persistence.bean.Entityvideo;
 

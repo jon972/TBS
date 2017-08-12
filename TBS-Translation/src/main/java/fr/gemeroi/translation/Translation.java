@@ -31,8 +31,7 @@ public class Translation {
 	public static Translation valueOf(String json) {
 		final GsonBuilder builder = new GsonBuilder();
 		final Gson gson = builder.create();
-		Translation translation = gson.fromJson(json, Translation.class);
-		return translation;
+		return gson.fromJson(json, Translation.class);
 	}
 
 	@Override

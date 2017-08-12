@@ -7,6 +7,9 @@ import org.hibernate.Transaction;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class UsersPersonalTranslationsDao {
+
+	private UsersPersonalTranslationsDao() {}
+
 	public static void removeUsersPersonalTranslations(String email, int id) {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();

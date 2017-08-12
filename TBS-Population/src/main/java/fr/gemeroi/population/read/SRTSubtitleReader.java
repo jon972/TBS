@@ -16,11 +16,10 @@ import org.slf4j.LoggerFactory;
 
 public class SRTSubtitleReader implements SubtitleReader {
 
-	final static Logger logger = LoggerFactory.getLogger(SRTSubtitleReader.class);
+	static final Logger LOGGER = LoggerFactory.getLogger(SRTSubtitleReader.class);
 
-	private List<EntryST> listEntries = new ArrayList<EntryST>();
+	private List<EntryST> listEntries = new ArrayList<>();
 	private SubtitlesFile subtitlesFile;
-	private String nameSerie;
 
 	public SRTSubtitleReader(SubtitlesFile subtitleFile) {
 		super();
@@ -30,29 +29,27 @@ public class SRTSubtitleReader implements SubtitleReader {
 
 	@Override
 	public void read() {
-		try {
-			BufferedReader br = 
+		try(BufferedReader br = 
 					Files.newBufferedReader(FileSystems.getDefault().getPath(subtitlesFile.getFile().getAbsolutePath()), Charset.forName("UTF-8"));
+			) {
 			int rank = 0;
 			String line = br.readLine();
 			while(line != null) {
-				String entry = "";
+				StringBuilder entry = new StringBuilder();
 
 				while (line != null && !line.isEmpty()) {
-					entry = entry + line + "\n";
+					entry.append(line + "\n");
 					line = br.readLine();
 				}
 
-				if (!entry.isEmpty()) {
-					listEntries.add(ConvertTypeUtils.convertToEntrySRT(entry,
-							nameSerie, subtitlesFile.getSeasonNumber(), 
-							subtitlesFile.getEpisodeNumber(), ++rank));
+				if (entry.length() != 0) {
+					listEntries.add(ConvertTypeUtils.convertToEntrySRT(new String(entry), ++rank));
 				}
 				line = br.readLine();
 			}
 		} catch (Exception e) {
-			logger.error("Problem in reading SRT file : " + subtitlesFile.getFile().getName());
-		}
+			LOGGER.error("Problem in reading SRT file : " + subtitlesFile.getFile().getName());
+		} 
 	}
 
 	@Override
