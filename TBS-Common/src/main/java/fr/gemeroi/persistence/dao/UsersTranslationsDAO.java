@@ -19,12 +19,12 @@ public class UsersTranslationsDAO {
 			+ "ut.subtitle1.language = '%s' and "
 			+ "ut.subtitle2.language = '%s'";
 
-	public static List<UsersTranslations> retrieveUsersTranslations(String userMail, Language l1, Language l2) {
+	public static List<UsersTranslations> retrieveUsersTranslations(String userMail, Language languageInitial, Language languageDestination) {
 		Session session = SessionMgr.getSessionFactory().openSession();
-		String queryHql = String.format(USER_TRANSLATION_USING_TRANSLATION_TYPE, userMail, l1.name(), l2.name());
+		String queryHql = String.format(USER_TRANSLATION_USING_TRANSLATION_TYPE, userMail, languageInitial.name(), languageDestination.name());
 		Query query = session.createQuery(queryHql);
+
 		List<UsersTranslations> listUsersTranslations = query.list();
-		
 		session.close();
 		return listUsersTranslations;
 	}

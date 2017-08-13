@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import fr.gemeroi.population.file.SubtitlesFile;
+import fr.gemeroi.population.reader.SRTSubtitleReader;
 
 public class SRTSubtitleReaderTest {
 

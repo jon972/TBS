@@ -6,19 +6,19 @@ public class EntityVideoBuilder {
 
 	private Entityvideo entityVideo = new Entityvideo();
 
-	public EntityVideoBuilder addNom(String name) {
-		this.entityVideo.setNom(name);
+	public EntityVideoBuilder withName(String name) {
+		this.entityVideo.setName(name);
 		return this;
 	}
-	public EntityVideoBuilder addNumepisode(int episode) {
+	public EntityVideoBuilder withNumepisode(int episode) {
 		this.entityVideo.setNumepisode(episode);
 		return this;
 	}
-	public EntityVideoBuilder addNumsaison(int season) {
+	public EntityVideoBuilder withNumsaison(int season) {
 		this.entityVideo.setNumsaison(season);
 		return this;
 	}
-	public EntityVideoBuilder addType(String type) {
+	public EntityVideoBuilder withType(String type) {
 		this.entityVideo.setType(type);
 		return this;
 	}

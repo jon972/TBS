@@ -1,27 +1,24 @@
 package fr.gemeroi.population;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-
+import org.apache.log4j.Logger;
 
 import fr.gemeroi.common.utils.Language;
 import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.dao.EntityVideoDAO;
 import fr.gemeroi.persistence.dao.SubtitleDAO;
-import fr.gemeroi.persistence.utils.PersistenceUtils;
-import fr.gemeroi.population.entityvideo.EntityVideoBuilder;
-import fr.gemeroi.population.entry.EntryST;
+import fr.gemeroi.population.entityvideo.EntityVideoCreator;
+import fr.gemeroi.population.extractor.SubtitleExtractor;
 import fr.gemeroi.population.file.SubtitlesFile;
-import fr.gemeroi.population.read.SubtitleReader;
-import fr.gemeroi.population.read.SRTSubtitleReader;
+import fr.gemeroi.population.reader.SRTSubtitleReader;
+import fr.gemeroi.population.reader.SubtitleReader;
 
 public class SubtitlePersistor {
 
+	private static final Logger LOGGER = Logger.getLogger(SubtitlePersistor.class);
 	private final String subtitleFileNamePattern;
 
 	public SubtitlePersistor(String subtitleFileNamePattern) {
@@ -44,71 +41,33 @@ public class SubtitlePersistor {
 
 	private void persistSubtitlesFile(File file, String serieName, Language language) {
 		SubtitlesFile subtitlesFile = new SubtitlesFile(file, serieName, language, subtitleFileNamePattern);
-		Entityvideo entityvideo = createEntityVideo(subtitlesFile, serieName);
+
+		Entityvideo entityvideo = EntityVideoDAO.retrieveEntityvideo(serieName, subtitlesFile.getSeasonNumber(), subtitlesFile.getEpisodeNumber());
+		if(!entityVideoAlreadyPersisted(entityvideo)) {
+			entityvideo = createEntityVideo(subtitlesFile, serieName);
+		}
+
 		SubtitleReader reader = new SRTSubtitleReader(subtitlesFile);
-		List<Subtitle> subtitles = buildSubtitles(reader, language, entityvideo);
+		List<Subtitle> subtitles = new SubtitleExtractor(reader, language, entityvideo).extractSubtitlesFromReader();
 
-		if(isMatchingOtherPersistedSubtitles(entityvideo, subtitles, language)) {
+		FileMatchValidator fileMatchValidator = new FileMatchValidator(entityvideo, subtitles, language);
+		if(fileMatchValidator.isMatchingToOtherSubtitlesPersisted()) {
 			SubtitleDAO.persistSubtitles(subtitles, entityvideo, language);
+			LOGGER.info("The subtitles from file " + file.getAbsolutePath() + ", the subtitles are persisted");
+		} else {
+			LOGGER.warn("The subtitles from file " + file.getAbsolutePath() + " doesn't match the one in database, the subtitles were not persisted");
 		}
-	}
-
-	private boolean isMatchingOtherPersistedSubtitles(Entityvideo entityvideo, List<Subtitle> subtitles, Language language) {
-		sortSubtitlesByTimeEnd(subtitles);
-		if(subtitles.isEmpty()) return false;
-		int lastTimeEndCurrentVideo = subtitles.get(0).getTimeend();
-
-		List<Subtitle> languageEntries = SubtitleDAO.getSubtitlesFromDB(entityvideo, language);
-		if(languageEntries != null && !languageEntries.isEmpty()) {
-			int endTimeVideoFromAnotherLanguage = languageEntries.get(0).getTimeend();
-			return endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo;
-		}
-
-		return true;
 	}
 
 	private Entityvideo createEntityVideo(SubtitlesFile subtitlesFile, String serieName) {
-		Entityvideo entityvideo = EntityVideoDAO.getEntityvideo(serieName, subtitlesFile.getSeasonNumber(), subtitlesFile.getEpisodeNumber());
-		if(entityvideo == null) {
-			EntityVideoBuilder entityVideoBuilder = new EntityVideoBuilder();
-			entityvideo = entityVideoBuilder
-					.addNom(serieName)
-					.addNumepisode(subtitlesFile.getEpisodeNumber())
-					.addNumsaison(subtitlesFile.getSeasonNumber())
-					.build();
+		EntityVideoCreator entityVideoCreator = new EntityVideoCreator(subtitlesFile, serieName);
+		entityVideoCreator.create();
+		return entityVideoCreator.getEntityVideo();
 
-			PersistenceUtils.persistObject(entityvideo);
-		}
-
-		return entityvideo;
 	}
 
-	private void sortSubtitlesByTimeEnd(List<Subtitle> subtitles) {
-		Collections.sort(subtitles, new Comparator<Subtitle>() {
-			public int compare(Subtitle sub1, Subtitle sub2) {
-				if (sub1.getTimeend() > sub2.getTimeend())
-					return -1;
-				if (sub1.getTimeend() < sub2.getTimeend())
-					return 1;
-				return 0;
-			}
-		});
-	}
-
-	private List<Subtitle> buildSubtitles(SubtitleReader reader, Language language, Entityvideo entityvideo) {
-		List<Subtitle> subtitles = new ArrayList<>();
-		for(EntryST entryST : reader.getListEntries()) {
-			Subtitle subtitle = new Subtitle();
-			subtitle.setExpression(entryST.getSubtitle());
-			subtitle.setRank(entryST.getRank());
-			subtitle.setTimebegin(entryST.getDateStart());
-			subtitle.setTimeend(entryST.getDateEnd());
-			subtitle.setEntityvideo(entityvideo);
-			subtitle.setLanguage(language.name());
-			subtitles.add(subtitle);
-		}
-
-		return subtitles;
+	private boolean entityVideoAlreadyPersisted(Entityvideo entityvideo) {
+		return entityvideo != null;
 	}
 
 	public static void main(String[] args) {

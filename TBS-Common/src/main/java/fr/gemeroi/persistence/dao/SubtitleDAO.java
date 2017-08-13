@@ -36,7 +36,7 @@ public class SubtitleDAO {
 		return !list.isEmpty();
 	}
 
-	public static List<Subtitle> getSubtitlesFromDB(Entityvideo entityvideo, Language languageEnum) {
+	public static List<Subtitle> retrieveSubtitles(Entityvideo entityvideo, Language languageEnum) {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(Subtitle.class);
 		List<Subtitle> results = 

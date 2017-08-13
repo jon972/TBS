@@ -13,7 +13,7 @@ public class EntityVideoDAO {
 
 	private EntityVideoDAO() {}
 
-	public static List<Entityvideo> getListEntityVideo() {
+	public static List<Entityvideo> retrieveListEntityVideo() {
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
 
@@ -22,7 +22,7 @@ public class EntityVideoDAO {
 		return entityVideos;
 	}
 
-	public static Entityvideo getEntityvideo(String entityVideoName, int numSeason, int numEpisode) {
+	public static Entityvideo retrieveEntityvideo(String entityVideoName, int numSeason, int numEpisode) {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		List<Entityvideo> entityvideoList = 
 		 session.createCriteria(Entityvideo.class)

@@ -53,7 +53,7 @@ public class Entityvideo implements java.io.Serializable {
 		return this.nom;
 	}
 
-	public void setNom(String nom) {
+	public void setName(String nom) {
 		this.nom = nom;
 	}
 

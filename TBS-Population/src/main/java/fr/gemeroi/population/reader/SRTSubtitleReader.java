@@ -1,4 +1,4 @@
-package fr.gemeroi.population.read;
+package fr.gemeroi.population.reader;
 
 import java.io.BufferedReader;
 import java.nio.charset.Charset;

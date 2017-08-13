@@ -1,4 +1,4 @@
-package fr.gemeroi.population.read;
+package fr.gemeroi.population.reader;
 
 import java.util.List;
 

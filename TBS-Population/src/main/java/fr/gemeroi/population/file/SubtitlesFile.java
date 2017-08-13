@@ -22,7 +22,7 @@ public class SubtitlesFile {
 		this.file = file;
 		this.language = language;
 		this.patternSeasonEpisode = patternSeasonEpisode;
-		this.seasonNumber = this.parseSeasonNumer();
+		this.seasonNumber = this.parseSeasonNumber();
 		this.episodeNumber = this.parseEpisodeNumber();
 		this.setNameEntityvideo(nameEntityvideo);
 	}
@@ -51,7 +51,7 @@ public class SubtitlesFile {
 		this.nameEntityvideo = nameEntityvideo;
 	}
 
-	private int parseSeasonNumer() {
+	private int parseSeasonNumber() {
 		try {
 			Pattern pattern = Pattern.compile(patternSeasonEpisode);
 			Matcher matcher = pattern.matcher(this.file.getName());

@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import fr.gemeroi.persistence.session.SessionMgr;
 
 public class PersistenceUtils {
-	private static Logger logger = Logger.getLogger(PersistenceUtils.class);
+	private static final Logger LOGGER = Logger.getLogger(PersistenceUtils.class);
 
 	private PersistenceUtils(){}
 
@@ -21,7 +21,7 @@ public class PersistenceUtils {
 			session.save(object);
 			tx.commit();
 		} catch (Exception e) {
-			logger.error("The object " + object + " cannot be persisted");
+			LOGGER.error("The object " + object + " cannot be persisted");
 		} finally {
 			session.close();
 		}
