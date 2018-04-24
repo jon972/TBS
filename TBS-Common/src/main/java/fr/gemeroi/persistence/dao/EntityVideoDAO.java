@@ -26,8 +26,8 @@ public class EntityVideoDAO {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		List<Entityvideo> entityvideoList = 
 		 session.createCriteria(Entityvideo.class)
-				      .add(Restrictions.eq("nom", entityVideoName))
-				      .add(Restrictions.eq("numsaison", numSeason))
+				      .add(Restrictions.eq("name", entityVideoName))
+				      .add(Restrictions.eq("numseason", numSeason))
 				      .add(Restrictions.eq("numepisode", numEpisode))
 				      .list();
 		if(entityvideoList == null) return null;

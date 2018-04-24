@@ -72,7 +72,7 @@ public class SubtitlePersistor {
 
 	public static void main(String[] args) {
 		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.en\\Elementary - 1x07 - One Way to Get Off.HDTV.LOL.en.srt"), "Elementary", Language.ENGLISH);
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Elementary - season 1.fr\\Elementary - 1x07 - One Way to Get Off.LOL.fr.srt"), "Elementary", Language.FRENCH);
+//		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\OneDrive\\Documents\\Elementary.S04.DVDRip.Z1.NF.FR\\Elementary.421.srt"), "Elementary", Language.FRENCH);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\OneDrive\\Documents\\Elementary - season 4.en\\Elementary - 4x21 - Ain't Nothing Like the Real Thing.HDTV.x264-DIMENSION.en.srt"), "Elementary", Language.ENGLISH);
 	}
 }

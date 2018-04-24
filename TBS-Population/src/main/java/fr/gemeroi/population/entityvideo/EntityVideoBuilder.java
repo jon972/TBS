@@ -15,7 +15,7 @@ public class EntityVideoBuilder {
 		return this;
 	}
 	public EntityVideoBuilder withNumsaison(int season) {
-		this.entityVideo.setNumsaison(season);
+		this.entityVideo.setNumseason(season);
 		return this;
 	}
 	public EntityVideoBuilder withType(String type) {

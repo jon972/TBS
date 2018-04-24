@@ -5,7 +5,6 @@ import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 
 public class SubtitleBuilder {
-	private Integer id;
 	private Entityvideo entityvideo;
 	private String expression;
 	private Integer timeBegin;
@@ -15,11 +14,6 @@ public class SubtitleBuilder {
 
 	public SubtitleBuilder() {
 		
-	}
-
-	public SubtitleBuilder withId(Integer id) {
-		this.id = id;
-		return this;
 	}
 
 	public SubtitleBuilder withEntityvideo(Entityvideo entityvideo) {
@@ -53,7 +47,7 @@ public class SubtitleBuilder {
 	}
 
 	public Subtitle build() {
-		return new Subtitle(id, entityvideo, expression,
+		return new Subtitle(entityvideo, expression,
 				timeBegin, timeEnd, rank, language.name());
 	}
 }

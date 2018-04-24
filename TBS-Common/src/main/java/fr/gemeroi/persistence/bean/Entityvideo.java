@@ -13,13 +13,13 @@ import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "ENTITY_VIDEO", uniqueConstraints = @UniqueConstraint(columnNames = {
-		"nom", "numsaison", "numepisode" }))
+		"name", "numseason", "numepisode" }))
 public class Entityvideo implements java.io.Serializable {
 
 	private Integer id;
-	private String nom;
+	private String name;
 	private String type;
-	private Integer numsaison;
+	private Integer numseason;
 	private Integer numepisode;
 
 	public Entityvideo() {
@@ -30,9 +30,9 @@ public class Entityvideo implements java.io.Serializable {
 	}
 
 	public Entityvideo(String nom, String type, Integer numsaison, Integer numepisode) {
-		this.nom = nom;
+		this.name = nom;
 		this.type = type;
-		this.numsaison = numsaison;
+		this.numseason = numsaison;
 		this.numepisode = numepisode;
 	}
 
@@ -48,15 +48,15 @@ public class Entityvideo implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "nom")
-	public String getNom() {
-		return this.nom;
+	@Column(name = "name")
+	public String getName() {
+		return this.name;
 	}
 
-	public void setName(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
-
+	
 	@Column(name = "type")
 	public String getType() {
 		return this.type;
@@ -66,13 +66,13 @@ public class Entityvideo implements java.io.Serializable {
 		this.type = type;
 	}
 
-	@Column(name = "numsaison")
-	public Integer getNumsaison() {
-		return this.numsaison;
+	@Column(name = "numseason")
+	public Integer getNumseason() {
+		return this.numseason;
 	}
 
-	public void setNumsaison(Integer numsaison) {
-		this.numsaison = numsaison;
+	public void setNumseason(Integer numseason) {
+		this.numseason = numseason;
 	}
 
 	@Column(name = "numepisode")
@@ -90,9 +90,9 @@ public class Entityvideo implements java.io.Serializable {
 		}
 
 		Entityvideo entityVideo = (Entityvideo) o;
-		return this.nom.equals(entityVideo.nom) &&
+		return this.name.equals(entityVideo.name) &&
 			   this.numepisode.equals(entityVideo.numepisode) &&
-			   this.numsaison.equals(entityVideo.numsaison);
+			   this.numseason.equals(entityVideo.numseason);
 	}
 
 	@Override
@@ -100,9 +100,9 @@ public class Entityvideo implements java.io.Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nom == null) ? 0 : nom.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((numepisode == null) ? 0 : numepisode.hashCode());
-		result = prime * result + ((numsaison == null) ? 0 : numsaison.hashCode());
+		result = prime * result + ((numseason == null) ? 0 : numseason.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
