@@ -1,0 +1,23 @@
+<div>
+  <div class="row" ng-mouseenter="mouseIsOver = true"
+       ng-mouseleave="mouseIsOver = false">
+    <div class="col-sm-5 col-md-offset-4">
+      <div class="row">
+	<div ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved}" class="col-sm-8">
+	  <p>{{translation.subtitleDTOToTranslate.expression}}</p>
+	  <p>{{translation.subtitleDTOTranslated.expression}}</p>
+	</div>
+	<div ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+	     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+	     ng-if="mouseIsOver && isSavable == 'true' && isLogged() && !isSaved" alt="Add in preferences">
+	  <span class="glyphicon glyphicon-plus-sign"></span>
+	</div>
+	<div ng-click="unsaveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+	     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+	     ng-if="mouseIsOver && isSavable == 'false' && isLogged()" alt="Add in preferences">
+	  <span class="glyphicon glyphicon-remove"></span>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>

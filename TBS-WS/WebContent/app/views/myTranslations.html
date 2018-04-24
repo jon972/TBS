@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row" ng-controller="myTranslationsController">
+        <div ng-controller="languagesController">
+		    <div class="col-md-offset-3">
+			    <div class="col-sm-3">
+					<select class="form-control" ng-init="getAllLanguages()"
+						id="languageSelectFrom" ng-model="languageFrom"
+						ng-options="language for language in availableLanguages">
+					</select>
+				</div>
+				<div class="col-sm-1" style="text-align:center">
+					<span class="glyphicon glyphicon-arrow-right"> </span>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control" id="languageSelectFrom"
+						ng-model="languageTo"
+						ng-options="language for language in availableLanguages">
+					</select>
+				</div>
+				</div>
+		      <button id="buttonDisplayAction"  class="btn btn-second btn-md" 
+		      		  ng-click="retrieveMyTranslations(languageFrom, languageTo)">
+		      		  Show
+		      </button>
+      </div>
+      <br>
+	  <div ng-repeat="translation in userTranslations">
+	      <div>
+			<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+					 isSavable="false"></ng-trans-entity>
+			<hr>
+         </div>
+     </div>
+  </div>
+</div>

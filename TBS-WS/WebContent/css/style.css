@@ -1,0 +1,53 @@
+.bgNavbar {
+	backgound-color : red;
+}
+.glyphicon-plus-sign {
+    background: #424242;
+}
+
+span.glyphicon-arrow-right {
+    font-size: 2.2em;
+    text-align:center;
+}
+
+.glyphicon-plus-sign:hover {
+	
+}
+
+.colorRed {
+	color: red;
+}
+
+.colorBlue {
+	color: blue;
+}
+.colorYellow {
+	color: yellow;
+}
+.bgColor {
+	background-color : #A4A4A4;
+}
+.translationEntityColor {
+	color : #CFC6F2;
+}
+
+.bgColorBlue {
+	background-color: #CFC6F2; 
+	border-radius: 25px;
+}
+
+.bgColorYellow {
+	background-color: yellow; 
+	border-radius: 25px;
+}
+
+.navbar-nav > li > a, .navbar-brand {
+    padding-top:4px !important; 
+    padding-bottom:0 !important;
+    height: 28px;
+}
+.navbar {min-height:28px !important;}
+
+select {
+	width:10px;
+}

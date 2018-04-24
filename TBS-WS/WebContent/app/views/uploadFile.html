@@ -1,0 +1,41 @@
+<div ng-controller="integrationSubtitlesFiles" class="container">
+	<row>
+	<div class="col-md-offset-4">
+		<font color="white">Nameeee</font>
+	</div>
+	<div class="col-md-offset-4">
+		<input value="Name" type="text" ng-model="name" />
+	</div>
+	</row>
+	<row>
+	<div class="col-md-offset-4">
+		<font color="white">Episode number</font>
+	</div>
+	<div class="col-md-offset-4">
+		<input value="Episode number" type="text" ng-model="episodeNumber" />
+	</div>
+	</row>
+	<row>
+	<div class="col-md-offset-4">
+		<font color="white">Season number</font>
+	</div>
+	<div class="col-md-offset-4">
+		<input value="Season number" type="text" ng-model="seasonNumber" />
+	</div>
+	</row>
+	<div class="col-md-offset-4">
+		<font color="white">Language</font>
+	</div>
+	<div class="col-md-offset-4">
+		<input value="Language" type="text" ng-model="language" />
+	</div>
+	</row>
+	<row>
+	<div class="col-md-offset-4">
+		Fileeee <input type="file" file-model="fileSRT" />
+		<button value="Submit" ng-click="uploadFile()">
+			Submit
+		</button>
+	</div>
+	</row>
+</div>

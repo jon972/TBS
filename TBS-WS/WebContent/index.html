@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Translate By Subtitles</title>
+
+    <meta charset="utf-8">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+    <script type="text/javascript" src="node_modules/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="node_modules/angular-cookies/angular-cookies.js"></script>
+    <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/controllers/signupController.js"></script>
+    <script type="text/javascript" src="app/controllers/loginController.js"></script>
+    <script type="text/javascript" src="app/controllers/myTranslationsController.js"></script>
+    <script type="text/javascript" src="app/controllers/translationController.js"></script>
+    <script type="text/javascript" src="app/controllers/languagesController.js"></script>
+    <script type="text/javascript" src="app/controllers/addTranslation.js"></script>
+    <script type="text/javascript" src="app/controllers/integrationSubtitlesFiles.js"></script>
+    <script type="text/javascript" src="app/directives/ngTransEntityDirective.js"></script>
+    <script type="text/javascript" src="app/services/tokenService.js"></script>
+    <script type="text/javascript" src="app/js/ui-bootstrap-tpls-1.0.3.min.js"></script>
+	<script type="text/javascript" src="app/js/subtitleDTO.js"></script>
+	<script type="text/javascript" src="app/js/translation.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://code.angularjs.org/1.3.0/angular-animate.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+  </head>
+
+  <body class="bgColor"ng-app="TBSApp" ng-controller="mainController" >
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+	
+		<ul ng-if="!isLogged()" class="nav navbar-nav navbar-right">
+		  <li><a href="#signup"><span class="glyphicon glyphicon-user"></span> Sign Up </a></li>
+		  <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> Login </a></li>
+		</ul>
+	
+		<ul ng-if="isLogged()"  class="nav navbar-nav navbar-right">
+		  <li><a href="#myTranslations"> My Translations </a></li>
+		  <li><a href="#addTranslation"> Add Translation </a></li>
+		  <li><a href="#uploadFile"> Upload subtitle file </a></li>
+		  <li ng-click="logout()"><a href="#/"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+		</ul>
+      </div>
+    </nav>
+    <div style="text-align: center;">
+	  <img src="images/TransLucidCalligraphy.png" height="100" width="400"/>
+	</div>
+	<br/>
+	<br/>
+    <div ng-view></div>
+  </body>
+</html>

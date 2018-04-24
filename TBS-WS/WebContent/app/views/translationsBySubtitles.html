@@ -1,0 +1,81 @@
+<div id="trans" ng-controller="translationController"
+	ng-init="translateRequest()">
+	<div ng-controller="languagesController">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-offset-4">
+					<div class="col-sm-3" style="position: relative; left: -15px;">
+						<select class="form-control" ng-init="getAllLanguages()" id="languageSelectFrom"
+							ng-model="languageFrom"
+							ng-options="language for language in availableLanguages">
+						</select> 
+					</div>
+					<div class="col-sm-1">
+						<span class="glyphicon glyphicon-arrow-right"> </span> 
+					</div>
+					<div class="col-sm-3">
+						<select  class="form-control"
+							id="languageSelectFrom" ng-model="languageTo"
+							ng-options="language for language in availableLanguages">
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-offset-4">
+					<input class="inputWordToTranslate input-lg" style="width: 440px"
+						type="text" placeholder="Enter a word" autofocus
+						id="wordToTranslateInput" ng-model="exprToTranslate"
+						typeahead-show-hint="true"
+						uib-typeahead="language for language in availableLanguages" />
+
+					<button id="buttonDisplayAction"
+						ng-click="setTranslationUrl(languageFrom, languageTo, exprToTranslate)"
+						type="button" class="btn btn-second btn-lg">Translate</button>
+				</div>
+			</div>
+			<div>
+				<div ng-if="translations.length > 0 && !isLoadingFromServer()"
+					ng-repeat="translation in translations" ng-animate="'translation'">
+					<div>
+						<hr>
+						<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+							isSavable="true"></ng-trans-entity>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-5" ng-if="isLoadingFromServer()">
+						<img src="images/loaderGrey.gif" width="40px" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-5 col-sm-offset-5"
+						ng-if="translations.length == 0 && !isLoadingFromServer()">
+						No translation found for the entry</div>
+				</div>
+				<div>
+					<table
+						style="border-spacing: 10px; border-collapse: separate; margin-left: auto; margin-right: auto;">
+						<tr>
+							<td><img width="200PX" height="300px"
+								src="https://ia.media-imdb.com/images/M/MV5BMTM5MjkwMTI0MV5BMl5BanBnXkFtZTcwODQwMTc0OQ@@._V1_.jpg" />
+							</td>
+							<td><img width="200PX" height="300px"
+								src="https://ia.media-imdb.com/images/M/MV5BZDNhNzhkNDctOTlmOS00NWNmLWEyODQtNWMxM2UzYmJiNGMyXkEyXkFqcGdeQXVyNTMxMjgxMzA@._V1_.jpg" />
+							</td>
+							<td><img width="200PX" height="300px"
+								src="https://ia.media-imdb.com/images/M/MV5BY2FmZTY5YTktOWRlYy00NmIyLWE0ZmQtZDg2YjlmMzczZDZiXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
+							</td>
+							<td><img width="200PX" height="300px"
+								src="https://ia.media-imdb.com/images/M/MV5BMDEyN2U1YTItNDY1Zi00YjljLWI5YzItNWU3YWViYjhiZTgxXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
+							</td>
+							<td><img width="200PX" height="300px"
+								src="https://ia.media-imdb.com/images/M/MV5BMTg4NzEyNzQ5OF5BMl5BanBnXkFtZTYwNTY3NDg4._V1._CR24,0,293,443_.jpg" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

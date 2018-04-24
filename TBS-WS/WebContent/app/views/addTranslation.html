@@ -1,0 +1,41 @@
+<div class="container">
+ 	 <div class="col-sm-5 col-md-offset-4" ng-controller="languagesController">
+ 	 <div class="row" ng-controller="addTranslationController">
+		 <table>
+		  <tr>
+		    <td>
+		      <select ng-init="getAllLanguages()"
+			      id="languageSelectFrom" ng-model="languageFrom"
+			      ng-options="language for language in availableLanguages">
+		      </select>
+		   </td>
+		   </tr>
+		   <tr>
+		   <td>
+		      <input class="inputExprFrom" type="text"
+			       id="exprFrom" ng-model="exprFrom" size="100">
+		   </td>
+		   </tr>
+		   <tr>
+		    <td>
+		      <select
+			 id="languageSelectFrom" ng-model="languageTo"
+			 ng-options="language for language in availableLanguages">
+		      </select>
+		    </td>
+		    </tr>
+		    <tr>
+	        <td>
+		      <input class="inputExprTo" type="text"
+			       id="exprTo" ng-model="exprTo" size="100">
+		   </td>
+		   </tr>
+		   <tr>
+		    <td>
+		      <button id="buttonDisplayAction" ng-click="addTranslation()">Save</button>
+		    </td>
+		    </tr>
+		</table>
+      </div>
+  </div>
+</div>
