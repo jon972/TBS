@@ -23,6 +23,8 @@ import org.apache.log4j.Logger;
 import com.sun.jersey.multipart.FormDataParam;
 
 import fr.gemeroi.common.utils.Language;
+import fr.gemeroi.persistence.bean.Entityvideo;
+import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersPersonalTranslations;
 import fr.gemeroi.persistence.bean.UsersTranslations;
@@ -34,6 +36,7 @@ import static fr.gemeroi.services.reponses.HeadersResponses.ACCESS_CONTROL_ALLOW
 import fr.gemeroi.services.reponses.Responses;
 import fr.gemeroi.translation.Translate;
 import fr.gemeroi.translation.Translation;
+import fr.gemeroi.translation.dto.EntityVideoDTO;
 import fr.gemeroi.user.creation.UsersCache;
 import fr.gemeroi.user.translation.UserTranslationsMgr;
 
@@ -98,6 +101,18 @@ public class TranslationServices {
 		}
 
 		return Response.ok().header(ACCESS_CONTROL_ALLOW_ORIGIN, "*").build();
+	}
+
+	@Path("translationInfos")
+	@POST
+	@Produces("application/json")
+	public Response translationInfo(@HeaderParam("translation") Translation translation) {
+
+		Subtitle subtitle = SubtitleDAO.getSubtitleById(translation.getSubtitleDTOToTranslate().getId());
+		Entityvideo entityVideo = subtitle.getEntityvideo();
+		EntityVideoDTO entityVideoDTO = new EntityVideoDTO(entityVideo.getName(), 
+								entityVideo.getNumepisode(), entityVideo.getNumseason());
+		return Responses.responseOk(entityVideoDTO);
 	}
 
 	@Path("addTranslation")

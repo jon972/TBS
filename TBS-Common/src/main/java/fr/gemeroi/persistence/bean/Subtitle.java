@@ -53,7 +53,7 @@ public class Subtitle implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "entityvideoid")
 	public Entityvideo getEntityvideo() {
 		return this.entityvideo;

@@ -1,23 +1,41 @@
 <div>
-  <div class="row" ng-mouseenter="mouseIsOver = true"
-       ng-mouseleave="mouseIsOver = false">
-    <div class="col-sm-5 col-md-offset-4">
-      <div class="row">
-	<div ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved}" class="col-sm-8">
-	  <p>{{translation.subtitleDTOToTranslate.expression}}</p>
-	  <p>{{translation.subtitleDTOTranslated.expression}}</p>
-	</div>
-	<div ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
-	     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
-	     ng-if="mouseIsOver && isSavable == 'true' && isLogged() && !isSaved" alt="Add in preferences">
-	  <span class="glyphicon glyphicon-plus-sign"></span>
-	</div>
-	<div ng-click="unsaveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
-	     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
-	     ng-if="mouseIsOver && isSavable == 'false' && isLogged()" alt="Add in preferences">
-	  <span class="glyphicon glyphicon-remove"></span>
-	</div>
-      </div>
-    </div>
+  <div ng-mouseenter="mouseIsOver = true"
+       ng-mouseleave="mouseIsOver = false" ng-click="setInfosAreDisplayed()">
+    <table width="100%">
+    	<tr>
+	    	<td>
+				<div ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved}">
+				  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
+				  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
+				</div>
+			</td>
+			<!-- Petit hack pour que la taille du composant reste le même -->
+			<td valign="top" ng-if="(!mouseIsOver && !isSaved) || (isSaved && isSavable == 'true')">
+				<div ng-class="{colorGrey: hover, colorGrey: !hover}">
+				  <span class="glyphicon glyphicon-plus-sign"></span>
+				</div>
+			</td>
+			<td valign="top" ng-if="!mouseIsOver && isSavable == 'false' ">
+				<div ng-class="{colorGrey: hover, colorGrey: !hover}">
+				  <span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</td>
+			<!--  -->
+			<td valign="top" ng-if="mouseIsOver && isSavable == 'true' && isLogged() && !isSaved">
+				<div ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+				     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+				     alt="Add in preferences">
+				  <span class="glyphicon glyphicon-plus-sign"></span>
+				</div>
+			</td>
+			<td valign="top" ng-if="mouseIsOver && isSavable == 'false' && isLogged()">
+				<div ng-click="unsaveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+				     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
+				     alt="Add in preferences">
+				  <span class="glyphicon glyphicon-remove"></span>
+				</div>
+			</td>
+		</tr>
+    </table>
   </div>
 </div>

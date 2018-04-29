@@ -13,7 +13,8 @@ public class Translation {
 	private boolean isSaved;
 	private boolean isPersonalTranslation;
 
-	public Translation(Integer id, SubtitleDTO subtitleDTOToTranslate, SubtitleDTO subtitleDTOTranslated, boolean isSaved, boolean isPersonalTranslation) {
+	public Translation(Integer id, SubtitleDTO subtitleDTOToTranslate, SubtitleDTO subtitleDTOTranslated, 
+			boolean isSaved, boolean isPersonalTranslation) {
 		this.subtitleDTOToTranslate = subtitleDTOToTranslate;
 		this.subtitleDTOTranslated = subtitleDTOTranslated;
 		this.setSaved(isSaved);

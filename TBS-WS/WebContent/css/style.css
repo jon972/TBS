@@ -1,23 +1,17 @@
 .bgNavbar {
 	backgound-color : red;
 }
+
 .glyphicon-plus-sign {
-    background: #424242;
-}
-
-span.glyphicon-arrow-right {
-    font-size: 2.2em;
-    text-align:center;
-}
-
-.glyphicon-plus-sign:hover {
-	
+    background: #A4A4A4;
 }
 
 .colorRed {
 	color: red;
 }
-
+.colorGrey {
+	color: #A4A4A4;
+}
 .colorBlue {
 	color: blue;
 }
