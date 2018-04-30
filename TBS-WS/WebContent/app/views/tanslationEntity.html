@@ -10,12 +10,12 @@
 				</div>
 			</td>
 			<!-- Petit hack pour que la taille du composant reste le même -->
-			<td valign="top" ng-if="(!mouseIsOver && !isSaved) || (isSaved && isSavable == 'true')">
+			<td valign="top" ng-if="((!mouseIsOver && !isSaved) || (isSaved && isSavable == 'true')) && isLogged()">
 				<div ng-class="{colorGrey: hover, colorGrey: !hover}">
 				  <span class="glyphicon glyphicon-plus-sign"></span>
 				</div>
 			</td>
-			<td valign="top" ng-if="!mouseIsOver && isSavable == 'false' ">
+			<td valign="top" ng-if="!mouseIsOver && isSavable == 'false' && isLogged()">
 				<div ng-class="{colorGrey: hover, colorGrey: !hover}">
 				  <span class="glyphicon glyphicon-remove"></span>
 				</div>
