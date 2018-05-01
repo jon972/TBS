@@ -29,23 +29,36 @@
 						typeahead-show-hint="true"
 						uib-typeahead="language for language in availableLanguages" />
 					<button id="buttonDisplayAction"
-						ng-click="setTranslationUrl(languageFrom, languageTo, exprToTranslate)"
+						ng-click="resetTranslationsAround(); setTranslationUrl(languageFrom, languageTo, exprToTranslate);"
 						type="button" class="btn btn-second btn-lg" style="position:relative; top:-1px;">Translate</button>
 				</div>
 			</div>
-			<div class ="row">
-				<div class="col-md-4" style="overflow-y: scroll; height: 400px;">		
-					<div ng-if="translations.length > 0 && !isLoadingFromServer()"
-						ng-repeat="translation in translations" ng-animate="'translation'">
+			<div class="row">
+				<div style="border-style: solid; border-width:1px; border-color: black; height:60px; background-color:#0080FF" class="col-md-4">
+					<h2>Translations</h2>
+				</div>
+				<div style="border-style: solid; border-width:1px; border-color: black; height:60px; background-color:#0080FF" class="col-md-8">
+					<h2>Details</h2>
+				</div>
+			</div>
+			<div ng-if="translations.length > 0 && !isLoadingFromServer()" class ="row">
+				<div class="col-md-4" style="overflow-y: scroll; height: 600px;">		
+					<div ng-repeat="translation in translations" ng-animate="'translation'">
+						<br/>
+						<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+						isSavable="true" location="translationsList"></ng-trans-entity>
+					</div>
+				</div>
+				<div ng-if="anElementIsSelected" ng-controller="entityVideoDetailsController" class="col-md-8"> 
+					<p>Nom de la serie : {{getEntityVideoDTO().name}}</p>
+					<p>Episode numero : {{getEntityVideoDTO().numEpisode}}</p>
+					<p>Saison numero : {{getEntityVideoDTO().numSeason}}</p>
+					<div ng-if="getTranslationsAround().length > 0 && !isLoadingFromServer()"
+						ng-repeat="translation in getTranslationsAround()">
 						<br/>
 						<ng-trans-entity index="{{$index}}" translation="{{translation}}"
 						isSavable="true"></ng-trans-entity>
 					</div>
-				</div>
-				<div ng-controller="entityVideoDetailsController" class="col-md-8"> 
-					<p>Nom de la serie : {{getEntityVideoDTO().name}}</p>
-					<p>Episode numero : {{getEntityVideoDTO().numEpisode}}</p>
-					<p>Saison numero : {{getEntityVideoDTO().numSeason}}</p>
 				</div>
 			</div>
 			<div  class="col-sm-6 col-md-offset-6" ng-if="isLoadingFromServer()">

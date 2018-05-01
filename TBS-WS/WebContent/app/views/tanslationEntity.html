@@ -1,10 +1,11 @@
-<div>
+<div ng-init="iinit()">
   <div ng-mouseenter="mouseIsOver = true"
-       ng-mouseleave="mouseIsOver = false" ng-click="setInfosAreDisplayed()">
+       ng-mouseleave="mouseIsOver = false">
     <table width="100%">
     	<tr>
 	    	<td>
-				<div ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved}">
+				<div ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
+					 ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
 				  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
 				  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
 				</div>

@@ -51,12 +51,12 @@ public class SubtitlePersistor {
 		List<Subtitle> subtitles = new SubtitleExtractor(reader, language, entityvideo).extractSubtitlesFromReader();
 
 		FileMatchValidator fileMatchValidator = new FileMatchValidator(entityvideo, subtitles, language);
-		if(fileMatchValidator.isMatchingToOtherSubtitlesPersisted()) {
+//		if(fileMatchValidator.isMatchingToOtherSubtitlesPersisted()) {
 			SubtitleDAO.persistSubtitles(subtitles, entityvideo, language);
-			LOGGER.info("The subtitles from file " + file.getAbsolutePath() + ", the subtitles are persisted");
-		} else {
-			LOGGER.warn("The subtitles from file " + file.getAbsolutePath() + " doesn't match the one in database, the subtitles were not persisted");
-		}
+//			LOGGER.info("The subtitles from file " + file.getAbsolutePath() + ", the subtitles are persisted");
+//		} else {
+//			LOGGER.warn("The subtitles from file " + file.getAbsolutePath() + " doesn't match the one in database, the subtitles were not persisted");
+//		}
 	}
 
 	private Entityvideo createEntityVideo(SubtitlesFile subtitlesFile, String serieName) {
@@ -73,6 +73,7 @@ public class SubtitlePersistor {
 	public static void main(String[] args) {
 		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
 //		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\OneDrive\\Documents\\Elementary.S04.DVDRip.Z1.NF.FR\\Elementary.421.srt"), "Elementary", Language.FRENCH);
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\OneDrive\\Documents\\Elementary - season 4.en\\Elementary - 4x21 - Ain't Nothing Like the Real Thing.HDTV.x264-DIMENSION.en.srt"), "Elementary", Language.ENGLISH);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.en\\Dexter - 7x06 - Do the Wrong Thing.HDTV.en.srt"), "Dexter", Language.ENGLISH);
+//		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.fr\\Dexter - 7x06 - Do the Wrong Thing.fr.srt"), "Dexter", Language.FRENCH);
 	}
 }

@@ -9,9 +9,11 @@
 .colorRed {
 	color: red;
 }
+
 .colorGrey {
 	color: #A4A4A4;
 }
+
 .colorBlue {
 	color: blue;
 }
@@ -32,6 +34,11 @@
 
 .bgColorYellow {
 	background-color: yellow; 
+	border-radius: 25px;
+}
+
+.bgColorPink {
+	background-color: #ff4d4d; 
 	border-radius: 25px;
 }
 

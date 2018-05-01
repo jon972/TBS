@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -29,12 +32,12 @@ import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersPersonalTranslations;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.dao.SubtitleDAO;
+import fr.gemeroi.persistence.dao.TranslationDAO;
 import fr.gemeroi.persistence.dao.UsersPersonalTranslationsDao;
 import fr.gemeroi.persistence.dao.UsersTranslationsDAO;
 import fr.gemeroi.persistence.utils.PersistenceUtils;
 import static fr.gemeroi.services.reponses.HeadersResponses.ACCESS_CONTROL_ALLOW_ORIGIN;
 import fr.gemeroi.services.reponses.Responses;
-import fr.gemeroi.translation.Translate;
 import fr.gemeroi.translation.Translation;
 import fr.gemeroi.translation.dto.EntityVideoDTO;
 import fr.gemeroi.user.creation.UsersCache;
@@ -51,7 +54,7 @@ public class TranslationServices {
 	public Response translate(@PathParam("word") String wordToTranslate, @PathParam("language1") Language language1,
 			@PathParam("language2") Language language2, @HeaderParam("token") String token) {
 		User user = UsersCache.getInstance().getUser(token);
-		Set<Translation> wordTranslatedList = Translate.translate(wordToTranslate, language1, language2, user);
+		Set<Translation> wordTranslatedList = TranslationDAO.translate(wordToTranslate, language1, language2, user);
 
 		return Responses.responseOk(wordTranslatedList);
 	}
@@ -82,7 +85,7 @@ public class TranslationServices {
 		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslations(user.getEmail(),
 				languageFrom, languageTo);
 		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
-		translations.addAll(Translate.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
+		translations.addAll(TranslationDAO.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
 		return Responses.responseOk(translations);
 	}
 
@@ -131,6 +134,28 @@ public class TranslationServices {
 
 		PersistenceUtils.persistObject(usersPersonalTranslations);
 		return Response.ok().header(ACCESS_CONTROL_ALLOW_ORIGIN, "*").build();
+	}
+
+	@Path("translationsAround")
+	@GET
+	@Produces("application/json")
+	public Response getTranslationsAround(@HeaderParam("token") String token,
+			@HeaderParam("translation") Translation translation) {
+		User user = UsersCache.getInstance().getUser(token);
+		Set<Translation> translationsAround = TranslationDAO.getSubtitlesBefore(user, translation, 3);
+		translationsAround.addAll(TranslationDAO.getSubtitlesAfter(user, translation, 2));
+
+		List<Translation> translationsAroundOrdered = new ArrayList<>(translationsAround);
+		Collections.sort(translationsAroundOrdered, new Comparator<Translation>() {
+
+			@Override
+			public int compare(Translation t1, Translation t2) {
+				return t1.getSubtitleDTOToTranslate().getTimebegin().compareTo(t2.getSubtitleDTOToTranslate().getTimebegin());
+			}
+
+			
+		});
+		return Responses.responseOk(translationsAroundOrdered);
 	}
 
 	@Path("integrateFile")

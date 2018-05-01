@@ -5,10 +5,12 @@ TBSApp.directive('ngTransEntity', function ($http, $cookieStore, entityVideoDeta
 		link : function (scope, element, attributes) { 
 			var translation = attributes["translation"];
 			scope.isSavable = attributes["issavable"];
+			scope.location = attributes["location"];
+			scope.index = attributes["index"];
 			scope.isSaved = JSON.parse(translation).isSaved;
-			scope.clicked = false;
 			scope.mouseIsOver = false;
 			scope.entityVideoDTO = null;
+			scope.isSelected = null;
 
 			scope.saveTranslation = function() {
 				var req = {
@@ -73,20 +75,25 @@ TBSApp.directive('ngTransEntity', function ($http, $cookieStore, entityVideoDeta
 					entityVideoDetailsService.setIndex(scope.$index);
 					entityVideoDetailsService.setPositionY(window.scrollY);
 
-					// scroll le div des details
-					/*var detailsElement = document.getElementById("machin");
-					if(detailsElement.offsetTop < window.scrollY+1) {
-						detailsElement.style = "position : absolute; top : " + window.scrollY + "px";
-					} else {
-						detailsElement.style = "position : relative; top : 0px";
-					}*/
-					
+					if(scope.location === "translationsList") {
+						scope.$emit('selectedEvent', scope.$index);
+					}
 				});
 			}
-		
-
-			scope.infosAreDisplayed = function() {
-				return entityVideoDetailsService.index == scope.$index;
+			
+			scope.getTranslationsAround = function () {
+				var req = {
+					method : 'GET',
+					url : '/TBS-WS/rest/translation/translationsAround',
+					headers : {
+						'Content-Type' : 'application/json',
+						'translation' : translation,
+						'token' : $cookieStore.get('token')
+					},
+				};
+				$http(req).then(function(translations) {
+					entityVideoDetailsService.setTranslationsAround(translations.data);
+				});
 			}
 		}
 	}

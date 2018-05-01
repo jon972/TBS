@@ -51,11 +51,6 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.gemeroi.TranslationBySubtitles</groupId>
-			<artifactId>TBS-Translation</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.gemeroi.TranslationBySubtitles</groupId>
 			<artifactId>TBS-Common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

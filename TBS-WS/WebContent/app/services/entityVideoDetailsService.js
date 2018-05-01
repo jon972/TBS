@@ -3,6 +3,7 @@ TBSApp.service('entityVideoDetailsService', function () {
     var index;
     var positionX;
     var positionY;
+    var translationsAround = null;
     return {
         getEntityVideoDTO: function () {
             return entityVideoDTO;
@@ -27,6 +28,12 @@ TBSApp.service('entityVideoDetailsService', function () {
         },
         setPositionY: function(value) {
         	positionY = value;
+        },
+        setTranslationsAround: function(value) {
+        	translationsAround = value;
+        },
+        getTranslationsAround: function() {
+        	return translationsAround;
         }
         
     };

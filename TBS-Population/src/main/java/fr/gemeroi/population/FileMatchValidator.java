@@ -29,8 +29,7 @@ public class FileMatchValidator {
 		List<Subtitle> languageEntries = SubtitleDAO.retrieveSubtitles(entityvideo, language);
 		if(languageEntries == null || languageEntries.isEmpty()) {
 			return true;
-		}
-		else {
+		} else {
 			int endTimeVideoFromAnotherLanguage = languageEntries.get(0).getTimeend();
 			return endTimeVideoFromAnotherLanguage == lastTimeEndCurrentVideo;
 		}
