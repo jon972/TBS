@@ -12,6 +12,7 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
 	$scope.setTranslationUrl = function (languageFrom, languageTo, exprToTranslate) {
 		$location.path('/translation/' + languageFrom + '/' + languageTo + '/' + exprToTranslate).replace();
 	}
+
 	$scope.translateRequest = function () {
 
 		if($routeParams.exprToTranslate === undefined) {	
@@ -37,7 +38,6 @@ TBSApp.controller("translationController", function ($scope, $http, tokenService
         	for (var i = 0; i < $scope.translations.length; i++) {
 			  	$scope.translations[i].isSelected = false;
 			}
-			$scope.translations[0].isSelected = true;
         });
 	}
 	
