@@ -57,7 +57,7 @@
 						<div ng-if="getTranslationsAround().length > 0 && !isLoadingFromServer()"
 							ng-repeat="translation in getTranslationsAround()">
 							<ng-trans-entity index="{{$index}}" translation="{{translation}}"
-							isSavable="true"></ng-trans-entity>
+							isSavable="true" location="detailsList"></ng-trans-entity>
 							<div style="height:10px"></div>
 						</div>
 					</div>

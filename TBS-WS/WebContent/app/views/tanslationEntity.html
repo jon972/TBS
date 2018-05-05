@@ -2,17 +2,23 @@
   <div class="row"
   	   ng-mouseenter="mouseIsOver = true"
        ng-mouseleave="mouseIsOver = false">
-			<div class="col-md-11"
+			<div ng-if="location === 'translationsList'" class="col-md-11"
 				 ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
 				 ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
 			  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
 			  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
 			  <hr/>
-			  <p style="position:relative; left:20px;">
+			  <p style="position:relative; left:20px;" >
 			  		"{{translation.subtitleDTOTranslated.entityvideoDTO.name}}" -
 			  		Season : {{translation.subtitleDTOTranslated.entityvideoDTO.numSeason}} -
 			  		Episode : {{translation.subtitleDTOTranslated.entityvideoDTO.numEpisode}}
 			  </p>
+			</div>
+			<div ng-if="location !== 'translationsList'" class="col-md-11"
+				 ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
+				 ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
+			  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
+			  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
 			</div>
 			<div class="col-md-1"
 				 ng-if="mouseIsOver && isSavable == 'true' && isLogged() && !isSaved"
