@@ -1,15 +1,23 @@
 package fr.gemeroi.translation.dto;
 
+import fr.gemeroi.persistence.bean.Entityvideo;
+
 public class EntityVideoDTO {
 
+	private Integer id;
 	private String name;
 	private int numEpisode;
 	private int numSeason;
 
-	public EntityVideoDTO(String name, int numEpisode, int numSeason) {
+	public EntityVideoDTO(Integer id, String name, int numEpisode, int numSeason) {
 		this.setName(name);
 		this.setNumEpisode(numEpisode);
 		this.setNumSeason(numSeason);
+		this.setId(id);
+	}
+
+	public static EntityVideoDTO createEntityVideoDTO(Entityvideo entityvideo) {
+		return new EntityVideoDTO(entityvideo.getId(), entityvideo.getName(), entityvideo.getNumepisode(), entityvideo.getNumseason());
 	}
 
 	public String getName() {
@@ -34,6 +42,51 @@ public class EntityVideoDTO {
 
 	public void setNumSeason(int numSeason) {
 		this.numSeason = numSeason;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + numEpisode;
+		result = prime * result + numSeason;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EntityVideoDTO other = (EntityVideoDTO) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (numEpisode != other.numEpisode)
+			return false;
+		if (numSeason != other.numSeason)
+			return false;
+		return true;
 	}
 	
 }

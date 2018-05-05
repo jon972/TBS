@@ -114,7 +114,8 @@ public class TranslationDAO {
 	public static Set<Translation> getSubtitlesAfter(User user, Translation translation, int translationCount) {
 		String queryHqlUserTranslation = String.format(SELECT_SUBTITLES_AROUND, 
 				translation.getSubtitleDTOToTranslate().getLanguage(), translation.getSubtitleDTOTranslated().getLanguage(), 
-				translation.getSubtitleDTOToTranslate().getEntityvideoId(), translation.getSubtitleDTOTranslated().getEntityvideoId(),
+				translation.getSubtitleDTOToTranslate().getEntityvideoDTO().getId(), 
+				translation.getSubtitleDTOTranslated().getEntityvideoDTO().getId(),
 				">=", translation.getSubtitleDTOToTranslate().getTimebegin(), "ASC");
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();
@@ -149,7 +150,8 @@ public class TranslationDAO {
 	public static Set<Translation> getSubtitlesBefore(User user, Translation translation, int translationsCount) {
 		String queryHqlUserTranslation = String.format(SELECT_SUBTITLES_AROUND, 
 				translation.getSubtitleDTOToTranslate().getLanguage(), translation.getSubtitleDTOTranslated().getLanguage(), 
-				translation.getSubtitleDTOToTranslate().getEntityvideoId(), translation.getSubtitleDTOTranslated().getEntityvideoId(),
+				translation.getSubtitleDTOToTranslate().getEntityvideoDTO().getId(), 
+				translation.getSubtitleDTOTranslated().getEntityvideoDTO().getId(),
 				"<", translation.getSubtitleDTOToTranslate().getTimebegin(), "DESC");
 		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
 		Session session = sessionFactory.openSession();

@@ -7,7 +7,7 @@ public class SubtitleDTO {
 	private Integer id;
 	private String expression;
 	private String language;
-	private Integer entityvideoId;
+	private EntityVideoDTO entityvideoDTO;
 	private Integer timebegin;
 	private Integer timeend;
 	private Integer rank;
@@ -27,7 +27,7 @@ public class SubtitleDTO {
 		subtitleDTO.setExpression(subtitle.getExpression());
 		subtitleDTO.setLanguage(subtitle.getLanguage());
 		subtitleDTO.setRank(subtitle.getRank());
-		subtitleDTO.setEntityvideoId(subtitle.getEntityvideo().getId());
+		subtitleDTO.setEntityvideoDTO(EntityVideoDTO.createEntityVideoDTO(subtitle.getEntityvideo()));
 		subtitleDTO.setTimebegin(subtitle.getTimebegin());
 		subtitleDTO.setTimeend(subtitle.getTimeend());
 		return subtitleDTO;
@@ -57,12 +57,12 @@ public class SubtitleDTO {
 		this.language = language;
 	}
 
-	public Integer getEntityvideoId() {
-		return entityvideoId;
+	public EntityVideoDTO getEntityvideoDTO() {
+		return this.entityvideoDTO;
 	}
 
-	public void setEntityvideoId(Integer entityvideoId) {
-		this.entityvideoId = entityvideoId;
+	public void setEntityvideoDTO(EntityVideoDTO entityvideoDTO) {
+		this.entityvideoDTO = entityvideoDTO;
 	}
 
 	public Integer getTimebegin() {
@@ -93,7 +93,7 @@ public class SubtitleDTO {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((entityvideoId == null) ? 0 : entityvideoId.hashCode());
+		result = prime * result + ((entityvideoDTO == null) ? 0 : entityvideoDTO.hashCode());
 		result = prime * result + ((expression == null) ? 0 : expression.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((language == null) ? 0 : language.hashCode());
@@ -112,10 +112,10 @@ public class SubtitleDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		SubtitleDTO other = (SubtitleDTO) obj;
-		if (entityvideoId == null) {
-			if (other.entityvideoId != null)
+		if (entityvideoDTO == null) {
+			if (other.entityvideoDTO != null)
 				return false;
-		} else if (!entityvideoId.equals(other.entityvideoId))
+		} else if (!entityvideoDTO.equals(other.entityvideoDTO))
 			return false;
 		if (expression == null) {
 			if (other.expression != null)

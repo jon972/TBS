@@ -113,7 +113,7 @@ public class TranslationServices {
 
 		Subtitle subtitle = SubtitleDAO.getSubtitleById(translation.getSubtitleDTOToTranslate().getId());
 		Entityvideo entityVideo = subtitle.getEntityvideo();
-		EntityVideoDTO entityVideoDTO = new EntityVideoDTO(entityVideo.getName(), 
+		EntityVideoDTO entityVideoDTO = new EntityVideoDTO(entityVideo.getId(), entityVideo.getName(), 
 								entityVideo.getNumepisode(), entityVideo.getNumseason());
 		return Responses.responseOk(entityVideoDTO);
 	}

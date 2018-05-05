@@ -73,7 +73,8 @@ public class SubtitlePersistor {
 	public static void main(String[] args) {
 		SubtitlePersistor subtitlePersistor = new SubtitlePersistor("(.*)(\\d+)x(\\d+)(.*)");
 //		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\OneDrive\\Documents\\Elementary.S04.DVDRip.Z1.NF.FR\\Elementary.421.srt"), "Elementary", Language.FRENCH);
-		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.en\\Dexter - 7x06 - Do the Wrong Thing.HDTV.en.srt"), "Dexter", Language.ENGLISH);
+		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Documents\\pretty.little.liars.s05.e09.march.of.crimes.(2014).fre.1cd.(5780817)\\Pretty Little Liars - 05x09 - March of Crimes.DIMENSION.French.C.updated.Addic7ed.com.srt"), "Pretty little liars", Language.FRENCH);
+//		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Documents\\pretty.little.liars.s05.e09.march.of.crimes.(2014).eng.1cd.(5779774)\\Pretty.Little.Liars.S05x09.HDTV.x264-LOL.srt"), "Pretty little liars", Language.ENGLISH);
 //		subtitlePersistor.persistSubtitles(new File("C:\\Users\\TOSHIBA\\Downloads\\Dexter - season 7.fr\\Dexter - 7x06 - Do the Wrong Thing.fr.srt"), "Dexter", Language.FRENCH);
 	}
 }
