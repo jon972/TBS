@@ -1,38 +1,38 @@
-<div>
-  <div class="row"
+<div class="row"
   	   ng-mouseenter="mouseIsOver = true"
        ng-mouseleave="mouseIsOver = false">
-			<div ng-if="location === 'translationsList'" class="col-md-11"
+			<div ng-if="location === 'translationsList'" class="col-md-11 shadowTransEntity"
 				 ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
-				 ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
+				 ng-class="{bgColorTransEntity: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
 			  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
 			  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
 			  <hr/>
-			  <p style="position:relative; left:20px;" >
+			  <span style="position:relative; left:20px;" >
 			  		"{{translation.subtitleDTOTranslated.entityvideoDTO.name}}" -
 			  		Season : {{translation.subtitleDTOTranslated.entityvideoDTO.numSeason}} -
 			  		Episode : {{translation.subtitleDTOTranslated.entityvideoDTO.numEpisode}}
-			  </p>
+			  </span>
 			</div>
-			<div ng-if="location !== 'translationsList'" class="col-md-11"
+			<div ng-if="location !== 'translationsList'" class="col-md-11 shadowTransEntity"
 				 ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
-				 ng-class="{bgColorBlue: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
+				 ng-class="{bgColorTransEntity: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
 			  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
 			  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
+			  <hr/>
+			  <span style="position:relative; left:20px;">Time : {{getTimeBegin();}}</span>
 			</div>
 			<div class="col-md-1"
 				 ng-if="mouseIsOver && isSavable == 'true' && isLogged() && !isSaved"
-			     ng-click="saveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+			     ng-click="saveTranslation()" class="bgColor" ng-class="{colorTransEntitySaveButton: hover, translationEntityColor: !hover, colorYellow: isSaved}"
 			     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
 			     alt="Add in preferences">
 			  <span style="position: absolute; top: 0; left: 0;" class="glyphicon glyphicon-plus-sign"></span>
 			</div>
 			<div class="col-md-1"
 				 ng-if="mouseIsOver && isSavable == 'false' && isLogged()"
-			     ng-click="unsaveTranslation()" class="bgColor" ng-class="{colorBlue: hover, translationEntityColor: !hover, colorYellow: isSaved}"
+			     ng-click="unsaveTranslation()" class="bgColor" ng-class="{colorTransEntitySaveButton: hover, translationEntityColor: !hover, colorYellow: isSaved}"
 			     ng-mouseenter="hover = true" ng-mouseleave="hover = false"
 			     alt="Add in preferences">
 			  <span style="position: absolute; top: 0; left: 0;" class="glyphicon glyphicon-remove"></span>
 			</div>
-  </div>
 </div>

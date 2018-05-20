@@ -10,12 +10,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import fr.gemeroi.common.utils.Language;
+import fr.gemeroi.persistence.bean.Entityvideo;
 import fr.gemeroi.persistence.bean.Subtitle;
 import fr.gemeroi.persistence.bean.User;
 import fr.gemeroi.persistence.bean.UsersPersonalTranslations;
 import fr.gemeroi.persistence.bean.UsersTranslations;
 import fr.gemeroi.persistence.session.SessionMgr;
 import fr.gemeroi.translation.Translation;
+import fr.gemeroi.translation.dto.EntityVideoDTO;
 import fr.gemeroi.translation.dto.SubtitleDTO;
 
 public class TranslationDAO {
@@ -38,6 +40,13 @@ public class TranslationDAO {
 			 + "sub2.entityvideo.id = %s AND "
 			 + "sub2.timebegin = sub1.timebegin AND "
 			 + "sub1.timebegin %s %s ORDER BY sub1.timebegin %s";
+	
+	private static final String SELECT_ENTITY_VIDEO_TRANSLATIONS = "from Subtitle as sub1, Subtitle as sub2 where "
+			 + "sub1.language = '%s' AND "
+			 + "sub2.language = '%s' AND "
+			 + "sub1.entityvideo.id = %s AND "
+			 + "sub2.entityvideo.id = %s AND "
+			 + "sub2.timebegin = sub1.timebegin";
 
 	public static final String SELECT_USER_TRANSLATION = 
 			"from UsersTranslations ut where email = '%s'";
@@ -72,6 +81,49 @@ public class TranslationDAO {
 		}
 
 		session.close();
+		return translations;
+	}
+
+	public static Set<Translation> translateAllEntityVideo(String videoName, Integer episode, Integer season, Language fromLanguage, Language toLanguage, User user) {
+		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		Entityvideo entityvideo = EntityVideoDAO.retrieveEntityvideo(videoName, season, episode);
+		String queryHql = String.format(SELECT_ENTITY_VIDEO_TRANSLATIONS, fromLanguage.name(), toLanguage.name(), entityvideo.getId(), entityvideo.getId());
+		Query query = session.createQuery(queryHql);
+		List<Object[]> list = query.list();
+		Set<Translation> translations = new HashSet<>();
+
+		for(Object[] resultEntity : list) {
+			Subtitle subtitle1 = (Subtitle) resultEntity[0];
+			Subtitle subtitle2 = (Subtitle) resultEntity[1];
+
+			translations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false, false));
+				
+		}
+		
+		return translations;
+	}
+
+	public static Set<Translation> translateAllEntityVideo(Translation translation, User user) {
+		SessionFactory sessionFactory = SessionMgr.getSessionFactory();
+		Session session = sessionFactory.openSession();
+		EntityVideoDTO entityvideoDTO = translation.getSubtitleDTOToTranslate().getEntityvideoDTO();
+		Entityvideo entityvideo = 
+				EntityVideoDAO.retrieveEntityvideo(entityvideoDTO.getName(), entityvideoDTO.getNumSeason(), entityvideoDTO.getNumEpisode());
+		String queryHql = String.format(SELECT_ENTITY_VIDEO_TRANSLATIONS, 
+				translation.getSubtitleDTOToTranslate().getLanguage(), translation.getSubtitleDTOTranslated().getLanguage(), entityvideo.getId(), entityvideo.getId());
+		Query query = session.createQuery(queryHql);
+		List<Object[]> list = query.list();
+		Set<Translation> translations = new HashSet<>();
+
+		for(Object[] resultEntity : list) {
+			Subtitle subtitle1 = (Subtitle) resultEntity[0];
+			Subtitle subtitle2 = (Subtitle) resultEntity[1];
+
+			translations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false, false));
+				
+		}
+		
 		return translations;
 	}
 

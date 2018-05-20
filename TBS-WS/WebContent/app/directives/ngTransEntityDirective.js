@@ -95,6 +95,13 @@ TBSApp.directive('ngTransEntity', function ($http, $cookieStore, entityVideoDeta
 					entityVideoDetailsService.setTranslationsAround(translations.data);
 				});
 			}
+
+			scope.getTimeBegin = function () {
+			    var transObj = JSON.parse(attributes["translation"]); 
+			    var minutes = Math.trunc(transObj.subtitleDTOToTranslate.timebegin / 60);
+				var seconds = transObj.subtitleDTOToTranslate.timebegin % 60;
+				return minutes + ':' + (seconds < 10 ? "0" + seconds : seconds);
+			}
 		}
 	}
 });

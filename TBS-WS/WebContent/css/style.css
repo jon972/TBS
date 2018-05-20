@@ -3,7 +3,7 @@
 }
 
 .glyphicon-plus-sign {
-    background: #A4A4A4;
+    background: white;
 }
 
 .colorRed {
@@ -11,23 +11,23 @@
 }
 
 .colorGrey {
-	color: #A4A4A4;
+	color: white;
 }
 
-.colorBlue {
+.colorTransEntitySaveButton {
 	color: blue;
 }
 .colorYellow {
 	color: yellow;
 }
 .bgColor {
-	background-color : #A4A4A4;
+	background-color : rgb(180,200,200);
 }
 .translationEntityColor {
 	color : #CFC6F2;
 }
 
-.bgColorBlue {
+.bgColorTransEntity {
 	background-color: #CFC6F2; 
 	border-radius: 25px;
 }
@@ -51,4 +51,8 @@
 
 select {
 	width:10px;
+}
+
+.shadowTransEntity {
+	box-shadow: 4px 4px grey;
 }

@@ -158,6 +158,38 @@ public class TranslationServices {
 		return Responses.responseOk(translationsAroundOrdered);
 	}
 
+	@Path("allTranslations")
+	@GET
+	@Produces("application/json")
+	public Response getAllTranslations(@HeaderParam("token") String token,
+			@HeaderParam("translation") Translation translation) {
+		User user = UsersCache.getInstance().getUser(token);
+		Set<Translation> allTranslations = TranslationDAO.translateAllEntityVideo(translation, user);
+
+		List<Translation> translationsOrdered = new ArrayList<>(allTranslations);
+		Collections.sort(translationsOrdered, new Comparator<Translation>() {
+
+			@Override
+			public int compare(Translation t1, Translation t2) {
+				return t1.getSubtitleDTOToTranslate().getTimebegin().compareTo(t2.getSubtitleDTOToTranslate().getTimebegin());
+			}
+
+			
+		});
+		return Responses.responseOk(translationsOrdered);
+	}
+
+	@Path("/{videoName}/{episode}/{season}/{languageFrom}/{languageTo}")
+	@GET
+	@Produces("application/json")
+	public Response getSubtitles(@PathParam("videoName") String videoName, @PathParam("episode") Integer numEpisode,
+			@PathParam("season") Integer numSeason, @PathParam("languageFrom") Language languageFrom, 
+			@PathParam("languageTo") Language languageTo, @HeaderParam("token") String token) {
+		User user = UsersCache.getInstance().getUser(token);
+		Set<Translation> entityVideoTranslations = TranslationDAO.translateAllEntityVideo(videoName, numEpisode, numSeason, languageFrom, languageTo, user);
+		return Responses.responseOk(entityVideoTranslations);
+	}
+
 	@Path("integrateFile")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

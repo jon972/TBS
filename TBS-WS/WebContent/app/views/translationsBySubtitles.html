@@ -1,95 +1,100 @@
-<div id="trans" ng-controller="translationController"
-	ng-init="translateRequest()">
-	<div ng-controller="languagesController">
-		<div class="container">
-			<div class="row">
-					<select class="col-md-offset-3 col-md-2 form-control"
-					    style = "width:150px; position:relative; left:0px;"
-						ng-init="getAllLanguages()" id="languageSelectFrom"
-						ng-model="languageFrom"
-						ng-options="language for language in availableLanguages">
-					</select> 
-					<span style="text-align:center" class="col-md-1 glyphicon glyphicon-arrow-right"> </span> 
-					<select class="col-md-2 form-control"
-					    style ="width:150px" 
-						id="languageSelectFrom" ng-model="languageTo"
-						ng-options="language for language in availableLanguages">
-					</select>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-3">
-					<input class="input-lg"
-						style="width:600px;"
-						type="text" placeholder="Enter a word" autofocus
-						id="wordToTranslateInput" ng-model="exprToTranslate"
-						typeahead-show-hint="true"
-						uib-typeahead="language for language in availableLanguages" />
-					<button id="buttonDisplayAction"
-						ng-click="resetTranslationsAround(); setTranslationUrl(languageFrom, languageTo, exprToTranslate);"
-						type="button" class="btn btn-second btn-lg" style="position:relative; top:-1px;">Translate</button>
-				</div>
-			</div>
-			<div class="row" ng-if="translations.length > 0 && !isLoadingFromServer()">
-				<div style="border-style: solid; border-width:1px; border-color: black; height:60px; background-color:#0080FF" class="col-md-4">
-					<h2>Translations</h2>
-				</div>
-				<div style="border-style: solid; border-width:1px; border-color: black; height:60px; background-color:#0080FF" class="col-md-8">
-					<h2>Details</h2>
-				</div>
-			</div>
-			<div ng-if="translations.length > 0 && !isLoadingFromServer()" class ="row">
-				<div class="col-md-4" style="overflow-y: scroll; height: 600px;">		
-					<div ng-repeat="translation in translations" ng-animate="'translation'">
-						<ng-trans-entity index="{{$index}}" translation="{{translation}}"
-						isSavable="true" location="translationsList"></ng-trans-entity>
-						<div style="height:10px"></div>
-					</div>
-				</div>
-				<div ng-controller="entityVideoDetailsController">
-					<div ng-if="anElementIsSelected" class="col-md-8"> 
-						<p>Nom de la serie : {{getEntityVideoDTO().name}}</p>
-						<p>Episode numero : {{getEntityVideoDTO().numEpisode}}</p>
-						<p>Saison numero : {{getEntityVideoDTO().numSeason}}</p>
-					</div>
-	
-					<div ng-if="anElementIsSelected" style="border-style: solid; border-width:1px; border-color: black; height:60px; background-color:#0080FF" class="col-md-8">
-						<h2>Context</h2>
-						<div ng-if="getTranslationsAround().length > 0 && !isLoadingFromServer()"
-							ng-repeat="translation in getTranslationsAround()">
-							<ng-trans-entity index="{{$index}}" translation="{{translation}}"
-							isSavable="true" location="detailsList"></ng-trans-entity>
-							<div style="height:10px"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div  class="col-sm-6 col-md-offset-6" ng-if="isLoadingFromServer()">
-				<img src="images/loaderGrey.gif" width="40px" />
-			</div>
-			<div  class="col-sm-6 col-md-offset-4" ng-if="translations.length == 0 && !isLoadingFromServer()">
-				No translation found for the entry
-			</div>
-			</div>
-			<div ng-hide="translations.length > 0 && !isLoadingFromServer()">
-				<table style="border-spacing: 10px; border-collapse: separate; margin-left: auto; margin-right: auto;">
-					<tr>
-						<td><img width="200PX" height="300px"
-							src="https://ia.media-imdb.com/images/M/MV5BMTM5MjkwMTI0MV5BMl5BanBnXkFtZTcwODQwMTc0OQ@@._V1_.jpg" />
-						</td>
-						<td><img width="200PX" height="300px"
-							src="https://ia.media-imdb.com/images/M/MV5BZDNhNzhkNDctOTlmOS00NWNmLWEyODQtNWMxM2UzYmJiNGMyXkEyXkFqcGdeQXVyNTMxMjgxMzA@._V1_.jpg" />
-						</td>
-						<td><img width="200PX" height="300px"
-							src="https://ia.media-imdb.com/images/M/MV5BY2FmZTY5YTktOWRlYy00NmIyLWE0ZmQtZDg2YjlmMzczZDZiXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
-						</td>
-						<td><img width="200PX" height="300px"
-							src="https://ia.media-imdb.com/images/M/MV5BMDEyN2U1YTItNDY1Zi00YjljLWI5YzItNWU3YWViYjhiZTgxXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
-						</td>
-						<td><img width="200PX" height="300px"
-							src="https://ia.media-imdb.com/images/M/MV5BMTg4NzEyNzQ5OF5BMl5BanBnXkFtZTYwNTY3NDg4._V1._CR24,0,293,443_.jpg" />
-						</td>
-					</tr>
-				</table>
-			</div>
+<div class="container" id="trans" ng-controller="translationController" ng-init="translateRequest()" style="border-color:white;border-style: solid; border-width: 30px;">
+	<div class="row" ng-controller="languagesController">
+		<div class="row">
+			<select class="col-md-2 col-md-offset-2 form-control"
+			    style = "width:150px; position:relative; left:0px;"
+				ng-init="getAllLanguages()" id="languageSelectFrom"
+				ng-model="languageFrom"
+				ng-options="language for language in availableLanguages">
+			</select> 
+			<span style="text-align:center" class="col-md-1 glyphicon glyphicon-arrow-right"> </span> 
+			<select class="form-control col-md-2"
+			    style ="width:150px" 
+				id="languageSelectFrom" ng-model="languageTo"
+				ng-options="language for language in availableLanguages">
+			</select>
 	</div>
+	<div class="row">
+		<div class="col-md-offset-2">
+			<input class="input-lg" style="width:600px;" type="text" placeholder="Enter a word" autofocus
+				id="wordToTranslateInput" ng-model="exprToTranslate" typeahead-show-hint="true" 
+				uib-typeahead="language for language in availableLanguages" />
+			<button id="buttonDisplayAction"
+				ng-click="resetTranslationsAround(); setTranslationUrl(languageFrom, languageTo, exprToTranslate);"
+				type="button" class="btn btn-second btn-lg" style="position:relative; top:-1px;">Translate</button>
+		</div>
+	</div>
+	<div ng-if="translations.length > 0 && !isLoadingFromServer()" class="row">
+		<div class="col-md-5 bgColor" style="border-style: solid; border-width:1px; border-color: black; height:60px;" class="">
+			<h2>Translations</h2>
+		</div>
+		<div class="col-md-7 bgColor" style="border-style: solid; border-width:1px; border-color: black; height:60px;" class="">
+			<h2>Details</h2>
+		</div>
+	</div>
+	<div ng-if="translations.length > 0 && !isLoadingFromServer()" class="row">
+		<div class="col-md-5" style="overflow-y: scroll; height: 600px;">		
+			<div ng-repeat="translation in translations" ng-animate="'translation'">
+				<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+				isSavable="true" location="translationsList"></ng-trans-entity>
+				<div style="height:10px"></div>
+			</div>
+		</div>
+		<div class="col-md-7" ng-controller="entityVideoDetailsController" style="overflow-y: scroll;overflow-x: hidden;height: 600px;">
+			<div ng-if="anElementIsSelected" class=""> 
+				<p>Nom4 de la serie : {{getEntityVideoDTO().name}}</p>
+				<p>Episode numero : {{getEntityVideoDTO().numEpisode}}</p>
+				<p>Saison numero : {{getEntityVideoDTO().numSeason}}</p>
+			</div>
+
+			<div ng-if="anElementIsSelected" class="col-md-12">
+				<div class="row">
+					<div class="col-md-9 bgColor" style="border-style: solid; border-width:1px; border-color: black; height:60px;">
+						<h2>Context</h2>
+					</div>
+					<div class="col-md-3">
+						<button 
+							type="button" ng-click="getAllSubtitles()" class="btn btn-second btn-lg" style="position:relative; height:60px;">All subtitles</button>
+					</div>
+				</div>
+				<div ng-if="getTranslationsAround().length > 0 && !isLoadingFromServer() && !isLoadingAllsubsOfAnEntityVideoFromServer()"
+					ng-repeat="translation in getTranslationsAround()">
+					<ng-trans-entity index="{{$index}}" translation="{{translation}}"
+					isSavable="true" location="detailsList"></ng-trans-entity>
+					<div style="height:10px"></div>
+				</div>
+				<div class="col-md-3" ng-if="isLoadingAllsubsOfAnEntityVideoFromServer()" style="text-align:center">
+						<img src="images/loading_spinner.gif" width="40px" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-if="isLoadingFromServer()" class="row" style="text-align:center">
+		<img src="images/loading_spinner.gif" width="40px" />
+	</div>
+	<div ng-if="translations.length == 0 && !isLoadingFromServer()" class="row">
+		No translation found for the entry
+	</div>
+	<div ng-hide="translations.length > 0 && !isLoadingFromServer()" class="row">
+		<table style="border-spacing: 10px; border-collapse: separate; margin-left: auto; margin-right: auto;">
+			<tr>
+				<td><img width="200PX" height="300px"
+					src="https://ia.media-imdb.com/images/M/MV5BMTM5MjkwMTI0MV5BMl5BanBnXkFtZTcwODQwMTc0OQ@@._V1_.jpg" />
+				</td>
+				<td><img width="200PX" height="300px"
+					src="https://ia.media-imdb.com/images/M/MV5BZDNhNzhkNDctOTlmOS00NWNmLWEyODQtNWMxM2UzYmJiNGMyXkEyXkFqcGdeQXVyNTMxMjgxMzA@._V1_.jpg" />
+				</td>
+				<td><img width="200PX" height="300px"
+					src="https://ia.media-imdb.com/images/M/MV5BY2FmZTY5YTktOWRlYy00NmIyLWE0ZmQtZDg2YjlmMzczZDZiXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
+				</td>
+				<td><img width="200PX" height="300px"
+					src="https://ia.media-imdb.com/images/M/MV5BMDEyN2U1YTItNDY1Zi00YjljLWI5YzItNWU3YWViYjhiZTgxXkEyXkFqcGdeQXVyNjg4NzAyOTA@._V1_SY1000_CR0,0,666,1000_AL_.jpg" />
+				</td>
+				<td><img width="200PX" height="300px"
+					src="https://ia.media-imdb.com/images/M/MV5BMTg4NzEyNzQ5OF5BMl5BanBnXkFtZTYwNTY3NDg4._V1._CR24,0,293,443_.jpg" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
 </div>
