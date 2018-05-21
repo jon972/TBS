@@ -102,6 +102,10 @@ TBSApp.directive('ngTransEntity', function ($http, $cookieStore, entityVideoDeta
 				var seconds = transObj.subtitleDTOToTranslate.timebegin % 60;
 				return minutes + ':' + (seconds < 10 ? "0" + seconds : seconds);
 			}
+
+			scope.getTranslation = function () {
+				return JSON.parse(translation);
+			}
 		}
 	}
 });

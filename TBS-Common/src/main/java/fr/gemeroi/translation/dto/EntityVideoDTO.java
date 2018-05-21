@@ -1,6 +1,10 @@
 package fr.gemeroi.translation.dto;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import fr.gemeroi.persistence.bean.Entityvideo;
+import fr.gemeroi.translation.Translation;
 
 public class EntityVideoDTO {
 
@@ -8,16 +12,26 @@ public class EntityVideoDTO {
 	private String name;
 	private int numEpisode;
 	private int numSeason;
+	private String poster;
 
-	public EntityVideoDTO(Integer id, String name, int numEpisode, int numSeason) {
+	public EntityVideoDTO(Integer id, String name, int numEpisode, int numSeason, String poster) {
 		this.setName(name);
 		this.setNumEpisode(numEpisode);
 		this.setNumSeason(numSeason);
 		this.setId(id);
+		this.setPoster(poster);
 	}
 
+	public static EntityVideoDTO valueOf(String json) {
+		final GsonBuilder builder = new GsonBuilder();
+		final Gson gson = builder.create();
+		return gson.fromJson(json, EntityVideoDTO.class);
+	}
+
+
 	public static EntityVideoDTO createEntityVideoDTO(Entityvideo entityvideo) {
-		return new EntityVideoDTO(entityvideo.getId(), entityvideo.getName(), entityvideo.getNumepisode(), entityvideo.getNumseason());
+		return new EntityVideoDTO(entityvideo.getId(), entityvideo.getName(), 
+				entityvideo.getNumepisode(), entityvideo.getNumseason(), entityvideo.getPoster());
 	}
 
 	public String getName() {
@@ -50,6 +64,14 @@ public class EntityVideoDTO {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public String getPoster() {
+		return poster;
+	}
+
+	public void setPoster(String poster) {
+		this.poster = poster;
 	}
 
 	@Override

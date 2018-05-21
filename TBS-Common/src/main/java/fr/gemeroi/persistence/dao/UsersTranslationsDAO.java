@@ -19,9 +19,26 @@ public class UsersTranslationsDAO {
 			+ "ut.subtitle1.language = '%s' and "
 			+ "ut.subtitle2.language = '%s'";
 
+	public static final String USER_TRANSLATION_USING_ENTITY_VIDEO = 
+			"from UsersTranslations ut where ut.email = '%s' and "
+			+ "ut.subtitle1.language = '%s' and "
+			+ "ut.subtitle2.language = '%s' and "
+			+ "ut.subtitle1.entityvideo.id = %d and "
+			+ "ut.subtitle2.entityvideo.id = %d";
+
 	public static List<UsersTranslations> retrieveUsersTranslations(String userMail, Language languageInitial, Language languageDestination) {
 		Session session = SessionMgr.getSessionFactory().openSession();
 		String queryHql = String.format(USER_TRANSLATION_USING_TRANSLATION_TYPE, userMail, languageInitial.name(), languageDestination.name());
+		Query query = session.createQuery(queryHql);
+
+		List<UsersTranslations> listUsersTranslations = query.list();
+		session.close();
+		return listUsersTranslations;
+	}
+
+	public static List<UsersTranslations> retrieveUsersTranslationsOfSpecificEntityVideo(String userMail, Language languageInitial, Language languageDestination, Integer entityVideoId) {
+		Session session = SessionMgr.getSessionFactory().openSession();
+		String queryHql = String.format(USER_TRANSLATION_USING_ENTITY_VIDEO, userMail, languageInitial.name(), languageDestination.name(), entityVideoId, entityVideoId);
 		Query query = session.createQuery(queryHql);
 
 		List<UsersTranslations> listUsersTranslations = query.list();

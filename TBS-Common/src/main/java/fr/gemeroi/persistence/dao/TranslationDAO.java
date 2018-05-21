@@ -1,6 +1,5 @@
 package fr.gemeroi.persistence.dao;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -120,8 +119,17 @@ public class TranslationDAO {
 			Subtitle subtitle1 = (Subtitle) resultEntity[0];
 			Subtitle subtitle2 = (Subtitle) resultEntity[1];
 
-			translations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false, false));
-				
+			translations.add(new Translation(SubtitleDTO.createSubtitleDTO(subtitle1), SubtitleDTO.createSubtitleDTO(subtitle2), false, false));		
+		}
+
+		if(user != null) {
+
+			Set<Translation> usersTranslation = getUserTranslations(session, user, 
+					translation.getSubtitleDTOToTranslate().getLanguage(), translation.getSubtitleDTOTranslated().getLanguage());
+			for(Translation tr : translations) {
+				if(usersTranslation.contains(tr))
+					tr.setSaved(true);
+			}
 		}
 		
 		return translations;

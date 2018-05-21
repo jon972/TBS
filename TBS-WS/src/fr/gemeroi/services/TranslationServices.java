@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -89,6 +90,40 @@ public class TranslationServices {
 		return Responses.responseOk(translations);
 	}
 
+	@Path("retrieveMyTranslationsOfAnEntityVideo")
+	@POST
+	@Produces("application/json")
+	public Response retrieveMyTranslationsOfAnEntityVideo(@HeaderParam("token") String token,
+			@HeaderParam("languageFrom") Language languageFrom, @HeaderParam("languageTo") Language languageTo, 
+			@HeaderParam("entityVideo") EntityVideoDTO entityVideo) {
+
+		User user = UsersCache.getInstance().getUser(token);
+
+		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslationsOfSpecificEntityVideo(user.getEmail(),
+				languageFrom, languageTo, entityVideo.getId());
+		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
+		translations.addAll(TranslationDAO.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
+		return Responses.responseOk(translations);
+	}
+
+	@Path("retrieveMyEntityvideos")
+	@POST
+	@Produces("application/json")
+	public Response retrieveMyEntityvideos(@HeaderParam("token") String token,
+			@HeaderParam("languageFrom") Language languageFrom, @HeaderParam("languageTo") Language languageTo) {
+
+		User user = UsersCache.getInstance().getUser(token);
+
+		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslations(user.getEmail(),
+				languageFrom, languageTo);
+		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
+		translations.addAll(TranslationDAO.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
+
+		Set<EntityVideoDTO> entityVideosDTO = translations.stream().map(translation -> translation.getSubtitleDTOToTranslate().getEntityvideoDTO()).collect(Collectors.toSet());
+
+		return Responses.responseOk(entityVideosDTO);
+	}
+
 	@Path("removeMyTranslation")
 	@POST
 	@Produces("application/json")
@@ -114,7 +149,7 @@ public class TranslationServices {
 		Subtitle subtitle = SubtitleDAO.getSubtitleById(translation.getSubtitleDTOToTranslate().getId());
 		Entityvideo entityVideo = subtitle.getEntityvideo();
 		EntityVideoDTO entityVideoDTO = new EntityVideoDTO(entityVideo.getId(), entityVideo.getName(), 
-								entityVideo.getNumepisode(), entityVideo.getNumseason());
+								entityVideo.getNumepisode(), entityVideo.getNumseason(), entityVideo.getPoster());
 		return Responses.responseOk(entityVideoDTO);
 	}
 

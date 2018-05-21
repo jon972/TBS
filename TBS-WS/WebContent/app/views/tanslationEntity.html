@@ -1,23 +1,23 @@
 <div class="row"
   	   ng-mouseenter="mouseIsOver = true"
        ng-mouseleave="mouseIsOver = false">
-			<div ng-if="location === 'translationsList'" class="col-md-11 shadowTransEntity"
+			<div ng-if="location === 'translationsList'" class="col-md-10 shadowTransEntity"
 				 ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
 				 ng-class="{bgColorTransEntity: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
-			  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
-			  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
+			  <p style="position:relative; left:20px;">{{getTranslation().subtitleDTOToTranslate.expression}}</p>
+			  <p style="position:relative; left:20px;">{{getTranslation().subtitleDTOTranslated.expression}}</p>
 			  <hr/>
 			  <span style="position:relative; left:20px;" >
-			  		"{{translation.subtitleDTOTranslated.entityvideoDTO.name}}" -
-			  		Season : {{translation.subtitleDTOTranslated.entityvideoDTO.numSeason}} -
-			  		Episode : {{translation.subtitleDTOTranslated.entityvideoDTO.numEpisode}}
+			  		"{{getTranslation().subtitleDTOTranslated.entityvideoDTO.name}}" -
+			  		Season : {{getTranslation().subtitleDTOTranslated.entityvideoDTO.numSeason}} -
+			  		Episode : {{getTranslation().subtitleDTOTranslated.entityvideoDTO.numEpisode}}
 			  </span>
 			</div>
-			<div ng-if="location !== 'translationsList'" class="col-md-11 shadowTransEntity"
+			<div ng-if="location !== 'translationsList'" class="col-md-10 shadowTransEntity"
 				 ng-click="setInfosAreDisplayed(); getTranslationsAround();" 
 				 ng-class="{bgColorTransEntity: !isSaved, bgColorYellow: isSaved, bgColorPink: translation.isSelected}">
-			  <p style="position:relative; left:20px;">{{translation.subtitleDTOToTranslate.expression}}</p>
-			  <p style="position:relative; left:20px;">{{translation.subtitleDTOTranslated.expression}}</p>
+			  <p style="position:relative; left:20px;">{{getTranslation().subtitleDTOToTranslate.expression}}</p>
+			  <p style="position:relative; left:20px;">{{getTranslation().subtitleDTOTranslated.expression}}</p>
 			  <hr/>
 			  <span style="position:relative; left:20px;">Time : {{getTimeBegin();}}</span>
 			</div>

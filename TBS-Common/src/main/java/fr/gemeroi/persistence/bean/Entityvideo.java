@@ -16,11 +16,14 @@ import javax.persistence.UniqueConstraint;
 		"name", "numseason", "numepisode" }))
 public class Entityvideo implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	private Integer id;
 	private String name;
 	private String type;
 	private Integer numseason;
 	private Integer numepisode;
+	private String poster;
 
 	public Entityvideo() {
 	}
@@ -82,6 +85,15 @@ public class Entityvideo implements java.io.Serializable {
 
 	public void setNumepisode(Integer numepisode) {
 		this.numepisode = numepisode;
+	}
+
+	@Column(name = "poster")
+	public String getPoster() {
+		return this.poster;
+	}
+
+	public void setPoster(String poster) {
+		this.poster = poster;
 	}
 
 	public boolean equals(Object o) {
