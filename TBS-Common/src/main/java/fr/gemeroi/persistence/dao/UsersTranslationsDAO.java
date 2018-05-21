@@ -23,8 +23,8 @@ public class UsersTranslationsDAO {
 			"from UsersTranslations ut where ut.email = '%s' and "
 			+ "ut.subtitle1.language = '%s' and "
 			+ "ut.subtitle2.language = '%s' and "
-			+ "ut.subtitle1.entityvideo.id = %d and "
-			+ "ut.subtitle2.entityvideo.id = %d";
+			+ "ut.subtitle1.entityvideo.name = '%s' and "
+			+ "ut.subtitle2.entityvideo.name = '%s'";
 
 	public static List<UsersTranslations> retrieveUsersTranslations(String userMail, Language languageInitial, Language languageDestination) {
 		Session session = SessionMgr.getSessionFactory().openSession();
@@ -36,9 +36,9 @@ public class UsersTranslationsDAO {
 		return listUsersTranslations;
 	}
 
-	public static List<UsersTranslations> retrieveUsersTranslationsOfSpecificEntityVideo(String userMail, Language languageInitial, Language languageDestination, Integer entityVideoId) {
+	public static List<UsersTranslations> retrieveUsersTranslationsOfSpecificEntityVideo(String userMail, Language languageInitial, Language languageDestination, String entityVideoName) {
 		Session session = SessionMgr.getSessionFactory().openSession();
-		String queryHql = String.format(USER_TRANSLATION_USING_ENTITY_VIDEO, userMail, languageInitial.name(), languageDestination.name(), entityVideoId, entityVideoId);
+		String queryHql = String.format(USER_TRANSLATION_USING_ENTITY_VIDEO, userMail, languageInitial.name(), languageDestination.name(), entityVideoName, entityVideoName);
 		Query query = session.createQuery(queryHql);
 
 		List<UsersTranslations> listUsersTranslations = query.list();

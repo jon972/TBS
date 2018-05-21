@@ -56,3 +56,9 @@ select {
 .shadowTransEntity {
 	box-shadow: 4px 4px grey;
 }
+
+.borderTransparent {
+	border-color:white;
+	border-style: solid; 
+	border-width: 30px;
+}

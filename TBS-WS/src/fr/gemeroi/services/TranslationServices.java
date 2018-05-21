@@ -100,7 +100,7 @@ public class TranslationServices {
 		User user = UsersCache.getInstance().getUser(token);
 
 		List<UsersTranslations> usersTranslations = UsersTranslationsDAO.retrieveUsersTranslationsOfSpecificEntityVideo(user.getEmail(),
-				languageFrom, languageTo, entityVideo.getId());
+				languageFrom, languageTo, entityVideo.getName());
 		List<Translation> translations = UserTranslationsMgr.convertUsersTranslationsToTranslation(usersTranslations);
 		translations.addAll(TranslationDAO.getUsersPersonalTranslation(user, languageFrom.name(), languageTo.name()));
 		return Responses.responseOk(translations);

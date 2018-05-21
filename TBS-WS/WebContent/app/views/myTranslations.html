@@ -1,43 +1,84 @@
-<div class="container" ng-controller="languagesController">
-  <div class="row" ng-controller="myTranslationsController">
-        <div>
-		    <div class="col-md-offset-3">
-			    <div class="col-sm-3">
-					<select class="form-control" ng-init="getAllLanguages()"
-						id="languageSelectFrom" ng-model="languageFrom"
-						ng-options="language for language in availableLanguages">
-					</select>
-				</div>
-				<div class="col-sm-1" style="text-align:center">
-					<span class="glyphicon glyphicon-arrow-right"> </span>
-				</div>
-				<div class="col-sm-3">
-					<select class="form-control" id="languageSelectFrom"
-						ng-model="languageTo"
-						ng-options="language for language in availableLanguages">
-					</select>
-				</div>
-				</div>
-		      <button id="buttonDisplayAction"  class="btn btn-second btn-md" 
-		      		  ng-click="retrieveMyEntityvideos(languageFrom, languageTo)">
-		      		  Show
-		      </button>
+<div ng-controller="languagesController">
+  <div class="container" ng-controller="myTranslationsController">
+        <div class="row borderTransparent">
+		    <div class="col-md-3 col-md-offset-3">
+				<select class="form-control" ng-init="getAllLanguages()"
+					id="languageSelectFrom" ng-model="languageFrom"
+					ng-options="language for language in availableLanguages">
+				</select>
+			</div>
+			<div class="col-md-1" style="text-align:center">
+				<span class="glyphicon glyphicon-arrow-right"> </span>
+			</div>
+			<div class="col-md-3">
+				<select class="form-control" id="languageSelectFrom"
+					ng-model="languageTo"
+					ng-options="language for language in availableLanguages">
+				</select>
+			</div>
+	      	<button id="buttonDisplayAction"  class="btn btn-second btn-md" 
+	      		  ng-click="retrieveMyEntityvideos(languageFrom, languageTo)">
+	      		  Show
+	      	</button>
       </div>
-      <br>
-      <div class="row">
-      <div class="col-md-11">
-		<div ng-if="entityVideosDisplayed" class="col-md-offset-1 col-md-2" ng-repeat="entityVideo in myEntityVideos">
+      <div ng-if="entityVideosDisplayed" class="row">
+	      <div class="col-md-offset-1 col-md-2" ng-repeat="entityVideo in myEntityVideos">
 		      	<div>
 		      		<img style="cursor: pointer;" ng-click="retrieveMyTranslationsOfAnEntityVideo(languageFrom, languageTo, entityVideo)" width="200px" height="300px" src="{{entityVideo.poster}}"/>
 		      	</div>
-		      	<div>{{entityVideo.name}} </div>
+		      	<div>{{entityVideo.name}}</div>
+		  </div>
+	  </div>
+      <div class="row">
+	    <div ng-if="seasonEpisodeSelectionDisplayed">
+	    	<div class="borderTransparent">
+		    	<div class="row">
+		    		<div class="col-md-offset-3 col-md-3">
+						Season
+					</div>
+					<div class="col-md-offset-1 col-md-3">
+						Episode
+					</div>
+		    	</div>
+		    	<div class="row">		    	
+		    		<div class="col-md-offset-3 col-md-3">
+						<select class="form-control"
+							ng-init="entitySeason = seasons[0]"
+						 	ng-model="entitySeason"
+							ng-options="season for season in seasons">
+						</select>
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-3">
+						<select class="form-control"
+							ng-init="entityEpisode = episodes[0]"
+							ng-model="entityEpisode"
+							ng-options="episode for episode in episodes">
+						</select>
+					</div>
+					<button id="buttonDisplayAction"  class="btn btn-second btn-md" 
+			      		  ng-click="filterMyTranslationBySeasonAndEpisode(entitySeason, entityEpisode)">
+			      		  Show
+			      	</button>
+		    	</div>
+	    	</div>
+	    	<div class="row">
+	    		<div class="col-md-offset-1 col-md-3">
+			      	<div>
+			      		<img style="cursor: pointer;" width="200px" height="300px" src="{{currentEntityVideo.poster}}"/>
+			      	</div>
+				    <div>{{currentEntityVideo.name}} </div>
+		    	</div>
+		    	<div class="col-md-offset-4">
+		    		Récupérer la description de l'épisode ou bien de la série
+		    	</div>
+	    	</div>
 	    </div>
- 		<div ng-if="!entityVideosDisplayed" class="col-md-4 col-md-offset-4" ng-repeat="userTranslation in userTranslations">
-			<ng-trans-entity index="{{$index}}" translation="{{userTranslation}}"
+ 		<div class="col-md-12 col-md-offset-1" ng-repeat="ut in filterMyTranslationsFiltered">
+			<ng-trans-entity index="{{$index}}" translation="{{ut}}"
 					 isSavable="false"></ng-trans-entity>
 			<br/>
 		</div>
-     </div>
      </div>
   </div>
 </div>
